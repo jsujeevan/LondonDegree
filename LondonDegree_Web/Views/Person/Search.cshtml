@@ -1,0 +1,205 @@
+﻿@using LondonDegree_Web.Models
+
+@{
+    List<PersonStatusModel> vl_statusList_o = null;
+    List<PersonRoleModel> vl_roleList_o = null;
+
+    vl_statusList_o = (List<PersonStatusModel>)ViewData["StatusList"];
+    vl_roleList_o = (List<PersonRoleModel>)ViewData["RoleList"];
+}
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Dashboard")">Home</a></li>
+            <li class="breadcrumb-item active"> People (Search)</li>
+        </ol>
+    </div>
+</div>
+
+<section class="main-container">
+    <div class="container">
+        @*<h3>People > Search</h3>*@
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-search pr-2"></i>Search</div>
+                        <div class="panel-body">
+                            <form id="searchForm">
+                                <div class="form-row">
+                                    <div class="col-md-4">
+                                        <div class="form-group has-feedback">
+                                            <label>Firstname</label>
+                                            <input id="Person_FirstName_s" name="Person_FirstName_s" type="text" class="form-control">
+                                            <i class="fa fa-user form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group has-feedback">
+                                            <label>Lastname</label>
+                                            <input id="Person_LastName_s" name="Person_LastName_s" type="text" class="form-control">
+                                            <i class="fa fa-user form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group has-feedback">
+                                            <label>Email</label>
+                                            <input id="Person_Email_s" name="Person_Email_s" type="text" class="form-control">
+                                            <i class="fa fa-envelope form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group has-feedback">
+                                            <label>Phone(Home)</label>
+                                            <input id="Person_TelHome_s" name="Person_TelHome_s" type="text" class="form-control">
+                                            <i class="fa fa-phone form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-feedback">
+                                            <label>Phone(Mobile)</label>
+                                            <input id="Person_TelMobile_s" name="Person_TelMobile_s" type="text" class="form-control">
+                                            <i class="fa fa-mobile-phone form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Role</label>
+                                            <select class="form-control" id="FK_PersonRole_ID_i" name="FK_PersonRole_ID_i">
+                                                <option value="0"></option>
+                                            @foreach (var in_role_o in vl_roleList_o)
+                                            {
+                                                <option value="@in_role_o.PK_PersonRole_ID_i" >@in_role_o.PersonRole_s</option>
+                                            }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Status</label>
+                                            <select class="form-control" id="FK_PersonStatus_ID_i" name="FK_PersonStatus_ID_i">
+                                                <option value="0"></option>
+                                            @foreach (var in_status_o in vl_statusList_o)
+                                            {
+                                                <option value="@in_status_o.PK_PersonStatus_ID_i" >@in_status_o.PersonStatus_s</option>
+                                            }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="pull-right">
+                                            @*<button type="submit" class="btn btn-default">Search</button>*@
+                                            <button type="submit" class="btn btn-default btn-sm btn-animated">Search<i class="pl-1 fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="clear-both"></div>
+
+                            <div id="Data">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+@*
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="ajaxloader">
+                    <img src='@Url.Content("~/Content/images/ui-anim_basic_16x16.gif")' />
+                </div>
+                <div id="Data">
+                </div>
+            </div>
+        </div>
+
+    *@
+
+    </div>
+</section>
+
+
+<script>
+    $(function () {
+
+        //var targetDataGrid;
+
+        $("#searchForm").submit(function (e) {
+            e.preventDefault();
+            var dataToBeSent = $("#searchForm").serialize();
+            var actionUrl = '@Url.Action("Search", "Person")';
+            $('#ajaxloader').show();
+            $.post(actionUrl, dataToBeSent, function (data, status) {
+                $('#ajaxloader').hide();
+                displayData(data)
+            }, "json");
+            $("#Data").show();
+            $('html, body').animate({
+                scrollTop: $("#Data").offset().top - 10
+            }, 'slow');
+        });
+
+        $("input").keypress(function(event) {
+            if (event.which == 13) {
+                event.preventDefault();
+                $("#searchForm").submit();
+            }
+        });
+
+    });
+
+</script>
+
+
+
+
+<script>
+    function displayData(data) {
+            $('#Data').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="personSearchResults"></table>');
+
+
+        $('#personSearchResults').DataTable({
+            "responsive": true,
+            "order": [1, "asc"],
+            "data": data,
+            "columns": [
+                { "data": "PK_Person_ID_gu", title: "Person ID", "visible": false },
+                {
+                    "data": "Person_FirstName_s", title: "Firstname",
+                    "render": function (data, type, full, meta) {
+                        return '<a href=\'@Url.Action("Index", "Person")?person=' + full.PK_Person_ID_gu + '\'>' + data + '</a>'
+                    }
+                },
+                { "data": "Person_LastName_s", title: "Lastname" },
+                {
+                    "data": "Person_Email_s", title: "Email"
+                },
+                { "data": "PersonStatus_s", title: "Status" },
+                { "data": "PersonRole_s", title: "Role" }
+            ]
+
+        });
+        }
+
+
+    $(document).ready(function () {
+        $("#DisplayWarning").empty();
+        $("#DisplayWarning").hide();
+        $('#ajaxloader').hide();
+        $("#Data").hide();
+        //clear_form_elements("searchForm");
+    });
+
+
+
+</script>

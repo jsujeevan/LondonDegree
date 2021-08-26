@@ -1,0 +1,180 @@
+﻿@using LondonDegree_Web.Models
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Dashboard")">Home</a></li>
+            <li class="breadcrumb-item active"> News (Search)</li>
+        </ol>
+    </div>
+</div>
+
+<section class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-search pr-2"></i>Search</div>
+                        <div class="panel-body">
+                            <form id="searchForm">
+                                <div class="form-row">
+                                    <div class="col-md-4">
+                                        <div class="form-group has-feedback">
+                                            <label>Title</label>
+                                            <input id="News_Title_s" name="News_Title_s" type="text" class="form-control">
+                                            <i class="fa fa-edit form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group has-feedback">
+                                            <label>Headline</label>
+                                            <input id="News_HeadLine_s" name="News_HeadLine_s" type="text" class="form-control">
+                                            <i class="fa fa-edit form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group has-feedback">
+                                            <label>News</label>
+                                            <input id="News_s" name="News_s" type="text" class="form-control">
+                                            <i class="fa fa-edit form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group has-feedback">
+                                            <label>Published(Start Date)</label>
+                                            <input id="News_Published_Start_d" name="News_Published_Start_d" type="text" class="form-control">
+                                            <i class="fa fa-calendar form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-feedback">
+                                            <label>Published(End Date)</label>
+                                            <input id="News_Published_End_d" name="News_Published_End_d" type="text" class="form-control">
+                                            <i class="fa fa-calendar form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="pull-right">
+                                            <button type="submit" class="btn btn-default btn-sm btn-animated">Search<i class="pl-1 fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="clear-both"></div>
+
+                            <div id="Data">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="ajaxloader">
+                        <img src='@Url.Content("~/Content/images/ui-anim_basic_16x16.gif")' />
+                    </div>
+                    <div id="Data">
+                    </div>
+                </div>
+            </div>
+
+        *@
+
+    </div>
+</section>
+
+
+<script>
+
+    $(function () {
+        $("#News_Published_Start_d").datepicker({ changeMonth: true, changeYear: true, dateFormat: "dd/mm/yy" });
+        $("#News_Published_End_d").datepicker({ changeMonth: true, changeYear: true, dateFormat: "dd/mm/yy" });
+    });
+
+    $(function () {
+        //var targetDataGrid;
+
+        $("#searchForm").submit(function (e) {
+            e.preventDefault();
+            var dataToBeSent = $("#searchForm").serialize();
+            var actionUrl = '@Url.Action("SearchNews", "Administration")';
+            $('#ajaxloader').show();
+            $.post(actionUrl, dataToBeSent, function (data, status) {
+                $('#ajaxloader').hide();
+                displayData(data)
+            }, "json");
+            $("#Data").show();
+            $('html, body').animate({
+                scrollTop: $("#Data").offset().top - 10
+            }, 'slow');
+        });
+
+        $("input").keypress(function(event) {
+            if (event.which == 13) {
+                event.preventDefault();
+                $("#searchForm").submit();
+            }
+        });
+
+    });
+
+</script>
+
+
+
+
+<script>
+    function displayData(data) {
+            $('#Data').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="newsSearchResults"></table>');
+
+
+        $('#newsSearchResults').DataTable({
+            "responsive": true,
+            "order": [1, "asc"],
+            "data": data,
+            "columns": [
+                { "data": "PK_News_ID_gu", title: "News ID", "visible": false },
+                {
+                    "data": "News_Title_s", title: "Title",
+                    "render": function (data, type, full, meta) {
+                        return '<a href=\'@Url.Action("Index_News", "Administration")?news=' + full.PK_News_ID_gu + '\'>' + data + '</a>'
+                    }
+                },
+                {
+                    "data": "News_Published_d", title: "Published Date",
+                    "render": function (data, type, full, meta) {
+                        var dateval = moment(data).format("YYYY-MM-DD");
+                        if (dateval === '0001-01-01') {
+                            return '';
+                        } else {
+                            return dateval;
+                        }
+                    }
+                },
+                { "data": "News_HeadLine_s", title: "Head line"},
+            ]
+
+        });
+        }
+
+
+    $(document).ready(function () {
+        $("#DisplayWarning").empty();
+        $("#DisplayWarning").hide();
+        $('#ajaxloader').hide();
+        $("#Data").hide();
+        //clear_form_elements("searchForm");
+    });
+
+
+
+</script>

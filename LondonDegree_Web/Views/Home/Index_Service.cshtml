@@ -1,0 +1,68 @@
+﻿@model LondonDegree_Web.Models.ServiceModel
+@using LondonDegree_Web.Models  
+
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Home")">Home</a></li>
+            <li class="breadcrumb-item"><a class="link-dark" href="@Url.Action("Index_Services","Home")">Admission Services</a></li>
+            <li class="breadcrumb-item active">@Model.Service_Title_s</li>
+        </ol>
+    </div>
+</div>
+<!-- main-container start -->
+<!-- ================ -->
+<section class="main-container">
+    <div class="container">
+        <div class="row">
+            <!-- main start -->
+            <!-- ================ -->
+            <div class="main col-lg-8">
+                <!-- page-title start -->
+                <!-- ================ -->
+                <h1 class="page-title"><i class="fa fa-briefcase">&nbsp;@Model.Service_Title_s</i></h1>
+                <!-- page-title end -->
+                <!-- blogpost start -->
+                <!-- ================ -->
+                <article class="blogpost full">
+                    <div class="blogpost-content">
+                        <div id="Introduction">
+                            <h3 class="my-4">Introduction</h3>
+                            @Html.Raw(Model.Service_Introduction_s)
+                        </div>
+                        <div id="WhatWeDo">
+                            <h3 class="my-4">What we do and deliver</h3>
+                            @Html.Raw(Model.Service_Description_s)
+                        </div>
+                    </div>
+                </article>
+                <!-- blogpost end -->
+            </div>
+            <!-- main end -->
+            <!-- sidebar start -->
+            <!-- ================ -->
+            <aside class="col-lg-4 col-xl-3 ml-xl-auto">
+                <div class="sidebar">
+                    <div class="block clearfix">
+                        <div class="separator-2"></div>
+                        <nav>
+                            <ul class="nav flex-column">
+                                <li class="nav-item"><a class="nav-link" href="#Introduction">Introduction</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#WhatWeDo">What we do/deliver</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="block clearfix">
+                        <div class="separator-2"></div>
+                        <div class="overlay-container overlay-visible">
+                            <img src="@Model.Service_IndexImage_s" alt="">
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <!-- sidebar end -->
+        </div>
+    </div>
+</section>
+<!-- main-container end -->

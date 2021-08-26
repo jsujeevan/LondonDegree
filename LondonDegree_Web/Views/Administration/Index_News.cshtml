@@ -1,0 +1,66 @@
+﻿@model LondonDegree_Web.Models.NewsModel
+
+@using LondonDegree_Web.Models
+
+@{
+
+}
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Dashboard")">Home</a></li>
+            <li class="breadcrumb-item active"> Administration</li>
+            <li class="breadcrumb-item active"> News</li>
+            <li class="breadcrumb-item active"> @Model.News_Title_s</li>
+        </ol>
+    </div>
+</div>
+
+<section class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-newspaper-o pr-10"></i>News Details</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pull-right">
+                                        <button id="NewsDetails_Btn_Edit" type="button" class="btn btn-default-transparent btn-sm"><i class="fa fa-pencil"></i></button>
+                                    </div>
+                                    <script>
+                                        $("#NewsDetails_Btn_Edit").click(function () {
+                                            $('#model-body-NewsDetailsEditModal').load('@Url.Action("EditNewsDetails", "Administration")?modal=NewsDetailsEditModal&id=@Model.PK_News_ID_gu');
+                                            $('#NewsDetailsEditModal').modal('show');
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h3 class="title">Basic Details</h3>
+
+                                    <ul class="list">
+                                        <li><i class="fa fa-upload pr-10"></i><b>Published by</b>: @Model.Person_s</li>
+                                        <li><i class="fa fa-calendar pr-10"></i><b>On</b>: @Model.News_Published_d.ToString("dd'/'MM'/'yyyy")</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-8">
+                                    <h3 class="title">Headline</h3>
+                                    <p>@Model.News_HeadLine_s</p>
+                                    <h3 class="title">News</h3>
+                                    <p>@Model.News_s</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                @Html.Partial("_DisplayModal", "NewsDetailsEditModal")
+            </div>
+        </div>
+    </div>
+</section>

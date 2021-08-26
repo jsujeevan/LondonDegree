@@ -1,0 +1,171 @@
+﻿@model LondonDegree_Web.Models.CourseModel
+@using LondonDegree_Web.Models
+
+@{
+
+    Layout = null;
+
+    List<CourseCategoryModel> vl_categoryList_o = null;
+    List<CourseLevelModel> vl_levelList_o = null;
+    List<ProviderModel> vl_providerList_o = null;
+
+    vl_categoryList_o = (List<CourseCategoryModel>)ViewData["CategoryList"];
+    vl_levelList_o = (List<CourseLevelModel>)ViewData["LevelList"];
+    vl_providerList_o = (List<ProviderModel>)ViewData["ProviderList"];
+}
+
+<div class="row">
+    <div class="col-md-12" id="validationAreaSuccess" style="display:none;">
+        <p class="alert alert-success"><i class="fa fa-check"></i> Saved succesfully!</p>
+    </div>
+
+    <div class="col-md-12" id="validationAreaError" style="margin-top:10px; display:none;">
+        <p class="alert alert-danger"><i class="fa fa-times"></i> <span id="errorMessage">Error saving record</span></p>
+    </div>
+</div>
+
+@using (Html.BeginForm("AddNewProviderCourses", "Provider", FormMethod.Post, new { id = "CourseDetails_Frm_AddNew" }))
+{
+    <input id="FK_Provider_ID_gu" name="FK_Provider_ID_gu" value="@Model.FK_Provider_ID_gu" type="hidden" />
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="pull-right"><i class="fa fa-square mandotory_field_label"></i> Mandatory</div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="form-group has-feedback">
+                <label>Course name</label>
+                <input id="Course_Name_s" name="Course_Name_s" type="text" value="" class="form-control mandotory_field">
+                <i class="fa fa-graduation-cap form-control-feedback"></i>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Category</label>
+                <select class="form-control mandotory_field" id="FK_CourseCategory_ID_i" name="FK_CourseCategory_ID_i">
+                    <option value="0"></option>
+                    @foreach (var in_category_o in vl_categoryList_o)
+                    {
+                        <option value="@in_category_o.PK_CourseCategory_ID_i">@in_category_o.CourseCategory_s</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Level</label>
+                <select class="form-control mandotory_field" id="FK_CourseLevel_ID_i" name="FK_CourseLevel_ID_i">
+                    <option value="0"></option>
+                    @foreach (var in_level_o in vl_levelList_o)
+                    {
+                        <option value="@in_level_o.PK_CourseLevel_ID_i">@in_level_o.CourseLevel_s</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+
+        <div class="col-md-6">
+            <div class="form-check">
+                <input id="Course_Hidden_Check_s" name="Course_Hidden_Check_s" class="form-check-input" type="checkbox">
+                <label class="form-check-label">
+                    Hide this course
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-check">
+                <input id="Course_Provider_Check_s" name="Course_Provider_Check_s" class="form-check-input" type="checkbox">
+                <label class="form-check-label">
+                    Hide this course provider
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="Introduction">Introduction</label>
+                <textarea class="form-control mandotory_field" id="Course_Introduction_s" name="Course_Introduction_s" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="Structure">Structure</label>
+                <textarea class="form-control" id="Course_Structure_s" name="Course_Structure_s" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="HowtoApply">How to Apply</label>
+                <textarea class="form-control" id="Course_HowToApply_s" name="Course_HowToApply_s" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="PricesandDates">Prices and Dates</label>
+                <textarea class="form-control" id="Course_PricesAndDates_s" name="Course_PricesAndDates_s" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="OtherDetails">Other Details</label>
+                <textarea class="form-control" id="Course_OtherDetails_s" name="Course_OtherDetails_s" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="pull-right">
+        <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Close</button>
+        <button id="BasicDetails_Btn_Save" type="submit" class="btn btn-sm btn-default">Save</button>
+    </div>
+}
+
+<script>
+    $("#CourseDetails_Frm_AddNew").submit(function (e) {
+            var url = "@Url.Action("AddNewProviderCourses", "Provider")";
+            $('#validationAreaSaved').hide();
+            $('#validationAreaError').hide();
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $("#CourseDetails_Frm_AddNew").serialize(),
+                success: function (data) {
+                    window.location.href = '@Url.Action("Index", "Provider")?provider=' + data;
+                    $('#ProviderCoursesAddNewModal').modal('hide');
+                    $('.modal-backdrop').hide();
+                    $('body').removeClass("modal-open");
+                },
+                error: function (request, status, error) {
+                    if (error == 'See Other') {
+                        $('#errorMessage').html(request.responseText);
+                        $('#validationAreaError').show();
+                    } else {
+                        var json = $.parseJSON(request.responseText);
+                        var param = json.Reference;
+                        var url = '@Url.Action("Error", "Home", new { error = "__param__" })';
+                        window.location.href = url.replace('__param__', param);
+                    }
+                }
+            });
+
+            e.preventDefault();
+         });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#modal-title-@ViewData["modalDialog"].ToString()').html("@ViewData["mainHeading"].ToString()");
+    });
+</script>

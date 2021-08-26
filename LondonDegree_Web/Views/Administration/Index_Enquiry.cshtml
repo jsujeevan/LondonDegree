@@ -1,0 +1,176 @@
+﻿@model LondonDegree_Web.Models.PersonEnquiryModel
+
+@using LondonDegree_Web.Models
+
+@{
+    string vl_commTitle_s = "";
+    List<PersonEnquiryCommunicationModel> vl_enquiryCommList_o = new List<PersonEnquiryCommunicationModel>();
+    vl_enquiryCommList_o = (List<PersonEnquiryCommunicationModel>)ViewData["EnquiryList"];
+}
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Dashboard")">Home</a></li>
+            <li class="breadcrumb-item active"> Administration</li>
+            <li class="breadcrumb-item active"> Enquiry</li>
+            <li class="breadcrumb-item active"> @Model.PersonEnquiry_s</li>
+        </ol>
+    </div>
+</div>
+
+<section class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-question pr-10"></i>Enquiry Details</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pull-right">
+                                        <button id="EnquiryDetails_Btn_Edit" type="button" class="btn btn-default-transparent btn-sm"><i class="fa fa-pencil"></i></button>
+                                    </div>
+                                    <script>
+                                        $("#EnquiryDetails_Btn_Edit").click(function () {
+                                            $('#model-body-EnquiryDetailsEditModal').load('@Url.Action("EditEnquiryDetails", "Administration")?modal=EnquiryDetailsEditModal&id=@Model.PK_PersonEnquiry_ID_gu');
+                                            $('#EnquiryDetailsEditModal').modal('show');
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h3 class="title">Basic Details</h3>
+                                    <ul class="list">
+                                        <li><i class="fa fa-id-card pr-10"></i><b>Our Reference: </b>@Model.PersonEnquiry_Ref_s</li>
+                                        <li><i class="fa fa-question-circle pr-10"></i>@Model.PersonEnquiry_s</li>
+                                        <li><i class="fa fa-user pr-10"></i><b>Raised by: </b> <a target="_blank" href="@Url.Action("Index","Person", new { person = Model.FK_Person_ID_gu })">@string.Concat(Model.Person_FirstName_s, " ", Model.Person_LastName_s)</a></li>
+                                        <li><i class="fa fa-asterisk pr-10"></i><b>Status: </b>@Model.PersonEnquiryStatus_s</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-8">
+                                    <h3 class="title">Enquiry</h3>
+                                    <p>@Model.PersonEnquiry_Message_s</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                @Html.Partial("_DisplayModal", "EnquiryDetailsEditModal")
+            </div>
+        </div>
+
+
+        <br>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-comment pr-2"></i>Messages</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="comments-form">
+                                    @using (Html.BeginForm("AddNewEnquiryCommunication", "Administration", FormMethod.Post, new { id = "Communication_Frm_Edit" }))
+                                    {
+                                    <input id="FK_PersonEnquiry_ID_gu" name="FK_PersonEnquiry_ID_gu" value="@Model.PK_PersonEnquiry_ID_gu" type="hidden" />
+                                    <div class="form-group has-feedback">
+                                        <textarea class="form-control" rows="3" id="PersonEnquiryCommunication_s" name="PersonEnquiryCommunication_s" placeholder="Add message here.." required></textarea>
+                                        <i class="fa fa-envelope-o form-control-feedback"></i>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="pull-left">
+                                                <div class="form-check">
+                                                    <input id="Email_Notification_z" name="Email_Notification_z" class="form-check-input" type="checkbox">
+                                                    <label class="form-check-label">
+                                                        Notify enquirer via Email
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="pull-right">
+                                                <button type="submit" class="btn btn-default-transparent btn-sm">Post <i class="fa fa-upload"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    }
+
+
+                                        <script>
+                                            $("#Communication_Frm_Edit").submit(function (e) {
+                                                var url = "@Url.Action("AddNewEnquiryCommunication", "Administration")";
+                                                if ($("#PersonEnquiryCommunication_s").val().trim().length > 0) {
+                                                    $.ajax({
+                                                        type: "POST",
+                                                        url: url,
+                                                        data: $("#Communication_Frm_Edit").serialize(),
+                                                        success: function (data) {
+                                                            window.location.href = '@Url.Action("Index_Enquiry", "Administration")?enquiry=' + data;
+                                                        },
+                                                        error: function (request, status, error) {
+                                                            if (error == 'See Other') {
+                                                                $('#errorMessage').html(request.responseText);
+                                                                $('#validationAreaError').show();
+                                                            } else {
+                                                                var json = $.parseJSON(request.responseText);
+                                                                var param = json.Reference;
+                                                                var url = '@Url.Action("Error", "Home", new { error = "__param__" })';
+                                                                window.location.href = url.replace('__param__', param);
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                                e.preventDefault();
+                                            });
+                                        </script>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="CommentsContainer">
+                                    @foreach (PersonEnquiryCommunicationModel in_message_o in vl_enquiryCommList_o.OrderByDescending(m => m.Created_d))
+                                    {
+                                        vl_commTitle_s = in_message_o.PersonEnquiryCommunication_s.Length > 20 ? in_message_o.PersonEnquiryCommunication_s.Substring(0, 20) + "..." : in_message_o.PersonEnquiryCommunication_s;
+                                        <!-- comment start -->
+                                        <div class="comment clearfix">
+                                            <div class="comment-avatar">
+                                                <img class="rounded-circle" src="~/Content/images/avatar.jpg" alt="avatar">
+                                            </div>
+                                            <header>
+                                                <h3>@vl_commTitle_s</h3>
+                                                <div class="comment-meta">By <a href="#">@in_message_o.PersonCreated_s</a> | @in_message_o.Created_d.ToString("dd'/'MM'/'yyyy") <i class="fa fa-clock-o"></i> @in_message_o.Created_d.ToString("HH:mm")</div>
+                                            </header>
+                                            <div class="comment-content">
+                                                <div class="comment-body clearfix">
+                                                    <p>@in_message_o.PersonEnquiryCommunication_s</p>
+                                                    @if (in_message_o.EmailSent_z) {
+                                                    <span class="btn-sm-link pull-right"><i class="fa fa-envelope"></i> Notified via Email</span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- comment end -->
+                                    }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <br>
+
+    </div>
+</section>

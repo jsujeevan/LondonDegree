@@ -1,0 +1,246 @@
+﻿@model LondonDegree_Web.Models.PersonModel
+@using LondonDegree_Web.Models
+
+@{
+    string vl_commentTitle_s = "";
+    List<PersonStatusModel> vl_statusList_o = null;
+    List<PersonRoleModel> vl_roleList_o = null;
+    PersonAddressModel vl_personAddressModel_o = null;
+    List<PersonCourseModel> vl_courseList_o = null;
+    List<PersonEnquiryModel> vl_enquiryList_o = null;
+    List<PersonCommentModel> vl_commentList_o = null;
+
+    vl_statusList_o = (List<PersonStatusModel>)ViewData["StatusList"];
+    vl_roleList_o = (List<PersonRoleModel>)ViewData["RoleList"];
+    vl_personAddressModel_o = (PersonAddressModel)ViewData["PersonAddressModel"];
+    vl_courseList_o = (List<PersonCourseModel>)ViewData["CourseList"];
+
+    vl_enquiryList_o = (List<PersonEnquiryModel>)ViewData["EnquiryList"];
+    vl_commentList_o = (List<PersonCommentModel>)ViewData["CommentList"];
+
+    //Get last comment
+    string vl_lastComment_s = "";
+    string vl_lastCommentBy_s = "";
+    if (vl_commentList_o.Count > 0)
+    {
+        PersonCommentModel vl_lastComment_o = vl_commentList_o.OrderByDescending(m => m.Created_d).First();
+        vl_lastComment_s = vl_lastComment_o.PersonComment_s.Length > 80 ? vl_lastComment_o.PersonComment_s.Substring(0, 80) + "..." : vl_lastComment_o.PersonComment_s;
+        vl_lastCommentBy_s = vl_lastComment_o.PersonCreated_s;
+    }
+}
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"> @Model.Person_FirstName_s @Model.Person_LastName_s</li>
+        </ol>
+    </div>
+</div>
+
+<section class="main-container">
+    <div class="container">
+        @*<h3>@string.Concat(Model.Person_FirstName_s, " ", Model.Person_LastName_s)</h3>*@
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-user pr-2"></i>Account Deatils</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="image-box team-member shadow mb-20">
+                                        <div class="overlay-container overlay-visible">
+                                            <img src="~/Content/images/team-member-3.jpg" alt="">
+                                            <a href="~/Content/images/team-member-3.jpg" class="popup-img overlay-link" title="Jane Doe - CEO"><i class="fa fa-plus"></i></a>
+                                            <div class="overlay-bottom">
+                                                <div class="text">
+                                                    <h3 class="title margin-clear">@string.Concat(Model.Person_FirstName_s, " ", Model.Person_LastName_s)</h3>
+                                                    <p class="margin-clear">@Model.PersonStatus_s</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-xl-4 col-md-5">
+                                    <h3 class="title">
+                                        Basic Details <button id="BasicDetails_Btn_Edit" type="button" class="btn btn-default-transparent btn-sm"><i class="fa fa-pencil"></i></button>
+                                    </h3>
+                                    <script>
+                                        $("#BasicDetails_Btn_Edit").click(function () {
+                                            $('#model-body-BasicDetailsEditModal').load('@Url.Action("EditBasicDetails", "Dashboard")?modal=BasicDetailsEditModal&id=@Model.PK_Person_ID_gu');
+                                            $('#BasicDetailsEditModal').modal('show');
+                                        });
+                                    </script>
+                                    <ul class="list">
+                                        <li><i class="fa fa-envelope pr-10"></i>@Model.Person_Email_s</li>
+                                        <li><i class="fa fa-phone pr-10"></i>@Model.Person_TelHome_s</li>
+                                        <li><i class="fa fa-mobile pr-10"></i>@Model.Person_TelMobile_s</li>
+                                        <li><i class="fa fa-lightbulb-o pr-10"></i><b>Status:</b> @Model.PersonStatus_s</li>
+                                        <li><i class="fa fa-user-md pr-10"></i><b>Role:</b> @Model.PersonRole_s</li>
+                                    </ul>
+                                    <p>@Html.Raw(Model.Person_Portrait_s)</p>
+
+                                </div>
+                                <div class="col-md-4 ml-xl-auto">
+                                    <h3 class="title">
+                                        Address Details <button id="AddressDetails_Btn_Edit" type="button" class="btn btn-default-transparent btn-sm"><i class="fa fa-pencil"></i></button>
+                                    </h3>
+                                    <script>
+                                        $("#AddressDetails_Btn_Edit").click(function () {
+                                            $('#model-body-AddressDetailsEditModal').load('@Url.Action("EditAddressDetails", "Dashboard")?modal=AddressDetailsEditModal&id=@Model.PK_Person_ID_gu');
+                                            $('#AddressDetailsEditModal').modal('show');
+                                        });
+                                    </script>
+                                    <ul class="list">
+                                        <li>
+                                            @if (!string.IsNullOrEmpty(vl_personAddressModel_o.PersonAddress_Line1_s))
+                                            {
+                                                <i class="fa fa-home pr-10"></i>@vl_personAddressModel_o.PersonAddress_Line1_s<br>
+                                            }
+                                            @if (!string.IsNullOrEmpty(vl_personAddressModel_o.PersonAddress_Line2_s))
+                                            {
+                                                <span class="pl-20">@vl_personAddressModel_o.PersonAddress_Line2_s</span><br>
+                                            }
+                                            @if (!string.IsNullOrEmpty(vl_personAddressModel_o.PersonAddress_Town_s))
+                                            {
+                                                <span class="pl-20">@vl_personAddressModel_o.PersonAddress_Town_s</span><br>
+                                            }
+                                            @if (!string.IsNullOrEmpty(vl_personAddressModel_o.PersonAddress_County_s))
+                                            {
+                                                <span class="pl-20">@vl_personAddressModel_o.PersonAddress_County_s</span><br>
+                                            }
+                                            @if (!string.IsNullOrEmpty(vl_personAddressModel_o.PersonAddress_Postcode_s))
+                                            {
+                                                <span class="pl-20">@vl_personAddressModel_o.PersonAddress_Postcode_s</span><br>
+                                            }
+                                            @if (!string.IsNullOrEmpty(vl_personAddressModel_o.Country_s))
+                                            {
+                                                <span class="pl-20">@vl_personAddressModel_o.Country_s</span><br>
+                                            }
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                @Html.Partial("_DisplayModal", "BasicDetailsEditModal")
+            </div>
+            <div class="col-lg-12">
+                @Html.Partial("_DisplayModal", "AddressDetailsEditModal")
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-graduation-cap pr-2"></i>Courses</div>
+                        <div class="panel-body">
+
+                            <div class="clear-both"></div>
+
+                            <div id="Data">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+        $(document).ready(function () {
+            $('#Data').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="dataTablePersonCourses"></table>');
+            $('#dataTablePersonCourses').dataTable({
+            "bAutoWidth": false,
+            "order": [[1, "asc"]],
+            "aaData": [
+
+                            @foreach (var in_course_o in vl_courseList_o)
+                            {
+                                string vl_enquiredOn_s = in_course_o.DateOfEnquiry_d == new DateTime() ? "" : in_course_o.DateOfEnquiry_d.ToString("dd'/'MM'/'yyyy");
+                                string vl_enrolledOn_s = in_course_o.DateOfEnrolment_d == new DateTime() ? "" : in_course_o.DateOfEnrolment_d.ToString("dd'/'MM'/'yyyy");
+
+                                @Html.Raw("['" + in_course_o.PK_PersonCourse_ID_gu + "','" + in_course_o.FK_Course_ID_gu+"', '"+ Html.Encode(in_course_o.Course_Name_s) + "','" + Html.Encode(in_course_o.PersonCourseStatus_s) + "','" + Html.Encode(vl_enquiredOn_s) + "','" + Html.Encode(vl_enrolledOn_s) + "','" + Html.Encode(in_course_o.Provider_s) + "', '" + Html.Encode(in_course_o.CourseCategory_s)+"'],")
+                            }
+
+                    ],
+                "aoColumns": [
+                        { "sTitle": "Person Course ID", "bVisible": false },
+                        { "sTitle": "Course ID", "bVisible": false },
+                        { "sTitle": "Name" },
+                        { "sTitle": "Status" },
+                        { "sTitle": "Enquired On" },
+                        { "sTitle": "Enrolled On" },
+                        { "sTitle": "Provider" },
+                        { "sTitle": "Category" }
+
+                    ]
+                });
+            });
+
+
+            </script>
+
+        </div>
+
+
+        <br>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-phone pr-2"></i>Enquiries</div>
+                        <div class="panel-body">
+
+                            <div class="clear-both"></div>
+
+                            <div id="DataEnquiries">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+        $(document).ready(function () {
+            $('#DataEnquiries').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="dataTablePersonEnquiries"></table>');
+            $('#dataTablePersonEnquiries').dataTable({
+            "bAutoWidth": false,
+            "order": [[3, "asc"]],
+            "aaData": [
+
+                            @foreach (var in_enquiry_o in vl_enquiryList_o)
+                            {
+                                string vl_createdOn_s = in_enquiry_o.Created_d == new DateTime() ? "" : in_enquiry_o.Created_d.ToString("dd'/'MM'/'yyyy");
+                                @Html.Raw("['" + in_enquiry_o.PK_PersonEnquiry_ID_gu + "','" + Html.Encode(in_enquiry_o.PersonEnquiry_s) + "', '" + Html.Encode(in_enquiry_o.PersonEnquiryStatus_s) + "','" + Html.Encode(vl_createdOn_s) + "'],");
+                            }
+
+                    ],
+                "aoColumns": [
+                        { "sTitle": "Person Enquiry ID", "bVisible": false },
+                        {
+                            "sTitle": "Enquiry"
+                        },
+                        { "sTitle": "Status" },
+                        { "sTitle": "Created Date" }
+
+                    ]
+                });
+            });
+
+
+            </script>
+
+        </div>
+
+        <br>
+
+
+
+    </div>
+</section>

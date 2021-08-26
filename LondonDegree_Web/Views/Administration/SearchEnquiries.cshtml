@@ -1,0 +1,200 @@
+﻿@using LondonDegree_Web.Models
+
+@{
+    List<PersonEnquiryStatusModel> vl_statusList_o = null;
+    List<PersonModel> vl_personList_o = null;
+
+    vl_statusList_o = (List<PersonEnquiryStatusModel>)ViewData["StatusList"];
+    vl_personList_o = (List<PersonModel>)ViewData["PeopleList"];
+}
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Dashboard")">Home</a></li>
+            <li class="breadcrumb-item active"> Enquiries (Search)</li>
+        </ol>
+    </div>
+</div>
+
+<section class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-search pr-2"></i>Search</div>
+                        <div class="panel-body">
+                            <form id="searchForm">
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <div class="form-group has-feedback">
+                                            <label>Reference</label>
+                                            <input id="PersonEnquiry_Ref_s" name="PersonEnquiry_Ref_s" type="text" class="form-control">
+                                            <i class="fa fa-edit form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group has-feedback">
+                                            <label>Subject</label>
+                                            <input id="PersonEnquiry_s" name="PersonEnquiry_s" type="text" class="form-control">
+                                            <i class="fa fa-edit form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-feedback">
+                                            <label>Message</label>
+                                            <input id="PersonEnquiry_Message_s" name="PersonEnquiry_Message_s" type="text" class="form-control">
+                                            <i class="fa fa-edit form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Person</label>
+                                            <select class="form-control" id="FK_Person_ID_gu" name="FK_Person_ID_gu">
+                                                <option value="0"></option>
+                                                @foreach (var in_person_o in vl_personList_o)
+                    {
+                            <option value="@in_person_o.PK_Person_ID_gu">@string.Concat(in_person_o.Person_FirstName_s, " ", in_person_o.Person_LastName_s, " [", in_person_o.Person_Email_s, "]")</option>
+}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Status</label>
+                                            <select class="form-control" id="FK_PersonEnquiryStatus_ID_i" name="FK_PersonEnquiryStatus_ID_i">
+                                                <option value="0"></option>
+                                                @foreach (var in_status_o in vl_statusList_o)
+                    {
+                            <option value="@in_status_o.PK_PersonEnquiryStatus_ID_i">@in_status_o.PersonEnquiryStatus_s</option>
+}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="pull-right">
+                                            <button type="submit" class="btn btn-default btn-sm btn-animated">Search<i class="pl-1 fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="clear-both"></div>
+
+                            <div id="Data">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="ajaxloader">
+                        <img src='@Url.Content("~/Content/images/ui-anim_basic_16x16.gif")' />
+                    </div>
+                    <div id="Data">
+                    </div>
+                </div>
+            </div>
+
+        *@
+
+    </div>
+</section>
+
+
+<script>
+    $(function () {
+
+        //var targetDataGrid;
+
+        $("#searchForm").submit(function (e) {
+            e.preventDefault();
+            var dataToBeSent = $("#searchForm").serialize();
+            var actionUrl = '@Url.Action("SearchEnquiries", "Administration")';
+            $('#ajaxloader').show();
+            $.post(actionUrl, dataToBeSent, function (data, status) {
+                $('#ajaxloader').hide();
+                displayData(data)
+            }, "json");
+            $("#Data").show();
+            $('html, body').animate({
+                scrollTop: $("#Data").offset().top - 10
+            }, 'slow');
+        });
+
+        $("input").keypress(function(event) {
+            if (event.which == 13) {
+                event.preventDefault();
+                $("#searchForm").submit();
+            }
+        });
+
+    });
+
+</script>
+
+
+
+
+<script>
+    function displayData(data) {
+            $('#Data').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="personEnquirySearchResults"></table>');
+
+
+        $('#personEnquirySearchResults').DataTable({
+            "responsive": true,
+            "order": [2, "desc"],
+            "data": data,
+            "columns": [
+                { "data": "PK_PersonEnquiry_ID_gu", title: "Person Enquiry ID", "visible": false },
+                {
+                    "data": "PersonEnquiry_s", title: "Enquiry",
+                    "render": function (data, type, full, meta) {
+                        return '<a href=\'@Url.Action("Index_Enquiry", "Administration")?enquiry=' + full.PK_PersonEnquiry_ID_gu + '\'>' + data + '</a>'
+                    }
+                },
+                { "data": "PersonEnquiry_Ref_s", title: "Reference" },
+                {
+                    "data": "Created_d", title: "Submitted Date",
+                    "render": function (data, type, full, meta) {
+                        var dateval = moment(data).format("YYYY-MM-DD");
+                        if (dateval === '0001-01-01') {
+                            return '';
+                        } else {
+                            return dateval;
+                        }
+                    }
+                },
+                { "data": "Person_FirstName_s", title: "Firstname" },
+                {
+                    "data": "Person_LastName_s", title: "Lastname"
+                },
+                { "data": "PersonEnquiryStatus_s", title: "Status" }
+            ]
+
+        });
+        }
+
+
+    $(document).ready(function () {
+        $("#DisplayWarning").empty();
+        $("#DisplayWarning").hide();
+        $('#ajaxloader').hide();
+        $("#Data").hide();
+        //clear_form_elements("searchForm");
+    });
+
+
+
+</script>

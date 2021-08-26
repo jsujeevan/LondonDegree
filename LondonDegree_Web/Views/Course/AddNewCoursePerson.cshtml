@@ -1,0 +1,134 @@
+﻿@model LondonDegree_Web.Models.PersonCourseModel
+@using LondonDegree_Web.Models
+
+
+
+@{
+    /**/
+
+
+    Layout = null;
+
+    List<PersonModel> vl_PersonList_o = null;
+    List<PersonCourseStatusModel> vl_personCourseStatusList_o = null;
+    List<PersonCourseModel> vl_personCourseList_o = null;
+
+    vl_PersonList_o = (List<PersonModel>)ViewData["PersonList"];
+    vl_personCourseStatusList_o = (List<PersonCourseStatusModel>)ViewData["PersonCourseStatusList"];
+    vl_personCourseList_o = (List<PersonCourseModel>)ViewData["PersonCourseList"];
+}
+
+<div class="row">
+    <div class="col-md-12" id="validationAreaSuccess" style="display:none;">
+        <p class="alert alert-success"><i class="fa fa-check"></i> Saved succesfully!</p>
+    </div>
+
+    <div class="col-md-12" id="validationAreaError" style="margin-top:10px; display:none;">
+        <p class="alert alert-danger"><i class="fa fa-times"></i> <span id="errorMessage">Error saving record</span></p>
+    </div>
+</div>
+
+@using (Html.BeginForm("AddNewCoursePerson", "Course", FormMethod.Post, new { id = "PersonDetails_Frm_AddNew" }))
+{
+    <input id="FK_Course_ID_gu" name="FK_Course_ID_gu" value="@Model.FK_Course_ID_gu" type="hidden" />
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="pull-right"><i class="fa fa-square mandotory_field_label"></i> Mandatory</div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Person</label>
+                <select class="form-control mandotory_field" id="FK_Person_ID_gu" name="FK_Person_ID_gu">
+                    <option value="@Guid.Empty"></option>
+                    @foreach (var in_person_o in vl_PersonList_o)
+                    {
+                        if (!vl_personCourseList_o.Exists(m => m.FK_Person_ID_gu == in_person_o.PK_Person_ID_gu))
+                        {
+                            <option value="@in_person_o.PK_Person_ID_gu">@in_person_o.Person_FirstName_s @in_person_o.Person_LastName_s</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="DateOfEnquiry">Date Of Enquiry</label>
+                <input class="form-control mandotory_field" id="DateOfEnquiry_d" name="DateOfEnquiry_d" type="text" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="DateOfEnrolment">Date Of Enrolment</label>
+                <input class="form-control" id="DateOfEnrolment_d" name="DateOfEnrolment_d" type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Status</label>
+                <select class="form-control mandotory_field" id="FK_PersonCourseStatus_ID_i" name="FK_PersonCourseStatus_ID_i">
+                    <option value="0"></option>
+                    @foreach (var in_status_o in vl_personCourseStatusList_o)
+                    {
+                        <option value="@in_status_o.PK_PersonCourseStatus_ID_i">@in_status_o.PersonCourseStatus_s</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="pull-right">
+        <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Close</button>
+        <button id="BasicDetails_Btn_Save" type="submit" class="btn btn-sm btn-default">Save</button>
+    </div>
+}
+
+<script>
+
+    $(function () {
+        $("#DateOfEnquiry_d").datepicker({ changeMonth: true, changeYear: true, dateFormat: "dd/mm/yy" });
+        $("#DateOfEnrolment_d").datepicker({ changeMonth: true, changeYear: true, dateFormat: "dd/mm/yy" });
+    });
+
+    $("#PersonDetails_Frm_AddNew").submit(function (e) {
+            var url = "@Url.Action("AddNewCoursePerson", "Course")";
+            $('#validationAreaSaved').hide();
+            $('#validationAreaError').hide();
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $("#PersonDetails_Frm_AddNew").serialize(),
+                success: function (data) {
+                    window.location.href = '@Url.Action("Index", "Course")?course=' + data;
+                    $('#CoursePersonAddNewModal').modal('hide');
+                    $('.modal-backdrop').hide();
+                    $('body').removeClass("modal-open");
+                },
+                error: function (request, status, error) {
+                    if (error == 'See Other') {
+                        $('#errorMessage').html(request.responseText);
+                        $('#validationAreaError').show();
+                    } else {
+                        var json = $.parseJSON(request.responseText);
+                        var param = json.Reference;
+                        var url = '@Url.Action("Error", "Home", new { error = "__param__" })';
+                        window.location.href = url.replace('__param__', param);
+                    }
+                }
+            });
+
+            e.preventDefault();
+         });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#modal-title-@ViewData["modalDialog"].ToString()').html("@ViewData["mainHeading"].ToString()");
+    });
+</script>

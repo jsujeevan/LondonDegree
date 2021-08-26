@@ -1,0 +1,159 @@
+/*
+ * Version: 2.1
+ * File Description: Place here your custom CSS styles
+ */
+
+/*
+
+.header .navbar-nav li .nav-link {
+    color: #007bff;
+}
+
+.grey-bg {
+    background-color: #007bff;
+    color: #007bff;
+}
+    */
+
+.header .navbar-nav li .nav-link {
+    color: #1f395b;
+}
+
+
+.nav-tabs.style-1 > li > a.active {
+    background-color: #A8A8A8 !important;
+}
+
+.nav-tabs.style-1 {
+    border-bottom: 1px solid #e1e1e1;
+    margin-bottom: 15px;
+}
+
+    .nav-tabs.style-1 > li > a {
+        position: relative;
+        color: #254772;
+        margin-right: 0;
+        line-height: 1;
+        border: 1px solid transparent;
+        padding: 12px 15px 11px 15px;
+        -webkit-border-radius: 15px 15px 0 0;
+        -moz-border-radius: 15px 15px 0 0;
+        border-radius: 15px 15px 0 0;
+        -webkit-transition: none;
+        -o-transition: none;
+        transition: none;
+        height: 40px;
+    }
+
+        .nav-tabs.style-1 > li > a:hover {
+            border-color: #A8A8A8 !important;
+            background-color: #A8A8A8 !important;
+            color: #ffffff;
+        }
+
+        .nav-tabs.style-1 > li > a:focus {
+            border-color: transparent;
+            background-color: transparent;
+        }
+
+        .nav-tabs.style-1 > li > a:after {
+            position: absolute;
+            right: -14px;
+            bottom: -1px;
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 31px 0 0 14px;
+            border-color: transparent transparent transparent transparent;
+        }
+
+        .nav-tabs.style-1 > li > a:before {
+            position: absolute;
+            left: -14px;
+            bottom: -1px;
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 31px 14px 0 0;
+            border-color: transparent transparent transparent transparent;
+        }
+
+        .nav-tabs.style-1 > li > a:hover:after {
+            border-color: transparent transparent transparent #A8A8A8;
+            border-width: 31px 0 0 14px;
+        }
+
+        .nav-tabs.style-1 > li > a:hover:before {
+            border-color: transparent #A8A8A8 transparent transparent;
+            border-width: 31px 14px 0 0;
+        }
+
+        .nav-tabs.style-1 > li > a.active {
+            background-color: #A8A8A8 !important;
+        }
+
+            .nav-tabs.style-1 > li > a.active,
+            .nav-tabs.style-1 > li > a.active:hover,
+            .nav-tabs.style-1 > li > a.active:focus {
+                color: #ffffff;
+                cursor: default;
+                border-color: #A8A8A8;
+            }
+
+                .nav-tabs.style-1 > li > a.active:after {
+                    border-color: transparent transparent transparent #A8A8A8;
+                }
+
+                .nav-tabs.style-1 > li > a.active:before {
+                    border-color: transparent #A8A8A8 transparent transparent;
+                }
+
+    .nav-tabs.style-1 > li:first-child > a:before,
+    .nav-tabs.style-1 > li:last-child > a:after {
+        border-width: 0 0 0 0;
+        border-color: transparent transparent transparent transparent;
+    }
+
+    .nav-tabs.style-1 + .tab-content > .tab-pane {
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+
+h1, h2, h3, h4, h5, h6 {
+    color: #254772;
+    line-height: 1.2;
+}
+
+body {
+    color: #254772;
+}
+
+
+.dataTables_length {
+    float: right;
+}
+
+.dataTables_filter input[type="search"] {
+    margin: 0 .5em 0 0;
+}
+
+.collapse-style-1 .card-header a.collapsed {
+    background-color: #254772;
+}
+
+.collapse-style-2 .card-header a.collapsed {
+    background-color: #254772;
+}
+
+
+
+.mandotory_field {
+    border-color: #6acc90;
+}
+
+.mandotory_field_label {
+    color: #6acc90;
+}

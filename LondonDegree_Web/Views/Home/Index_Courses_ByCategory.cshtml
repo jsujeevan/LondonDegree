@@ -1,0 +1,250 @@
+﻿@using LondonDegree_Web.Models
+@{ 
+    string vl_provider_s = "";
+    List<CourseModel> vl_courseList_o = new List<CourseModel>();
+    vl_courseList_o = (List<CourseModel>)ViewData["CourseList"];
+}
+
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Home")">Home</a></li>
+            <li class="breadcrumb-item active">Courses</li>
+        </ol>
+    </div>
+</div>
+
+<!-- main-container start -->
+<!-- ================ -->
+<section class="main-container">
+    <div class="container">
+        <div class="row">
+
+            <div class="main col-12">
+                <h1 class="page-title"><i class="fa fa-graduation-cap">&nbsp;Courses</i></h1>
+                <div class="separator-2"></div>
+                <br>
+            </div>
+                <!-- main start -->
+                <!-- ================ -->
+                <div class="main col-12">
+                    <!-- tabs start -->
+                    <!-- ================ -->
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs style-1" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#htab1" role="tab" data-toggle="tab"><i class="fa fa-home pr-2"></i>UK Courses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#htab2" role="tab" data-toggle="tab"><i class="fa fa-plane pr-2"></i>International Courses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#htab3" role="tab" data-toggle="tab"><i class="fa fa-desktop pr-2"></i>Online Courses</a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="htab1" role="tabpanel">
+                            <h3 class="mt-4">Very Flexible</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere hic qui non placeat ad explicabo dignissimos amet iusto veniam!</p>
+                                    <p>Quo expedita tempore modi minima at adipisci saepe excepturi alias consequuntur sunt asperiores enim ut assumenda hic vitae, odio deleniti illo, veniam quas!</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-icons">
+                                        <li><i class="fa fa-check pr-2"></i> Lorem ipsum dolor sit amet maiores</li>
+                                        <li><i class="fa fa-check pr-2"></i> Consectetur adipisicing elit</li>
+                                        <li><i class="fa fa-check pr-2"></i> Aut earum numquam hic placeat</li>
+                                        <li><i class="fa fa-check pr-2"></i> Fugiat rem consequatur neque</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div id="DataInternational">
+                            </div>
+        <script>
+                $(document).ready(function () {
+                    $('#DataInternational').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="dataTableInternational"></table>');
+                    $('#dataTableInternational').dataTable({
+                    "bAutoWidth": false,
+                    "order": [[1, "asc"]],
+                    "aaData": [
+
+                                    @foreach (var in_course_o in vl_courseList_o.Where(m => m.FK_CourseCategory_ID_i == 1 & !m.Course_Hidden_z))
+                                    {
+                                        vl_provider_s = "";
+                                        if (in_course_o.Course_Provider_Hidden_z) {
+                                            vl_provider_s = "Call us for details";
+                                        }else
+                                        {
+                                            vl_provider_s = in_course_o.Provider_s;
+                                        }
+                                        @Html.Raw("['" + in_course_o.PK_Course_ID_gu + "', '" + Html.Encode(in_course_o.Course_Name_s) + "', '" + Html.Encode(in_course_o.CourseLevel_s) + "','" + Html.Encode(vl_provider_s) + "'],")
+                                    }
+
+                            ],
+                        "aoColumns": [
+                                { "sTitle": "Course ID", "bVisible": false },
+                                {
+                                    "sTitle": "Name",
+                                    "render": function (data, type, full, meta) {
+                                            return '<a href=\'@Url.Action("Index_Course", "Home")?course=' + full[0] + '\'>' + data + '</a>'
+                                    }
+                                    },
+                                { "sTitle": "Level" },
+                                { "sTitle": "Provider" }
+
+                            ]
+                        });
+
+                    });
+            </script>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="htab2" role="tabpanel">
+                            <h3 class="mt-4">Unt lorem culpa quilor</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-icons">
+                                        <li><i class="fa fa-check pr-2"></i> Lorem ipsum dolor sit amet maiores</li>
+                                        <li><i class="fa fa-check pr-2"></i> Consectetur adipisicing elit</li>
+                                        <li><i class="fa fa-check pr-2"></i> Aut earum numquam hic placeat</li>
+                                        <li><i class="fa fa-check pr-2"></i> Fugiat rem consequatur neque</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere hic qui non placeat ad explicabo dignissimos amet iusto veniam!</p>
+                                    <p>Quo expedita tempore modi minima at adipisci saepe excepturi alias consequuntur sunt asperiores enim ut assumenda hic vitae, odio deleniti illo, veniam quas!</p>
+                                </div>
+                            </div>
+                            <div id="DataUK">
+                            </div>
+                            <script>
+                $(document).ready(function () {
+                    $('#DataUK').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="dataTableUK"></table>');
+                    $('#dataTableUK').dataTable({
+                    "bAutoWidth": false,
+                    "order": [[1, "asc"]],
+                    "aaData": [
+
+                                    @foreach (var in_course_o in vl_courseList_o.Where(m => m.FK_CourseCategory_ID_i == 2 & !m.Course_Hidden_z))
+                                    {
+                                        vl_provider_s = "";
+                                        if (in_course_o.Course_Provider_Hidden_z) {
+                                            vl_provider_s = "Call us for details";
+                                        }else
+                                        {
+                                            vl_provider_s = in_course_o.Provider_s;
+                                        }
+                                        @Html.Raw("['" + in_course_o.PK_Course_ID_gu + "', '" + Html.Encode(in_course_o.Course_Name_s) + "', '" + Html.Encode(in_course_o.CourseLevel_s) + "','" + Html.Encode(vl_provider_s) + "'],")
+                                    }
+
+                            ],
+                        "aoColumns": [
+                                { "sTitle": "Course ID", "bVisible": false },
+                                {
+                                    "sTitle": "Name",
+                                    "render": function (data, type, full, meta) {
+                                            return '<a href=\'@Url.Action("Index_Course", "Home")?course=' + full[0] + '\'>' + data + '</a>'
+                                    }
+                                    },
+                                { "sTitle": "Level" },
+                                { "sTitle": "Provider" }
+
+                            ]
+                        });
+                    });
+                            </script>
+                        </div>
+                        <div class="tab-pane fade" id="htab3" role="tabpanel">
+                            <h3 class="mt-4">Well Documented</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere hic qui non placeat ad explicabo dignissimos amet iusto veniam!</p>
+                                    <p>Quo expedita tempore modi minima at adipisci saepe excepturi alias consequuntur sunt asperiores enim ut assumenda hic vitae, odio deleniti illo, veniam quas!</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-icons">
+                                        <li><i class="fa fa-check pr-2"></i> Lorem ipsum dolor sit amet maiores</li>
+                                        <li><i class="fa fa-check pr-2"></i> Consectetur adipisicing elit</li>
+                                        <li><i class="fa fa-check pr-2"></i> Aut earum numquam hic placeat</li>
+                                        <li><i class="fa fa-check pr-2"></i> Fugiat rem consequatur neque</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div id="DataOnline">
+                            </div>
+                            <script>
+                $(document).ready(function () {
+                    $('#DataOnline').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="dataTableOnline"></table>');
+                    $('#dataTableOnline').dataTable({
+                    "bAutoWidth": false,
+                    "order": [[1, "asc"]],
+                    "aaData": [
+
+                                    @foreach (var in_course_o in vl_courseList_o.Where(m => m.FK_CourseCategory_ID_i == 3 & !m.Course_Hidden_z))
+                                    {
+                                        vl_provider_s = "";
+                                        if (in_course_o.Course_Provider_Hidden_z) {
+                                            vl_provider_s = "Call us for details";
+                                        }else
+                                        {
+                                            vl_provider_s = in_course_o.Provider_s;
+                                        }
+                                        @Html.Raw("['" + in_course_o.PK_Course_ID_gu + "', '" + Html.Encode(in_course_o.Course_Name_s) + "', '" + Html.Encode(in_course_o.CourseLevel_s) + "','" + Html.Encode(vl_provider_s) + "'],")
+                                    }
+
+                            ],
+                        "aoColumns": [
+                                { "sTitle": "Course ID", "bVisible": false },
+                                {
+                                    "sTitle": "Name",
+                                    "render": function (data, type, full, meta) {
+                                            return '<a href=\'@Url.Action("Index_Course", "Home")?course=' + full[0] + '\'>' + data + '</a>'
+                                    }
+                                    },
+                                { "sTitle": "Level" },
+                                { "sTitle": "Provider" }
+
+                            ]
+                        });
+                    });
+                            </script>
+                        </div>
+                    </div>
+                    <!-- tabs end -->
+
+
+                    <br>
+                </div>
+                <!-- main end -->
+                <!-- sidebar start -->
+                <!-- ================ -->
+            @*
+                <aside class="col-lg-4 col-xl-3 ml-xl-auto">
+                    <div class="sidebar">
+                        <div class="block clearfix">
+                            <h3 class="title">Components</h3>
+                            <div class="separator-2"></div>
+                            <nav>
+                                <ul class="nav flex-column list-style-icons">
+                                    <li class="nav-item"><a class="nav-link " href="components-social-icons.html"><i class="fa fa-share-alt"></i> English</a></li>
+                                    <li class="nav-item"><a class="nav-link " href="components-buttons.html"><i class="fa fa-flask"></i> Foundation</a></li>
+                                    <li class="nav-item"><a class="nav-link " href="components-forms.html"><i class="fa fa-align-justify"></i> Graduate</a></li>
+                                    <li class="nav-item"><a class="nav-link active" href="components-tabs-and-pills.html"><i class=" fa fa-list-ul"></i> Masters</a></li>
+                                    <li class="nav-item"><a class="nav-link " href="components-accordions.html"><i class="fa fa-bars"></i> PHD</a></li>
+                                    <li class="nav-item"><a class="nav-link " href="components-accordions.html"><i class="fa fa-bars"></i> Others</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </aside>
+                *@
+                <!-- sidebar end -->
+            </div>
+        </div>
+</section>
+<!-- main-container end -->

@@ -1,0 +1,67 @@
+﻿@model LondonDegree_Web.Models.EventModel
+
+@using LondonDegree_Web.Models
+
+@{
+
+}
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Dashboard")">Home</a></li>
+            <li class="breadcrumb-item active"> Administration</li>
+            <li class="breadcrumb-item active"> Event</li>
+            <li class="breadcrumb-item active"> @Model.Event_Title_s</li>
+        </ol>
+    </div>
+</div>
+
+<section class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-calendar pr-10"></i>Event Details</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pull-right">
+                                        <button id="EventDetails_Btn_Edit" type="button" class="btn btn-default-transparent btn-sm"><i class="fa fa-pencil"></i></button>
+                                    </div>
+                                    <script>
+                                        $("#EventDetails_Btn_Edit").click(function () {
+                                            $('#model-body-EventDetailsEditModal').load('@Url.Action("EditEventDetails", "Administration")?modal=EventDetailsEditModal&id=@Model.PK_Event_ID_gu');
+                                            $('#EventDetailsEditModal').modal('show');
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h3 class="title">Basic Details</h3>
+
+                                    <ul class="list">
+                                        <li><i class="fa fa-calendar-check-o pr-10"></i>@Model.Event_Title_s</li>
+                                        <li><i class="fa fa-calendar pr-10"></i>@Model.Event_Date_d.ToString("dd'/'MM'/'yyyy")</li>
+                                        <li><i class="fa fa-location-arrow pr-10"></i><b>Address:</b> @Model.Event_Location_s</li>
+                                        <li><i class="fa fa-user pr-10"></i><b>Audience:</b> @Model.Event_TargetAudience_s</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-8">
+                                    <h3 class="title">Other Details</h3>
+                                    <p>@Model.Event_Description_s</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                @Html.Partial("_DisplayModal", "EventDetailsEditModal")
+            </div>
+        </div>
+    </div>
+</section>

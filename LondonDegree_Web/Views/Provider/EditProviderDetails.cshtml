@@ -1,0 +1,142 @@
+﻿@model LondonDegree_Web.Models.ProviderModel
+@using LondonDegree_Web.Models
+
+@{
+
+    Layout = null;
+
+    string vl_selected_s = "";
+    List<CountryModel> vl_countryList_o = null;
+
+    vl_countryList_o = (List<CountryModel>)ViewData["CountryList"];
+}
+
+<div class="row">
+    <div class="col-md-12" id="validationAreaSuccess" style="display:none;">
+        <p class="alert alert-success"><i class="fa fa-check"></i> Saved succesfully!</p>
+    </div>
+
+    <div class="col-md-12" id="validationAreaError" style="margin-top:10px; display:none;">
+        <p class="alert alert-danger"><i class="fa fa-times"></i> <span id="errorMessage">Error saving record</span></p>
+    </div>
+</div>
+
+@using (Html.BeginForm("EditProviderDetails", "Provider", FormMethod.Post, new { id = "ProviderDetails_Frm_Edit" }))
+{
+    <input id="PK_Provider_ID_gu" name="PK_Provider_ID_gu" value="@Model.PK_Provider_ID_gu" type="hidden" />
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="pull-right"><i class="fa fa-square mandotory_field_label"></i> Mandatory</div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="form-group has-feedback">
+                <label>Provider</label>
+                <input id="Provider_s" name="Provider_s" value="@Model.Provider_s" type="text" class="form-control mandotory_field">
+                <i class="fa fa-user form-control-feedback"></i>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group has-feedback">
+                <label>Address Line 1</label>
+                <input id="Provider_AddressLine1_s" name="Provider_AddressLine1_s" value="@Model.Provider_AddressLine1_s" type="text" class="form-control mandotory_field">
+                <i class="fa fa-lock form-control-feedback"></i>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group has-feedback">
+                <label>Address Line 2</label>
+                <input id="Provider_AddressLine2_s" name="Provider_AddressLine2_s" value="@Model.Provider_AddressLine2_s" type="text" class="form-control">
+                <i class="fa fa-lock form-control-feedback"></i>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="form-group has-feedback">
+                <label>Town</label>
+                <input id="Provider_Town_s" name="Provider_Town_s" value="@Model.Provider_Town_s" type="text" class="form-control mandotory_field">
+                <i class="fa fa-user form-control-feedback"></i>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group has-feedback">
+                <label>City</label>
+                <input id="Provider_County_s" name="Provider_County_s" value="@Model.Provider_County_s" type="text" class="form-control mandotory_field">
+                <i class="fa fa-lock form-control-feedback"></i>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group has-feedback">
+                <label>Postcode</label>
+                <input id="Provider_Postcode_s" name="Provider_Postcode_s" value="@Model.Provider_Postcode_s" type="text" class="form-control mandotory_field">
+                <i class="fa fa-lock form-control-feedback"></i>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Country</label>
+                <select class="form-control mandotory_field" id="FK_Country_ID_i" name="FK_Country_ID_i">
+                    <option value="0"></option>
+                    @foreach (var in_country_o in vl_countryList_o)
+                    {
+                        vl_selected_s = "";
+                        if (Model.FK_Country_ID_i == in_country_o.PK_Country_ID_i)
+                        {
+                            vl_selected_s = "selected";
+                        }
+                        <option value="@in_country_o.PK_Country_ID_i" @vl_selected_s>@in_country_o.Country_s</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="pull-right">
+        <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Close</button>
+        <button id="ProviderDetails_Btn_Save" type="submit" class="btn btn-sm btn-default">Save</button>
+    </div>
+
+}
+
+<script>
+        $("#ProviderDetails_Frm_Edit").submit(function (e) {
+            var url = "@Url.Action("EditProviderDetails", "Provider")";
+            $('#validationAreaSaved').hide();
+            $('#validationAreaError').hide();
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $("#ProviderDetails_Frm_Edit").serialize(),
+                success: function (data) {
+                    window.location.href = '@Url.Action("Index", "Provider")?provider=' + data;
+                    $('#ProviderDetailsEditModal').modal('hide');
+                    $('.modal-backdrop').hide();
+                    $('body').removeClass("modal-open");
+                },
+                error: function (request, status, error) {
+                    if (error == 'See Other') {
+                        $('#errorMessage').html(request.responseText);
+                        $('#validationAreaError').show();
+                    } else {
+                        var json = $.parseJSON(request.responseText);
+                        var param = json.Reference;
+                        var url = '@Url.Action("Error", "Home", new { error = "__param__" })';
+                        window.location.href = url.replace('__param__', param);
+                    }
+                }
+            });
+
+            e.preventDefault();
+         });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#modal-title-@ViewData["modalDialog"].ToString()').html("@ViewData["mainHeading"].ToString()");
+    });
+</script>

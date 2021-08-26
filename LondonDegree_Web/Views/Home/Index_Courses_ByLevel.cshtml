@@ -1,0 +1,495 @@
+﻿@using LondonDegree_Web.Models
+@{
+    string vl_provider_s = "";
+    List<CourseModel> vl_courseList_o = new List<CourseModel>();
+    vl_courseList_o = (List<CourseModel>)ViewData["CourseList"];
+    string vl_selector_s = (string)ViewData["Tab"];
+    string vl_tab_s = "";
+
+
+    switch (vl_selector_s)
+    {
+        case "english":
+            vl_tab_s = "english";
+            break;
+        case "foundation":
+            vl_tab_s = "foundation";
+            break;
+        case "bachelors":
+            vl_tab_s = "bachelors";
+            break;
+        case "masters":
+            vl_tab_s = "masters";
+            break;
+        case "phd":
+            vl_tab_s = "phd";
+            break;
+        case "others":
+            vl_tab_s = "others";
+            break;
+        default:
+            vl_tab_s = "english";
+            break;
+    }
+}
+
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Home")">Home</a></li>
+            <li class="breadcrumb-item active">Courses</li>
+        </ol>
+    </div>
+</div>
+
+<!-- main-container start -->
+<!-- ================ -->
+<section class="main-container">
+    <div class="container">
+        <div class="row">
+
+            <div class="main col-12">
+                <h1 class="page-title"><i class="fa fa-graduation-cap">&nbsp;Courses</i></h1>
+                <div class="separator-2"></div>
+                <br>
+            </div>
+            <!-- main start -->
+            <!-- ================ -->
+            <div class="main col-12">
+                <!-- tabs start -->
+                <!-- ================ -->
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs style-1" role="tablist">
+                    <li class="nav-item">
+                        <a id="english" class="nav-link tablevels" href="#htab1" role="tab" data-toggle="tab"><i class="fa fa-flag-checkered pr-2"></i>English</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="foundation" class="nav-link tablevels" href="#htab2" role="tab" data-toggle="tab"><i class="fa fa-building pr-2"></i>Foundation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="bachelors" class="nav-link tablevels" href="#htab3" role="tab" data-toggle="tab"><i class="fa fa-asterisk pr-2"></i>Bachelor's</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="masters" class="nav-link tablevels" href="#htab4" role="tab" data-toggle="tab"><i class="fa fa-line-chart pr-2"></i>Master's</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="phd" class="nav-link tablevels" href="#htab5" role="tab" data-toggle="tab"><i class="fa fa-graduation-cap pr-2"></i>PHD</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="others" class="nav-link tablevels" href="#htab6" role="tab" data-toggle="tab"><i class="fa fa-folder-open pr-2"></i>Others</a>
+                    </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="htab1" role="tabpanel">
+                        <h3 class="mt-4">English language courses</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>The UK is the world centre for English language tuition. Over 600,000 people come to the UK each year to learn English. UK institutions offer a variety of English language courses to suit all needs.</p>
+                                <p>English is one of the most widely spoken languages in the world. It is the major language for computing, education, business, international communications and the Internet. Learning English can open up many new opportunities, leading to a better job, more options in education, or just the satisfaction of learning a new skill.</p>
+                                <p>Studying English in the UK- Although you can learn English in your home country, coming to the UK to study has lots of benefits.</p>
+                                <p>The UK offers high-quality tuition in an English-speaking environment, which can make learning the language faster and easier. You can immerse yourself in the culture of the UK, which can help broaden your horizons and allow you to meet new friends and contacts.</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p>Many courses lead to qualifications. You may need an English language qualification to:</p>
+                                <ul class="list-icons">
+                                    <li><i class="fa fa-check pr-2"></i> Gain entry to an academic programme</li>
+                                    <li><i class="fa fa-check pr-2"></i> Improve your job prospects or employability</li>
+                                    <li><i class="fa fa-check pr-2"></i> Demonstrate that you have good English skills.</li>
+                                    <li><i class="fa fa-check pr-2"></i> If you plan to take an English course or test as a condition of entry to an academic programme, you should check in advance that the qualification you will obtain is acceptable.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div id="DataEnglish">
+                        </div>
+                        <script>
+                $(document).ready(function () {
+                    $('#DataEnglish').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="dataTableEnglish"></table>');
+                    $('#dataTableEnglish').dataTable({
+                    "bAutoWidth": false,
+                    "order": [[1, "asc"]],
+                    "aaData": [
+
+                                    @foreach (var in_course_o in vl_courseList_o.Where(m => m.FK_CourseLevel_ID_i == 1 & !m.Course_Hidden_z))
+                                    {
+                                        vl_provider_s = "";
+                                        if (in_course_o.Course_Provider_Hidden_z) {
+                                            vl_provider_s = "Call us for details";
+                                        }else
+                                        {
+                                            vl_provider_s = in_course_o.Provider_s;
+                                        }
+                                        @Html.Raw("['" + in_course_o.PK_Course_ID_gu + "', '" + Html.Encode(in_course_o.Course_Name_s) + "', '" + Html.Encode(in_course_o.CourseCategory_s) + "','" + Html.Encode(vl_provider_s) + "'],")
+                                    }
+
+                            ],
+                        "aoColumns": [
+                                { "sTitle": "Course ID", "bVisible": false },
+                                {
+                                    "sTitle": "Name",
+                                    "render": function (data, type, full, meta) {
+                                            return '<a href=\'@Url.Action("Index_Course", "Home")?course=' + full[0] + '\'>' + data + '</a>'
+                                    }
+                                    },
+                                { "sTitle": "Category" },
+                                { "sTitle": "Provider" }
+
+                            ]
+                        });
+
+                    });
+                        </script>
+
+
+                    </div>
+                    <div class="tab-pane fade" id="htab2" role="tabpanel">
+                        <h3 class="mt-4">Foundation courses</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>Foundation courses are the special courses designed to make you to familiar with a university degree or further study. If you don’t meet all the admission requirements for your undergraduate degree – such as language proficiency – then a foundation degree will allow you to get the skills you need. Some foundation courses will also guarantee you entry into the first year of your degree.</p>
+                                <p>Bridging courses are usually short, intensive courses that help you get the assumed knowledge you need for your further university studies – such as economic theory, or examination skills. A bridging program or pre-university program is useful if you are returning to study after some time. If you’re planning on studying a Masters degree, a pre-masters program may also be useful.</p>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-icons">
+                                    <li><i class="fa fa-info-circle pr-2"></i> Londondegree.co.uk is specialised in processing  application for international students with a choice of foundation, bridging, and pathways to university programs</li>
+                                    <li><i class="fa fa-info-circle pr-2"></i> Contact us online for inquiry about each foundation, bridging, and pathways program you are interested</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="DataFoundation">
+                        </div>
+                        <script>
+                $(document).ready(function () {
+                    $('#DataFoundation').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="dataTableFoundation"></table>');
+                    $('#dataTableFoundation').dataTable({
+                    "bAutoWidth": false,
+                    "order": [[1, "asc"]],
+                    "aaData": [
+
+                                    @foreach (var in_course_o in vl_courseList_o.Where(m => m.FK_CourseLevel_ID_i == 2 & !m.Course_Hidden_z))
+                                    {
+                                        vl_provider_s = "";
+                                        if (in_course_o.Course_Provider_Hidden_z) {
+                                            vl_provider_s = "Call us for details";
+                                        }else
+                                        {
+                                            vl_provider_s = in_course_o.Provider_s;
+                                        }
+                                        @Html.Raw("['" + in_course_o.PK_Course_ID_gu + "', '" + Html.Encode(in_course_o.Course_Name_s) + "', '" + Html.Encode(in_course_o.CourseCategory_s) + "','" + Html.Encode(vl_provider_s) + "'],")
+                                    }
+
+                            ],
+                        "aoColumns": [
+                                { "sTitle": "Course ID", "bVisible": false },
+                                {
+                                    "sTitle": "Name",
+                                    "render": function (data, type, full, meta) {
+                                            return '<a href=\'@Url.Action("Index_Course", "Home")?course=' + full[0] + '\'>' + data + '</a>'
+                                    }
+                                    },
+                                { "sTitle": "Category" },
+                                { "sTitle": "Provider" }
+
+                            ]
+                        });
+                    });
+                        </script>
+                    </div>
+                    <div class="tab-pane fade" id="htab3" role="tabpanel">
+                        <h3 class="mt-4">Undergraduate courses</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>A first degree, leading to a Bachelor of Arts (BA), Bachelor of Science (BSc) or equivalent, is gained after three or more years studying at university or a similar institution.</p>
+                                <p>Degrees usually begin at the age of 17 or 18, after a student has finished school. Many mature students also study first degrees in the UK. Some institutions offer two-year degrees, where students study longer and take shorter holidays.</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p>While most first degrees take three years, some courses require longer study. Four-year ‘sandwich’ courses include a year (usually the third year) on a work placement. Language degrees other than English last four years, with the third year taken in the country where the language is spoken. Some programmes, such as medicine, dentistry, veterinary science and architecture, last up to seven years.</p>
+                            </div>
+                        </div>
+                        <div id="DataBachelors">
+                        </div>
+                        <script>
+                $(document).ready(function () {
+                    $('#DataBachelors').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="dataTableBachelors"></table>');
+                    $('#dataTableBachelors').dataTable({
+                    "bAutoWidth": false,
+                    "order": [[1, "asc"]],
+                    "aaData": [
+
+                                    @foreach (var in_course_o in vl_courseList_o.Where(m => m.FK_CourseLevel_ID_i == 3 & !m.Course_Hidden_z))
+                                    {
+                                        vl_provider_s = "";
+                                        if (in_course_o.Course_Provider_Hidden_z) {
+                                            vl_provider_s = "Call us for details";
+                                        }else
+                                        {
+                                            vl_provider_s = in_course_o.Provider_s;
+                                        }
+                                        @Html.Raw("['" + in_course_o.PK_Course_ID_gu + "', '" + Html.Encode(in_course_o.Course_Name_s) + "', '" + Html.Encode(in_course_o.CourseCategory_s) + "','" + Html.Encode(vl_provider_s) + "'],")
+                                    }
+
+                            ],
+                        "aoColumns": [
+                                { "sTitle": "Course ID", "bVisible": false },
+                                {
+                                    "sTitle": "Name",
+                                    "render": function (data, type, full, meta) {
+                                            return '<a href=\'@Url.Action("Index_Course", "Home")?course=' + full[0] + '\'>' + data + '</a>'
+                                    }
+                                    },
+                                { "sTitle": "Category" },
+                                { "sTitle": "Provider" }
+
+                            ]
+                        });
+                    });
+                        </script>
+                    </div>
+                    <div class="tab-pane fade" id="htab4" role="tabpanel">
+                        <h3 class="mt-4">Postgraduate degrees</h3>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p>UK institutions offer an enormous variety of taught postgraduate certificates, diplomas and Master’s degrees.These are often highly specialised, and a large number are unique. Many of these courses are recognised as amongst the best available.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p>What’s available?</p>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <ul class="list-icons">
+                                            <li><i class="fa fa-graduation-cap pr-2"></i> Certificates and diplomas</li>
+                                            <li><i class="fa fa-graduation-cap pr-2"></i> PGCE</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <ul class="list-icons">
+                                            <li><i class="fa fa-graduation-cap pr-2"></i> Research degrees and programmes</li>
+                                            <li><i class="fa fa-graduation-cap pr-2"></i> MPhil (Master of Philosophy)</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <ul class="list-icons">
+                                            <li><i class="fa fa-graduation-cap pr-2"></i> Master’s degree (taught)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="DataMasters">
+                        </div>
+                        <script>
+                $(document).ready(function () {
+                    $('#DataMasters').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="dataTableMasters"></table>');
+                    $('#dataTableMasters').dataTable({
+                    "bAutoWidth": false,
+                    "order": [[1, "asc"]],
+                    "aaData": [
+
+                                    @foreach (var in_course_o in vl_courseList_o.Where(m => m.FK_CourseLevel_ID_i == 4 & !m.Course_Hidden_z))
+                                    {
+                                        vl_provider_s = "";
+                                        if (in_course_o.Course_Provider_Hidden_z) {
+                                            vl_provider_s = "Call us for details";
+                                        }else
+                                        {
+                                            vl_provider_s = in_course_o.Provider_s;
+                                        }
+                                        @Html.Raw("['" + in_course_o.PK_Course_ID_gu + "', '" + Html.Encode(in_course_o.Course_Name_s) + "', '" + Html.Encode(in_course_o.CourseCategory_s) + "','" + Html.Encode(vl_provider_s) + "'],")
+                                    }
+
+                            ],
+                        "aoColumns": [
+                                { "sTitle": "Course ID", "bVisible": false },
+                                {
+                                    "sTitle": "Name",
+                                    "render": function (data, type, full, meta) {
+                                            return '<a href=\'@Url.Action("Index_Course", "Home")?course=' + full[0] + '\'>' + data + '</a>'
+                                    }
+                                    },
+                                { "sTitle": "Category" },
+                                { "sTitle": "Provider" }
+
+                            ]
+                        });
+                    });
+                        </script>
+                    </div>
+                    <div class="tab-pane fade" id="htab5" role="tabpanel">
+                        <h3 class="mt-4">MPhil/PhD/Doctorate Courses</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>MPhil (Master of Philosophy)</h4>
+                                <p>A doctorate usually takes three years’ study to complete, although it can take much longer or, very rarely, shorter.</p>
+                                <p>A candidate would normally complete both a Bachelor’s and a taught Master’s degree with high marks in each before considering research work leading to a doctorate.</p>
+                                <p>Researchers often work part-time, teaching students on Bachelor’s or taught Master’s degree programmes, or acting as tutors.</p>
+                                <p>Almost all students in any discipline who successfully complete a doctoral research programme graduate as ‘Doctor of Philosophy’ (PhD). A few disciplines use slightly different titles, such as DMus for music or DBA for business administration.</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>PhD or DPhil (Doctor of Philosophy)</h4>
+                                <p>The title ‘Master of Philosophy’ is usually given to all successful candidates who undertake an original research project usually lasting two or more years in any academic discipline.</p>
+                                <p>Students do not usually take examinations for this qualification, but submit a thesis, containing details of their research work, and the conclusions they have drawn from it.</p>
+                            </div>
+                        </div>
+                        <div id="DataPHD">
+                        </div>
+                        <script>
+                $(document).ready(function () {
+                    $('#DataPHD').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="dataTablePHD"></table>');
+                    $('#dataTablePHD').dataTable({
+                    "bAutoWidth": false,
+                    "order": [[1, "asc"]],
+                    "aaData": [
+
+                                    @foreach (var in_course_o in vl_courseList_o.Where(m => m.FK_CourseLevel_ID_i == 5 & !m.Course_Hidden_z))
+                                    {
+                                        vl_provider_s = "";
+                                        if (in_course_o.Course_Provider_Hidden_z) {
+                                            vl_provider_s = "Call us for details";
+                                        }else
+                                        {
+                                            vl_provider_s = in_course_o.Provider_s;
+                                        }
+                                        @Html.Raw("['" + in_course_o.PK_Course_ID_gu + "', '" + Html.Encode(in_course_o.Course_Name_s) + "', '" + Html.Encode(in_course_o.CourseCategory_s) + "','" + Html.Encode(vl_provider_s) + "'],")
+                                    }
+
+                            ],
+                        "aoColumns": [
+                                { "sTitle": "Course ID", "bVisible": false },
+                                {
+                                    "sTitle": "Name",
+                                    "render": function (data, type, full, meta) {
+                                            return '<a href=\'@Url.Action("Index_Course", "Home")?course=' + full[0] + '\'>' + data + '</a>'
+                                    }
+                                    },
+                                { "sTitle": "Category" },
+                                { "sTitle": "Provider" }
+
+                            ]
+                        });
+                    });
+                        </script>
+                    </div>
+                    <div class="tab-pane fade" id="htab6" role="tabpanel">
+                        <h3 class="mt-4">Other Qualifications</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Career-based qualifications</h4>
+                                <p>The UK provides a comprehensive choice of work-related qualifications in a wide variety of occupational categories, and at several different levels.</p>
+                                <p>These range from first qualifications for school-leavers to more advanced qualifications such as undergraduate diplomas.</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Other vocational qualifications</h4>
+                                <p>The City & Guilds Institute is a well-established vocational assessment and awarding body, offering nationally recognised qualifications. City & Guilds qualifications cover all areas of industry and commerce and include qualifications within the NVQ scheme at all levels.</p>
+                            </div>
+                        </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Professional qualifications</h4>
+                                    <p>Many business and professional areas will have an organisation or body that will represent professionals working in many of these areas. They often provide accreditation in that sector and a means of credibility, as well as financial help, access to specialist resources, advice, networking opportunities, international links and other types of support. Most relevantly, as well as often accrediting programmes, they can also provide sector-specific qualifications.</p>
+                                    <p>It is suggested that if you know that you want to pursue a career in a specific area, it is a good idea to check with the relevant UK professional body (or the equivalent professional body in your own country, if there is one) what (if any) professional accreditation is necessary.</p>
+                                    <p>Examples of UK professional bodies include</p>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ul class="list-icons">
+                                                <li><i class="fa fa-bank pr-2"></i> Bar Council</li>
+                                                <li><i class="fa fa-bank pr-2"></i> Chartered Institute of Personnel and Development (CIPD)</li>
+                                                <li><i class="fa fa-bank pr-2"></i> Chartered Institute of Logistics and Transport (CILT)</li>
+                                                <li><i class="fa fa-bank pr-2"></i> Dental Schools Council</li>
+                                                <li><i class="fa fa-bank pr-2"></i> Faculty of Advocates</li>
+                                                <li><i class="fa fa-bank pr-2"></i> Institute of Chartered Accountants in England and Wales (ICAEW)</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ul class="list-icons">
+                                                <li><i class="fa fa-bank pr-2"></i> Law Society</li>
+                                                <li><i class="fa fa-bank pr-2"></i> Law Society of Scotland</li>
+                                                <li><i class="fa fa-bank pr-2"></i> Law Society of Northern Ireland</li>
+                                                <li><i class="fa fa-bank pr-2"></i> Medical Schools Council</li>
+                                                <li><i class="fa fa-bank pr-2"></i> Training and Development Agency for Schools.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <div id="DataOthers">
+                        </div>
+                        <script>
+                $(document).ready(function () {
+                    $('#DataOthers').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="dataTableOthers"></table>');
+                    $('#dataTableOthers').dataTable({
+                    "bAutoWidth": false,
+                    "order": [[1, "asc"]],
+                    "aaData": [
+
+                                    @foreach (var in_course_o in vl_courseList_o.Where(m => m.FK_CourseLevel_ID_i == 6 & !m.Course_Hidden_z))
+                                    {
+                                        vl_provider_s = "";
+                                        if (in_course_o.Course_Provider_Hidden_z) {
+                                            vl_provider_s = "Call us for details";
+                                        }else
+                                        {
+                                            vl_provider_s = in_course_o.Provider_s;
+                                        }
+                                        @Html.Raw("['" + in_course_o.PK_Course_ID_gu + "', '" + Html.Encode(in_course_o.Course_Name_s) + "', '" + Html.Encode(in_course_o.CourseCategory_s) + "','" + Html.Encode(vl_provider_s) + "'],")
+                                    }
+
+                            ],
+                        "aoColumns": [
+                                { "sTitle": "Course ID", "bVisible": false },
+                                {
+                                    "sTitle": "Name",
+                                    "render": function (data, type, full, meta) {
+                                            return '<a href=\'@Url.Action("Index_Course", "Home")?course=' + full[0] + '\'>' + data + '</a>'
+                                    }
+                                    },
+                                { "sTitle": "Category" },
+                                { "sTitle": "Provider" }
+
+                            ]
+                        });
+                    });
+                        </script>
+                    </div>
+                </div>
+                <!-- tabs end -->
+                <script>
+                    $(document).ready(function () {
+                        $("#@vl_tab_s").click();
+                    });
+                </script>
+                <br>
+            </div>
+            <!-- main end -->
+            <!-- sidebar start -->
+            <!-- ================ -->
+            @*
+                <aside class="col-lg-4 col-xl-3 ml-xl-auto">
+                    <div class="sidebar">
+                        <div class="block clearfix">
+                            <h3 class="title">Components</h3>
+                            <div class="separator-2"></div>
+                            <nav>
+                                <ul class="nav flex-column list-style-icons">
+                                    <li class="nav-item"><a class="nav-link " href="components-social-icons.html"><i class="fa fa-share-alt"></i> English</a></li>
+                                    <li class="nav-item"><a class="nav-link " href="components-buttons.html"><i class="fa fa-flask"></i> Foundation</a></li>
+                                    <li class="nav-item"><a class="nav-link " href="components-forms.html"><i class="fa fa-align-justify"></i> Graduate</a></li>
+                                    <li class="nav-item"><a class="nav-link active" href="components-tabs-and-pills.html"><i class=" fa fa-list-ul"></i> Masters</a></li>
+                                    <li class="nav-item"><a class="nav-link " href="components-accordions.html"><i class="fa fa-bars"></i> PHD</a></li>
+                                    <li class="nav-item"><a class="nav-link " href="components-accordions.html"><i class="fa fa-bars"></i> Others</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </aside>
+            *@
+            <!-- sidebar end -->
+        </div>
+    </div>
+</section>
+<!-- main-container end -->

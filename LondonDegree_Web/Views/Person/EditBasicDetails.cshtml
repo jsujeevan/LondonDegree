@@ -1,0 +1,159 @@
+﻿@model LondonDegree_Web.Models.PersonModel
+@using LondonDegree_Web.Models
+
+@{
+
+    Layout = null;
+
+    string vl_selected_s = "";
+    List<PersonStatusModel> vl_statusList_o = null;
+    List<PersonRoleModel> vl_roleList_o = null;
+
+    vl_statusList_o = (List<PersonStatusModel>)ViewData["StatusList"];
+    vl_roleList_o = (List<PersonRoleModel>)ViewData["RoleList"];
+}
+
+<div class="row">
+    <div class="col-md-12" id="validationAreaSuccess" style="display:none;">
+        <p class="alert alert-success"><i class="fa fa-check"></i> Saved succesfully!</p>
+    </div>
+
+    <div class="col-md-12" id="validationAreaError" style="margin-top:10px; display:none;">
+        <p class="alert alert-danger"><i class="fa fa-times"></i> <span id="errorMessage">Error saving record</span></p>
+    </div>
+</div>
+
+@using (Html.BeginForm("EditBasicDetails", "Person", FormMethod.Post, new { id = "BasicDetails_Frm_Edit" }))
+{
+    <input id="PK_Person_ID_gu" name="PK_Person_ID_gu" value="@Model.PK_Person_ID_gu" type="hidden" />
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="pull-right"><i class="fa fa-square mandotory_field_label"></i> Mandatory</div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="form-group has-feedback">
+                <label>Firstname</label>
+                <input id="Person_FirstName_s" name="Person_FirstName_s" type="text" value="@Model.Person_FirstName_s" class="form-control mandotory_field">
+                <i class="fa fa-edit form-control-feedback"></i>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group has-feedback">
+                <label>Lastname</label>
+                <input id="Person_LastName_s" name="Person_LastName_s" type="text" value="@Model.Person_LastName_s" class="form-control mandotory_field">
+                <i class="fa fa-edit form-control-feedback"></i>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group has-feedback">
+                <label>Email</label>
+                <input id="Person_Email_s" name="Person_Email_s" type="text" value="@Model.Person_Email_s" class="form-control mandotory_field">
+                <i class="fa fa-edit form-control-feedback"></i>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="form-group has-feedback">
+                <label>Phone(Home)</label>
+                <input id="Person_TelHome_s" name="Person_TelHome_s" type="text" value="@Model.Person_TelHome_s" class="form-control">
+                <i class="fa fa-edit form-control-feedback"></i>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group has-feedback">
+                <label>Phone(Mobile)</label>
+                <input id="Person_TelMobile_s" name="Person_TelMobile_s" type="text" value="@Model.Person_TelMobile_s" class="form-control mandotory_field">
+                <i class="fa fa-edit form-control-feedback"></i>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Role</label>
+                <select class="form-control mandotory_field" id="FK_PersonRole_ID_i" name="FK_PersonRole_ID_i">
+                    <option value="0"></option>
+                    @foreach (var in_role_o in vl_roleList_o)
+                    {
+                        vl_selected_s = "";
+                        if (Model.FK_PersonRole_ID_i == in_role_o.PK_PersonRole_ID_i)
+                        {
+                            vl_selected_s = "selected";
+                        }
+                        <option value="@in_role_o.PK_PersonRole_ID_i" @vl_selected_s>@in_role_o.PersonRole_s</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Status</label>
+                <select class="form-control mandotory_field" id="FK_PersonStatus_ID_i" name="FK_PersonStatus_ID_i">
+                    <option value="0"></option>
+                    @foreach (var in_status_o in vl_statusList_o)
+                    {
+                        vl_selected_s = "";
+                        if (Model.FK_PersonStatus_ID_i == in_status_o.PK_PersonStatus_ID_i)
+                        {
+                            vl_selected_s = "selected";
+                        }
+                        <option value="@in_status_o.PK_PersonStatus_ID_i" @vl_selected_s>@in_status_o.PersonStatus_s</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="PenPortrait">Pen Portrait</label>
+                <textarea class="form-control" id="Person_Portrait_s" name="Person_Portrait_s" rows="3">@Model.Person_Portrait_s</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="pull-right">
+        <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Close</button>
+        <button id="BasicDetails_Btn_Save" type="submit" class="btn btn-sm btn-default">Save</button>
+    </div>
+
+}
+
+<script>
+        $("#BasicDetails_Frm_Edit").submit(function (e) {
+            var url = "@Url.Action("EditBasicDetails", "Person")";
+            $('#validationAreaSaved').hide();
+            $('#validationAreaError').hide();
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $("#BasicDetails_Frm_Edit").serialize(),
+                success: function (data) {
+                    window.location.href = '@Url.Action("Index", "Person")?person=' + data;
+                    $('#BasicDetailsEditModal').modal('hide');
+                    $('.modal-backdrop').hide();
+                    $('body').removeClass("modal-open");
+                },
+                error: function (request, status, error) {
+                    if (error == 'See Other') {
+                        $('#errorMessage').html(request.responseText);
+                        $('#validationAreaError').show();
+                    } else {
+                        var json = $.parseJSON(request.responseText);
+                        var param = json.Reference;
+                        var url = '@Url.Action("Error", "Home", new { error = "__param__" })';
+                        window.location.href = url.replace('__param__', param);
+                    }
+                }
+            });
+
+            e.preventDefault();
+         });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#modal-title-@ViewData["modalDialog"].ToString()').html("@ViewData["mainHeading"].ToString()");
+    });
+</script>

@@ -1,0 +1,56 @@
+﻿@model LondonDegree_Web.Models.NewsModel
+@using LondonDegree_Web.Models
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Home")">Home</a></li>
+            <li class="breadcrumb-item active">@Model.News_Title_s</li>
+        </ol>
+    </div>
+</div>
+
+<section class="main-container">
+    <div class="container">
+        <div class="row">
+            <!-- main start -->
+            <!-- ================ -->
+            <div class="main col-lg-8">
+                <!-- page-title start -->
+                <!-- ================ -->
+                <h1 class="page-title"><i class="fa fa-book pr-10"> @Model.News_Title_s</i></h1>
+                <div class="separator-2"></div>
+                <!-- page-title end -->
+                <p>@Model.News_s</p>
+
+            </div>
+            <!-- main end -->
+            <!-- sidebar start -->
+            <!-- ================ -->
+            <aside class="col-lg-4 col-xl-3 ml-xl-auto">
+                <div class="sidebar">
+                    <div class="block clearfix">
+                        <div class="separator-2"></div>
+                        <ul class="list">
+                            <li>
+                                <i class="fa fa-newspaper-o pr-10"></i><b>Published by:</b><br>
+                                <span class="pl-20">@Model.Person_s</span><br>
+                            </li>
+                            <li>
+                                <i class="fa fa-pencil pr-10"></i><b>Published on:</b><br>
+                                <span class="pl-20">@Model.News_Published_d.ToString("dd'/'MM'/'yyyy")</span><br>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="block clearfix">
+                        <h3 class="title">Head Line</h3>
+                        <div class="separator-2"></div>
+                        <p>@Model.News_HeadLine_s</p>
+                    </div>
+                </div>
+            </aside>
+            <!-- sidebar end -->
+        </div>
+    </div>
+</section>
+<!-- main-container end -->

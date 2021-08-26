@@ -1,0 +1,468 @@
+﻿@model LondonDegree_Web.Models.PersonModel
+@using LondonDegree_Web.Models
+
+@{
+    string vl_commentTitle_s = "";
+    List<PersonStatusModel> vl_statusList_o = null;
+    List<PersonRoleModel> vl_roleList_o = null;
+    PersonAddressModel vl_personAddressModel_o = null;
+    List<PersonCourseModel> vl_courseList_o = null;
+    List<PersonEnquiryModel> vl_enquiryList_o = null;
+    List<PersonCommentModel> vl_commentList_o = null;
+
+    vl_statusList_o = (List<PersonStatusModel>)ViewData["StatusList"];
+    vl_roleList_o = (List<PersonRoleModel>)ViewData["RoleList"];
+    vl_personAddressModel_o = (PersonAddressModel)ViewData["PersonAddressModel"];
+    vl_courseList_o = (List<PersonCourseModel>)ViewData["CourseList"];
+
+    vl_enquiryList_o = (List<PersonEnquiryModel>)ViewData["EnquiryList"];
+    vl_commentList_o = (List<PersonCommentModel>)ViewData["CommentList"];
+
+    //Get last comment
+    string vl_lastComment_s = "";
+    string vl_lastCommentBy_s = "";
+    if (vl_commentList_o.Count > 0)
+    {
+        PersonCommentModel vl_lastComment_o = vl_commentList_o.OrderByDescending(m => m.Created_d).First();
+        vl_lastComment_s = vl_lastComment_o.PersonComment_s.Length > 80 ? vl_lastComment_o.PersonComment_s.Substring(0, 80) + "..." : vl_lastComment_o.PersonComment_s;
+        vl_lastCommentBy_s = vl_lastComment_o.PersonCreated_s;
+    }
+}
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Dashboard")">Home</a></li>
+            <li class="breadcrumb-item"><a class="link-dark" href="@Url.Action("Search","Person")">People</a></li>
+            <li class="breadcrumb-item active"> @Model.Person_FirstName_s @Model.Person_LastName_s</li>
+        </ol>
+    </div>
+</div>
+
+<section class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-user pr-2"></i>Account Deatils</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="image-box team-member shadow mb-20">
+                                        <div class="overlay-container overlay-visible">
+                                            <img src="~/Content/images/team-member-3.jpg" alt="">
+                                            <div class="overlay-bottom">
+                                                <div class="text">
+                                                    <h3 class="title margin-clear">@string.Concat(Model.Person_FirstName_s, " ", Model.Person_LastName_s)</h3>
+                                                    <p class="margin-clear">@Model.PersonStatus_s</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div  class="row">
+                                            <div id="ActionButtons" class="col-md-12 text-center">
+                                                @if (string.IsNullOrEmpty(Model.Membership_s))
+                                                {
+                                                      <button id="Membership_Btn_AddNew" type="button" class="btn btn-default-transparent btn-sm">Create Login <i class="fa fa-user-plus"></i></button>
+                                                }
+                                                else
+                                                {
+                                                       <button id="ResetPassword_Btn_Reset" type="button" class="btn btn-default-transparent btn-sm">Reset <i class="fa fa-key"></i></button>
+                                                }
+                                                <script>
+                                
+                                        $("#Membership_Btn_AddNew").click(function () {
+                                            if (confirm("Are you sure you want to create login for this account?")) {
+                                                var url = "@Url.Action("CreateAccount", "Account")?person=@Model.PK_Person_ID_gu"; // the script where you handle the form input.
+
+                                                $.ajax({
+                                                    type: "GET",
+                                                    url: url,
+                                                    success: function (data) {
+                                                        window.location.href = '@Url.Action("Index", "Person")?person=' + data;
+                                                    },
+                                                    error: function (request, status, error) {
+                                                        if (error == 'See Other') {
+                                                            $('#errorMessage').html(request.responseText);
+                                                            $('#validationAreaError').show();
+                                                        } else {
+                                                            var json = $.parseJSON(request.responseText);
+                                                            var param = json.Reference;
+                                                            var url = '@Url.Action("Error", "Home", new { error = "__param__" })';
+                                                            window.location.href = url.replace('__param__', param);
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        });
+
+                                                    $("#ResetPassword_Btn_Reset").click(function () {
+                                                        if (confirm("Are you sure you want to reset password for this account?")) {
+                                                            var url = "@Url.Action("InternalAccountReset", "Account")?person=@Model.PK_Person_ID_gu"; // the script where you handle the form input.
+
+                                                            $.ajax({
+                                                                type: "GET",
+                                                                url: url,
+                                                                success: function (data) {
+                                                                    window.location.href = '@Url.Action("Index", "Person")?person=' + data;
+                                                                },
+                                                                error: function (request, status, error) {
+                                                                    if (error == 'See Other') {
+                                                                        $('#errorMessage').html(request.responseText);
+                                                                        $('#validationAreaError').show();
+                                                                    } else {
+                                                                        var json = $.parseJSON(request.responseText);
+                                                                        var param = json.Reference;
+                                                                        var url = '@Url.Action("Error", "Home", new { error = "__param__" })';
+                                                                        window.location.href = url.replace('__param__', param);
+                                                                    }
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-xl-4 col-md-5">
+                                    <h3 class="title">
+                                        Basic Details <button id="BasicDetails_Btn_Edit" type="button" class="btn btn-default-transparent btn-sm"><i class="fa fa-pencil"></i></button>
+                                    </h3>
+                                    <script>
+                                        $("#BasicDetails_Btn_Edit").click(function () {
+                                            $('#model-body-BasicDetailsEditModal').load('@Url.Action("EditBasicDetails", "Person")?modal=BasicDetailsEditModal&id=@Model.PK_Person_ID_gu');
+                                            $('#BasicDetailsEditModal').modal('show');
+                                        });
+                                    </script>
+                                    <ul class="list">
+                                        <li><i class="fa fa-user pr-10"></i>@Model.Person_FirstName_s @Model.Person_LastName_s</li>
+                                        <li><i class="fa fa-envelope pr-10"></i>@Model.Person_Email_s</li>
+                                        <li><i class="fa fa-phone pr-10"></i>@Model.Person_TelHome_s</li>
+                                        <li><i class="fa fa-mobile pr-10"></i>@Model.Person_TelMobile_s</li>
+                                        <li><i class="fa fa-lightbulb-o pr-10"></i><b>Status:</b> @Model.PersonStatus_s</li>
+                                        <li><i class="fa fa-user-md pr-10"></i><b>Role:</b> @Model.PersonRole_s</li>
+                                    </ul>
+                                    <p>@Html.Raw(Model.Person_Portrait_s)</p>
+
+                                </div>
+                                <div class="col-md-4 ml-xl-auto">
+                                    <h3 class="title">
+                                        Address Details <button id="AddressDetails_Btn_Edit" type="button" class="btn btn-default-transparent btn-sm"><i class="fa fa-pencil"></i></button>
+                                    </h3>
+                                    <script>
+                                        $("#AddressDetails_Btn_Edit").click(function () {
+                                            $('#model-body-AddressDetailsEditModal').load('@Url.Action("EditAddressDetails", "Person")?modal=AddressDetailsEditModal&id=@Model.PK_Person_ID_gu');
+                                            $('#AddressDetailsEditModal').modal('show');
+                                        });
+                                    </script>
+                                    <ul class="list">
+                                        <li>
+                                            @if (!string.IsNullOrEmpty(vl_personAddressModel_o.PersonAddress_Line1_s))
+                                            {
+                                                <i class="fa fa-home pr-10"></i>@vl_personAddressModel_o.PersonAddress_Line1_s<br>
+                                            }
+                                            @if (!string.IsNullOrEmpty(vl_personAddressModel_o.PersonAddress_Line2_s))
+                                            {
+                                                <span class="pl-20">@vl_personAddressModel_o.PersonAddress_Line2_s</span><br>
+                                            }
+                                            @if (!string.IsNullOrEmpty(vl_personAddressModel_o.PersonAddress_Town_s))
+                                            {
+                                                <span class="pl-20">@vl_personAddressModel_o.PersonAddress_Town_s</span><br>
+                                            }
+                                            @if (!string.IsNullOrEmpty(vl_personAddressModel_o.PersonAddress_County_s))
+                                            {
+                                                <span class="pl-20">@vl_personAddressModel_o.PersonAddress_County_s</span><br>
+                                            }
+                                            @if (!string.IsNullOrEmpty(vl_personAddressModel_o.PersonAddress_Postcode_s))
+                                            {
+                                                <span class="pl-20">@vl_personAddressModel_o.PersonAddress_Postcode_s</span><br>
+                                            }
+                                            @if (!string.IsNullOrEmpty(vl_personAddressModel_o.Country_s))
+                                            {
+                                                <span class="pl-20">@vl_personAddressModel_o.Country_s</span><br>
+                                            }
+                                        </li>
+                                    </ul>
+                                    <div class="block clearfix">
+                                        <div class="separator-2"></div>
+                                        @if (!string.IsNullOrEmpty(vl_lastComment_s)) {
+                                        <blockquote class="margin-clear">
+                                            <p>@vl_lastComment_s</p>
+                                            <footer><cite title="Source Title">@vl_lastCommentBy_s </cite></footer>
+                                        </blockquote>
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                @Html.Partial("_DisplayModal", "BasicDetailsEditModal")
+            </div>
+            <div class="col-lg-12">
+                @Html.Partial("_DisplayModal", "AddressDetailsEditModal")
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-graduation-cap pr-2"></i>Courses</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pull-right">
+                                        <button id="PersonCourses_Btn_AddNew" type="button" class="btn btn-default-transparent btn-sm"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                    <script>
+                                        $("#PersonCourses_Btn_AddNew").click(function () {
+                                            $('#model-body-PersonCoursesAddNewModal').load('@Url.Action("AddNewPersonCourses", "Person")?modal=PersonCoursesAddNewModal&id=@Model.PK_Person_ID_gu');
+                                            $('#PersonCoursesAddNewModal').modal('show');
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+
+                            <div class="clear-both"></div>
+
+                            <div id="Data">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                @Html.Partial("_DisplayModal", "PersonCoursesAddNewModal")
+            </div>
+            <div class="col-lg-12">
+                @Html.Partial("_DisplayModal", "PersonCoursesEditModal")
+            </div>
+            <script>
+        $(document).ready(function () {
+            $('#Data').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="dataTablePersonCourses"></table>');
+            $('#dataTablePersonCourses').dataTable({
+            "bAutoWidth": false,
+            "order": [[1, "asc"]],
+            "aaData": [
+
+                            @foreach (var in_course_o in vl_courseList_o)
+                            {
+                                string vl_enquiredOn_s = in_course_o.DateOfEnquiry_d == new DateTime() ? "" : in_course_o.DateOfEnquiry_d.ToString("dd'/'MM'/'yyyy");
+                                string vl_enrolledOn_s = in_course_o.DateOfEnrolment_d == new DateTime() ? "" : in_course_o.DateOfEnrolment_d.ToString("dd'/'MM'/'yyyy");
+
+                                @Html.Raw("['" + in_course_o.PK_PersonCourse_ID_gu + "','" + in_course_o.FK_Course_ID_gu+ "','" + in_course_o.FK_Provider_ID_s + "', '" + Html.Encode(in_course_o.Course_Name_s) + "','" + Html.Encode(in_course_o.PersonCourseStatus_s) + "','" + Html.Encode(vl_enquiredOn_s) + "','" + Html.Encode(vl_enrolledOn_s) + "','" + Html.Encode(in_course_o.Provider_s) + "', '" + Html.Encode(in_course_o.CourseCategory_s)+"'],")
+                            }
+
+                    ],
+                "aoColumns": [
+                        { "sTitle": "Person Course ID", "bVisible": false },
+                        { "sTitle": "Course ID", "bVisible": false },
+                        { "sTitle": "Provider ID", "bVisible": false },
+                        {
+                            "sTitle": "Name",
+                            "render": function (data, type, full, meta) {
+                                return '<a target="_blank" href=\'@Url.Action("Index", "Course")?course=' + full[1] + '\'>' + data + '</a>'
+                            }
+                        },
+                        { "sTitle": "Status" },
+                        { "sTitle": "Enquired On" },
+                        { "sTitle": "Enrolled On" },
+                        {
+                            "sTitle": "Provider",
+                            "render": function (data, type, full, meta) {
+                                return '<a target="_blank" href=\'@Url.Action("Index", "Provider")?provider=' + full[2] + '\'>' + data + '</a>'
+                            }
+                        },
+                        { "sTitle": "Category" },
+                        {
+                            "sTitle": "",
+                            "render": function (data, type, full, meta) {
+                                return "<a href=\"javascript:EditPersonCourse('" + full[0] + "');\" class='btn btn-default-transparent btn-sm'><i class=\"fa fa-pencil\"></i></a>&nbsp;<a href=\"javascript:DeletePersonCourse('" + full[0] + "');\" class='btn btn-default-transparent btn-sm'><i class=\"fa fa-trash\"></i></button>"
+                            }
+                        }
+
+                    ]
+                });
+            });
+
+        function DeletePersonCourse(in_personcourse_gu) {
+            if (confirm("Are you sure you want to delete this course?")) {
+                var url = "@Url.Action("DeletePersonCourses", "Person")?personcourse=" + in_personcourse_gu; // the script where you handle the form input.
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        window.location.href = '@Url.Action("Index", "Person")?person=' + data;
+                    }
+                });
+                e.preventDefault();
+            }
+        }
+        function EditPersonCourse(in_personcourse_gu)
+        {
+            $('#model-body-PersonCoursesEditModal').load('@Url.Action("EditPersonCourses", "Person")?modal=PersonCoursesEditModal&id=' + in_personcourse_gu);
+            $('#PersonCoursesEditModal').modal('show');
+        }
+
+
+            </script>
+
+        </div>
+
+
+        <br>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-phone pr-2"></i>Enquiries</div>
+                        <div class="panel-body">
+
+                            <div class="clear-both"></div>
+
+                            <div id="DataEnquiries">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+        $(document).ready(function () {
+            $('#DataEnquiries').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="dataTablePersonEnquiries"></table>');
+            $('#dataTablePersonEnquiries').dataTable({
+            "bAutoWidth": false,
+            "order": [[3, "asc"]],
+            "aaData": [
+
+                            @foreach (var in_enquiry_o in vl_enquiryList_o)
+                            {
+                                string vl_createdOn_s = in_enquiry_o.Created_d == new DateTime() ? "" : in_enquiry_o.Created_d.ToString("dd'/'MM'/'yyyy");
+                                @Html.Raw("['" + in_enquiry_o.PK_PersonEnquiry_ID_gu + "','" + Html.Encode(in_enquiry_o.PersonEnquiry_s) + "', '" + Html.Encode(in_enquiry_o.PersonEnquiryStatus_s) + "','" + Html.Encode(vl_createdOn_s) + "'],");
+                            }
+
+                    ],
+                "aoColumns": [
+                        { "sTitle": "Person Enquiry ID", "bVisible": false },
+                        {
+                            "sTitle": "Enquiry"
+                        },
+                        { "sTitle": "Status" },
+                        { "sTitle": "Created Date" }
+
+                    ]
+                });
+            });
+
+
+            </script>
+
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-comment pr-2"></i>Comments</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="comments-form">
+                                @using (Html.BeginForm("AddNewComment", "Person", FormMethod.Post, new { id = "Comment_Frm_Edit" }))
+                                {
+                                    <input id="FK_Person_ID_gu" name="FK_Person_ID_gu" value="@Model.PK_Person_ID_gu" type="hidden" />
+                                    <div class="form-group has-feedback">
+                                        <textarea class="form-control" rows="3" id="PersonComment_s" name="PersonComment_s" placeholder="Add comments here.." required></textarea>
+                                        <i class="fa fa-envelope-o form-control-feedback"></i>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="pull-right">
+                                                <button type="submit" class="btn btn-default-transparent btn-sm">Post <i class="fa fa-upload"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+  
+                                    <script>
+                                        $("#Comment_Frm_Edit").submit(function (e) {
+                                                var url = "@Url.Action("AddNewComment", "Person")";
+                                                if ($("#PersonComment_s").val().trim().length > 0) {
+                                                    $.ajax({
+                                                        type: "POST",
+                                                        url: url,
+                                                        data: $("#Comment_Frm_Edit").serialize(),
+                                                        success: function (data) {
+                                                            window.location.href = '@Url.Action("Index", "Person")?person=' + data;
+                                                        },
+                                                        error: function (request, status, error) {
+                                                            if (error == 'See Other') {
+                                                                $('#errorMessage').html(request.responseText);
+                                                                $('#validationAreaError').show();
+                                                            } else {
+                                                                var json = $.parseJSON(request.responseText);
+                                                                var param = json.Reference;
+                                                                var url = '@Url.Action("Error", "Home", new { error = "__param__" })';
+                                                                window.location.href = url.replace('__param__', param);
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                                e.preventDefault();
+                                             });
+                                    </script>
+                  
+
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="CommentsContainer">
+                                        @foreach (PersonCommentModel in_comment_o in vl_commentList_o.OrderByDescending(m => m.Created_d))
+                                        {
+                                            vl_commentTitle_s = in_comment_o.PersonComment_s.Length > 20 ? in_comment_o.PersonComment_s.Substring(0, 20) + "..." : in_comment_o.PersonComment_s;
+                                        <!-- comment start -->
+                                        <div class="comment clearfix">
+                                            <div class="comment-avatar">
+                                                <img class="rounded-circle" src="~/Content/images/avatar.jpg" alt="avatar">
+                                            </div>
+                                            <header>
+                                                <h3>@vl_commentTitle_s</h3>
+                                                <div class="comment-meta">By <a href="#">@in_comment_o.PersonCreated_s</a> | @in_comment_o.Created_d.ToString("dd'/'MM'/'yyyy") <i class="fa fa-clock-o"></i> @in_comment_o.Created_d.ToString("HH:mm")</div>
+                                            </header>
+                                            <div class="comment-content">
+                                                <div class="comment-body clearfix">
+                                                    <p>@in_comment_o.PersonComment_s</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- comment end -->
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+    </div>
+</section>

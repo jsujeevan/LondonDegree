@@ -1,0 +1,255 @@
+﻿@model LondonDegree_Web.Models.CourseModel
+@using LondonDegree_Web.Models
+
+@{
+    List<PersonCourseModel> vl_personList_o = null;
+    vl_personList_o = (List<PersonCourseModel>)ViewData["PersonList"];
+}
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Dashboard")">Home</a></li>
+            <li class="breadcrumb-item"><a class="link-dark" href="@Url.Action("Search","Course")">Course</a></li>
+            <li class="breadcrumb-item active"> @Model.Course_Name_s</li>
+        </ol>
+    </div>
+</div>
+
+<section class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-graduation-cap pr-2"></i>Course Details</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pull-right">
+                                        <button id="CourseDetails_Btn_Edit" type="button" class="btn btn-default-transparent btn-sm"><i class="fa fa-pencil"></i></button>
+                                    </div>
+                                    <script>
+                                    $("#CourseDetails_Btn_Edit").click(function () {
+                                            $('#model-body-CourseDetailsEditModal').load('@Url.Action("EditCourseDetails", "Course")?modal=CourseDetailsEditModal&id=@Model.PK_Course_ID_gu');
+                                            $('#CourseDetailsEditModal').modal('show');
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h3 class="title">Basic Details</h3>
+
+                                    <ul class="list">
+                                        <li><i class="fa fa-graduation-cap pr-10"></i>@Model.Course_Name_s</li>
+                                        <li><i class="fa fa-bank pr-10"></i><a target="_blank" href="@Url.Action("Index","Provider" , new { provider = Model.FK_Provider_ID_gu })">@Model.Provider_s</a></li>
+                                        <li><i class="fa fa-cubes pr-10"></i>@Model.CourseCategory_s</li>
+                                        <li><i class="fa fa-asterisk pr-10"></i>@Model.CourseLevel_s</li>
+                                        @{
+                                        string vl_hidden_s = "";
+                                        string vl_hiddenProvider_s = "";
+                                        vl_hidden_s = Model.Course_Hidden_z ? "<i class=\"fa fa-check\"></i>" : "<i class=\"fa fa-times\"></i>";
+                                        vl_hiddenProvider_s = Model.Course_Provider_Hidden_z ? "<i class=\"fa fa-check\"></i>" : "<i class=\"fa fa-times\"></i>";
+                                        }
+
+                                        <li><i class="fa fa-hand-o-right pr-10"></i><b>Hidden:</b> @Html.Raw(vl_hidden_s) </li>
+                                        <li><i class="fa fa-hand-o-right pr-10"></i><b>Provider Hidden:</b> @Html.Raw(vl_hiddenProvider_s) </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-8">
+                                    <h3 class="title">Other Details</h3>
+                                    <!-- accordion start -->
+                                    <!-- ================ -->
+                                    <div id="accordion" class="collapse-style-1" role="tablist" aria-multiselectable="true">
+                                        <div class="card">
+                                            <div class="card-header" role="tab" id="headingOne">
+                                                <h4 class="mb-0">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                        <i class="fa fa-info pr-10"></i>Introduction
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                                                <div class="card-block">
+                                                    @Html.Raw(Model.Course_Introduction_s)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header" role="tab" id="headingTwo">
+                                                <h4 class="mb-0">
+                                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                        <i class="fa fa-building pr-10"></i>Structure
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                <div class="card-block">
+                                                    @Html.Raw(Model.Course_Structure_s)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header" role="tab" id="headingThree">
+                                                <h4 class="mb-0">
+                                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                        <i class="fa fa-pencil-square pr-10"></i>How to Apply
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                                                <div class="card-block">
+                                                    @Html.Raw(Model.Course_HowToApply_s)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header" role="tab" id="headingFour">
+                                                <h4 class="mb-0">
+                                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                        <i class="fa fa-calendar pr-10"></i>Prices and Dates
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
+                                                <div class="card-block">
+                                                    @Html.Raw(Model.Course_PricesAndDates_s)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header" role="tab" id="headingFive">
+                                                <h4 class="mb-0">
+                                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                                        <i class="fa fa-book pr-10"></i>Other Details
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseFive" class="collapse" role="tabpanel" aria-labelledby="headingFive">
+                                                <div class="card-block">
+                                                    @Html.Raw(Model.Course_OtherDetails_s)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- accordion end -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                @Html.Partial("_DisplayModal", "CourseDetailsEditModal")
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-user pr-2"></i>Course People</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pull-right">
+                                        <button id="CoursePerson_Btn_AddNew" type="button" class="btn btn-default-transparent btn-sm"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                    <script>
+                                        $("#CoursePerson_Btn_AddNew").click(function () {
+                                            $('#model-body-CoursePersonAddNewModal').load('@Url.Action("AddNewCoursePerson", "Course")?modal=CoursePersonAddNewModal&id=@Model.PK_Course_ID_gu');
+                                            $('#CoursePersonAddNewModal').modal('show');
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+
+                            <div class="clear-both"></div>
+
+                            <div id="DataCoursePerson">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                @Html.Partial("_DisplayModal", "CoursePersonAddNewModal")
+            </div>
+            <div class="col-lg-12">
+                @Html.Partial("_DisplayModal", "CoursePersonEditModal")
+            </div>
+
+        </div>
+        <script>
+        $(document).ready(function () {
+            $('#DataCoursePerson').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="dataTableCoursePerson"></table>');
+            $('#dataTableCoursePerson').dataTable({
+            "bAutoWidth": false,
+            "order": [[1, "asc"]],
+            "aaData": [
+
+                            @foreach (var in_person_o in vl_personList_o)
+                            {
+                                string vl_enquiredOn_s = in_person_o.DateOfEnquiry_d == new DateTime() ? "" : in_person_o.DateOfEnquiry_d.ToString("dd'/'MM'/'yyyy");
+                                string vl_enrolledOn_s = in_person_o.DateOfEnrolment_d == new DateTime() ? "" : in_person_o.DateOfEnrolment_d.ToString("dd'/'MM'/'yyyy");
+
+                                @Html.Raw("['" + in_person_o.PK_PersonCourse_ID_gu + "','" + in_person_o.FK_Person_ID_gu+"', '"+ Html.Encode(in_person_o.Person_FirstName_s+" "+ in_person_o.Person_LastName_s) + "','" + Html.Encode(in_person_o.Person_TelMobile_s) + "','" + Html.Encode(vl_enquiredOn_s) + "','" + Html.Encode(vl_enrolledOn_s) + "', '"+Html.Encode(in_person_o.PersonCourseStatus_s)+"'],")
+                            }
+
+                    ],
+                "aoColumns": [
+                        { "sTitle": "Person Course ID", "bVisible": false },
+                        { "sTitle": "Person ID", "bVisible": false },
+                        {
+                            "sTitle": "Name",
+                            "render": function (data, type, full, meta) {
+                                return '<a target="_blank" href=\'@Url.Action("Index", "Person")?person=' + full[1] + '\'>' + data + '</a>'
+                            }
+                        },
+                        { "sTitle": "Phone(Mobile)" },
+                        { "sTitle": "Enquired On" },
+                        { "sTitle": "Enrolled On" },
+                        { "sTitle": "Status" },
+                        {
+                            "sTitle": "",
+                            "render": function (data, type, full, meta) {
+                                return "<a href=\"javascript:EditCoursePerson('" + full[0] + "');\" class='btn btn-default-transparent btn-sm'><i class=\"fa fa-pencil\"></i></a>&nbsp;<a href=\"javascript:DeleteCoursePerson('" + full[0] + "');\" class='btn btn-default-transparent btn-sm'><i class=\"fa fa-trash\"></i></button>"
+                            }
+                        }
+
+                    ]
+                });
+            });
+
+            function DeleteCoursePerson(in_personcourse_gu) {
+            if (confirm("Are you sure you want to delete this course?")) {
+                var url = "@Url.Action("DeleteCoursePerson", "Course")?personcourse=" + in_personcourse_gu; // the script where you handle the form input.
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        window.location.href = '@Url.Action("Index", "Course")?course=' + data;
+                    }
+                });
+                e.preventDefault();
+            }
+        }
+        function EditCoursePerson(in_personcourse_gu)
+        {
+            $('#model-body-CoursePersonEditModal').load('@Url.Action("EditCoursePerson", "Course")?modal=CoursePersonEditModal&id=' + in_personcourse_gu);
+            $('#CoursePersonEditModal').modal('show');
+        }
+
+
+        </script>
+
+    </div>
+</section>

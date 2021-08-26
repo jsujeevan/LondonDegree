@@ -1,0 +1,88 @@
+﻿@model LondonDegree_Web.Models.EventModel
+@using LondonDegree_Web.Models
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Dashboard")">Home</a></li>
+            <li class="breadcrumb-item active"> Event (Add new)</li>
+        </ol>
+    </div>
+</div>
+
+<section class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-plus pr-2"></i>Add New</div>
+                        <div class="panel-body">
+                            @if (!ViewData.ModelState.IsValid)
+                            {
+                                <div class="alert alert-danger" role="alert">@Html.ValidationSummary()</div>
+                            }
+                            @using (Html.BeginForm("AddNewEvents", "Administration", FormMethod.Post, new { id = "EventDetails_Frm_AddNew" }))
+                            {
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="pull-right"><i class="fa fa-square mandotory_field_label"></i> Mandatory</div>
+							    </div>
+						    </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group has-feedback">
+                                            <label>Title</label>
+                                            <input id="Event_Title_s" name="Event_Title_s" type="text" class="form-control mandotory_field">
+                                            <i class="fa fa-edit form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-feedback">
+                                            <label>Event Date</label>
+                                            <input id="Event_Date_d" name="Event_Date_d" type="text" class="form-control mandotory_field">
+                                            <i class="fa fa-calendar form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="Introduction">Description</label>
+                                            <textarea class="form-control mandotory_field" id="Event_Description_s" name="Event_Description_s" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="Introduction">Location</label>
+                                            <textarea class="form-control mandotory_field" id="Event_Location_s" name="Event_Location_s" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="Introduction">Target Audience</label>
+                                            <textarea class="form-control mandotory_field" id="Event_TargetAudience_s" name="Event_TargetAudience_s" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-default btn-sm btn-animated">Save<i class="pl-1 fa fa-plus"></i></button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(function () {
+        $("#Event_Date_d").datepicker({ changeMonth: true, changeYear: true, dateFormat: "dd/mm/yy" });
+    });
+</script>

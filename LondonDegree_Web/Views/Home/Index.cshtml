@@ -1,0 +1,617 @@
+﻿@using LondonDegree_Web.Models
+@{ 
+    int vl_counter_i = 0;
+    List<NewsModel> vl_newsList_o = null;
+    List<EventModel> vl_eventList_o = null;
+    vl_newsList_o = (List<NewsModel>)ViewData["NewsList"];
+    vl_eventList_o = (List<EventModel>)ViewData["EventList"];
+}
+
+    <!-- banner start -->
+    <!-- ================ -->
+    <div class="banner clearfix">
+        <!-- slideshow start -->
+        <!-- ================ -->
+        <div class="slideshow">
+            <!-- slider revolution start -->
+            <!-- ================ -->
+            <div class="slider-revolution-5-container">
+                <div id="slider-banner-fullwidth" class="slider-banner-fullwidth rev_slider" data-version="5.0">
+                    <ul class="slides">
+                        <!-- slide 1 start -->
+                        <!-- ================ -->
+                        <li data-transition="random" data-slotamount="default" data-masterspeed="default" data-title="LondonDegree.co.uk">
+                            <!-- main image -->
+                            <img style="width:100%;" src="~/Content/images/HomeBannar_slide1.jpg" alt="slidebg1" data-bgposition="center top" data-bgrepeat="no-repeat" data-bgfit="cover" class="rev-slidebg">
+                            <!-- Transparent Background -->
+                            <div class="tp-caption dark-translucent-bg"
+                                 data-x="center"
+                                 data-y="center"
+                                 data-start="0"
+                                 data-transform_idle="o:1;"
+                                 data-transform_in="o:0;s:600;e:Power2.easeInOut;"
+                                 data-transform_out="o:0;s:600;"
+                                 data-width="5000"
+                                 data-height="5000">
+                            </div>
+                            <!-- LAYER NR. 1 -->
+                            <div class="tp-caption large_white"
+                                 data-x="left"
+                                 data-y="110"
+                                 data-start="500"
+                                 data-transform_idle="o:1;"
+                                 data-transform_in="y:[100%];sX:1;sY:1;o:0;s:900;e:Power4.easeInOut;"
+                                 data-transform_out="y:[100%];s:1000;e:Power2.easeInOut;"
+                                 data-mask_in="x:0px;y:[100%];s:inherit;e:inherit;"
+                                 data-mask_out="x:inherit;y:inherit;s:inherit;e:inherit;">
+                                LondonDegree.co.uk
+                            </div>
+                            <!-- LAYER NR. 2 -->
+                            <div class="tp-caption large_white tp-resizeme"
+                                 data-x="left"
+                                 data-y="170"
+                                 data-start="650"
+                                 data-transform_idle="o:1;"
+                                 data-transform_in="o:0;s:2000;e:Power4.easeInOut;">
+                                <div class="separator-2 light"></div>
+                            </div>
+                            <!-- LAYER NR. 3 -->
+                            <div class="tp-caption medium_white"
+                                 data-x="left"
+                                 data-y="180"
+                                 data-start="650"
+                                 data-transform_idle="o:1;"
+                                 data-transform_in="y:[100%];sX:1;sY:1;s:900;e:Power4.easeInOut;"
+                                 data-transform_out="y:[100%];s:1000;e:Power2.easeInOut;"
+                                 data-mask_in="x:0px;y:0px;s:inherit;e:inherit;"
+                                 data-mask_out="x:inherit;y:inherit;s:inherit;e:inherit;">
+                                Looking to study in London. <br> We are here to help you with the best offer.
+                            </div>
+                            <!-- LAYER NR. 4 -->
+                            <div class="tp-caption small_white"
+                                 data-x="left"
+                                 data-y="260"
+                                 data-start="900"
+                                 data-transform_idle="o:1;"
+                                 data-transform_in="y:[100%];sX:1;sY:1;o:0;s:900;e:Power4.easeInOut;"
+                                 data-transform_out="y:[100%];s:1000;e:Power2.easeInOut;"
+                                 data-mask_in="x:0px;y:[100%];s:inherit;e:inherit;"
+                                 data-mask_out="x:inherit;y:inherit;s:inherit;e:inherit;">
+                                <a href="@Url.Action("Index_Services", "Home")" class="btn radius-50 btn-default btn-sm btn-animated">Admission Services<i class="fa fa-arrow-right"></i></a>
+                            </div>
+                        </li>
+                        <!-- slide 1 end -->
+                        <!-- slide 2 start -->
+                        <!-- ================ -->
+                        <li class="text-center" data-transition="fade" data-slotamount="default" data-masterspeed="default" data-title="Premium Bootstrap Template">
+                            <!-- main image -->
+                            <img src="~/Content/images/HomeBanner_slide2.jpg" alt="slidebg2" data-bgposition="center top" data-bgrepeat="no-repeat" data-bgfit="cover" class="rev-slidebg">
+                            <!-- Transparent Background -->
+                            <div class="tp-caption dark-translucent-bg"
+                                 data-x="center"
+                                 data-y="center"
+                                 data-start="0"
+                                 data-transform_idle="o:1;"
+                                 data-transform_in="o:0;s:600;e:Power2.easeInOut;"
+                                 data-transform_out="o:0;s:600;"
+                                 data-width="5000"
+                                 data-height="5000">
+                            </div>
+                            <!-- LAYER NR. 1 -->
+                            <div class="tp-caption large_white"
+                                 data-x="center"
+                                 data-y="110"
+                                 data-start="500"
+                                 data-width="650"
+                                 data-transform_idle="o:1;"
+                                 data-transform_in="y:[100%];sX:1;sY:1;o:0;s:900;e:Power4.easeInOut;"
+                                 data-transform_out="y:[100%];s:1000;e:Power2.easeInOut;"
+                                 data-mask_in="x:0px;y:[100%];s:inherit;e:inherit;"
+                                 data-mask_out="x:inherit;y:inherit;s:inherit;e:inherit;">
+                                LondonDegree.co.uk
+                            </div>
+                            <!-- LAYER NR. 2 -->
+                            <div class="tp-caption large_white tp-resizeme hidden-sm-down"
+                                 data-x="center"
+                                 data-y="150"
+                                 data-start="650"
+                                 data-width="500"
+                                 data-transform_idle="o:1;"
+                                 data-transform_in="o:0;s:2000;e:Power4.easeInOut;">
+                                <div class="separator light"></div>
+                            </div>
+                            <!-- LAYER NR. 3 -->
+                            <div class="tp-caption medium_white hidden-sm-down"
+                                 data-x="center"
+                                 data-y="180"
+                                 data-start="650"
+                                 data-width="750"
+                                 data-transform_idle="o:1;"
+                                 data-transform_in="y:[100%];sX:1;sY:1;s:900;e:Power4.easeInOut;"
+                                 data-transform_out="y:[100%];s:1000;e:Power2.easeInOut;"
+                                 data-mask_in="x:0px;y:0px;s:inherit;e:inherit;"
+                                 data-mask_out="x:inherit;y:inherit;s:inherit;e:inherit;">
+                                We promote the best courses in the UK. <br> Have a look at our exciting range of courses.
+                            </div>
+                            <!-- LAYER NR. 4 -->
+                            <div class="tp-caption small_white text-center"
+                                 data-x="center"
+                                 data-y="260"
+                                 data-start="900"
+                                 data-transform_idle="o:1;"
+                                 data-transform_in="y:[100%];sX:1;sY:1;s:900;e:Power4.easeInOut;"
+                                 data-transform_out="y:[100%];s:1000;e:Power2.easeInOut;"
+                                 data-mask_in="x:0px;y:[100%];s:inherit;e:inherit;"
+                                 data-mask_out="x:inherit;y:inherit;s:inherit;e:inherit;">
+                                <a href="@Url.Action("Index_Courses", "Home")" class="btn radius-50 btn-default btn-sm btn-animated">Courses <i class="fa fa-arrow-right"></i></a>
+                            </div>
+                        </li>
+                        <!-- slide 2 end -->
+                    </ul>
+                    <div class="tp-bannertimer"></div>
+                </div>
+            </div>
+            <!-- slider revolution end -->
+        </div>
+        <!-- slideshow end -->
+    </div>
+    <!-- banner end -->
+
+    <div id="page-start"></div>
+
+    @*
+        <section class="section clearfix">
+            <div class="container">
+                <div class="row mb-20">
+                    <div class="col-xl-12">
+                        <div class="slick-carousel content-slider">
+                            <div class="overlay-container overlay-visible">
+                                <img src="~/Content/images/construction-1.jpg" alt="">
+                                <div class="overlay-bottom hidden-sm-down">
+                                    <div class="text">
+                                        <h3 class="title">London Degree Provides World Class Service</h3>
+                                    </div>
+                                </div>
+                                <a href="~/Content/images/construction-1.jpg" class="slick-carousel--popup-img overlay-link" title="image title"><i class="fa fa-plus"></i></a>
+                            </div>
+                            <div class="overlay-container overlay-visible">
+                                <img src="~/Content/images/construction-2.jpg" alt="">
+                                <div class="overlay-bottom hidden-sm-down">
+                                    <div class="text">
+                                        <h3 class="title">British MBA at Anglia Ruskin University</h3>
+                                    </div>
+                                </div>
+                                <a href="~/Content/images/construction-2.jpg" class="slick-carousel--popup-img overlay-link" title="image title"><i class="fa fa-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <h3 class="mt-3">LondonDegree <span class="text-default">.co.uk</span></h3>
+                        <p><em>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente unde id porro saepe enim ipsam, architecto dicta iste adipisci eligendi aliquid cupiditate molestias corrupti, suscipit corporis exercitationem quis alias dolor.</em></p>
+                        <p><em>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo culpa cupiditate iure deserunt eveniet reprehenderit placeat, magnam voluptas magni maiores numquam cum veritatis enim quam deleniti repudiandae perferendis! Dolores, illo.</em></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    *@
+
+    <section class="main-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 order-lg-1">
+                    <h3 class="mt-3">LondonDegree <span class="text-default">.co.uk</span></h3>
+                    <p>We based in London, offers a great service for international and local students who want to undertake their higher education in the UK.</p>
+                    <p>We work as an intermediary between the UK educational providers and the students. Our job is to simplify what can be a very complicated process and help you to make the right decisions, taking into account your specific needs.</p>
+                    <ul class="list-icons">
+                        <li><i class="fa fa-check-square-o"></i> Our vision is to ensure our students receive the best offer</li>
+                        <li><i class="fa fa-check-square-o"></i> We offer continuous support throughout your education in the UK</li>
+                        <li><i class="fa fa-check-square-o"></i> Regional offices in Asia, Middle East & America</li>
+                        <li><i class="fa fa-check-square-o"></i> Support with Tier 4 UK visa applications process</li>
+                        <li><i class="fa fa-check-square-o"></i> Support for finding university & Private accommodation</li>
+                        <li><i class="fa fa-check-square-o"></i> Partnerships with top-ranked institutions in the UK</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 order-lg-2">
+                    <div class="overlay-container overlay-visible">
+                        <img src="~/Content/images/Home-Right.jpg" alt="">
+                        <div class="overlay-bottom hidden-sm-down">
+                            <div class="text">
+                                We offer continuous support throughout your education in the UK.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+    </section>
+
+    <!-- section start -->
+    <!-- ================ -->
+    <section class="section clearfix">
+        <div class="container">
+            <div class="row justify-content-lg-center">
+                <div class="col-lg-8">
+                    <h3 class="title text-center">Why you need <span class="text-default">us</span></h3>
+                    <div class="separator"></div>
+                    <p class="lead text-center">We promote the best courses in the UK on behalf of universities and colleges which are ranked outstanding in the world.</p>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-4 col-xl-2">
+                    <div class="image-box shadow text-center mb-20">
+                        <div class="overlay-container overlay-visible">
+                            <img src="~/Content/images/education-english.jpg" alt="">
+                            <a href="@Url.Action("Index_Courses_ByLevel", "Home", new { tab = "english" })" class="overlay-link"><i class="fa fa-link"></i></a>
+                            <div class="overlay-bottom">
+                                <div class="text">
+                                    <p class="lead margin-clear mobile-visible">English</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-2">
+                    <div class="image-box shadow text-center mb-20">
+                        <div class="overlay-container overlay-visible">
+                            <img src="~/Content/images/education-foundation.jpg" alt="">
+                            <a href="@Url.Action("Index_Courses_ByLevel", "Home", new { tab = "foundation" })" class="overlay-link"><i class="fa fa-link"></i></a>
+                            <div class="overlay-bottom">
+                                <div class="text">
+                                    <p class="lead margin-clear mobile-visible">Foundation</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-2">
+                    <div class="image-box shadow text-center mb-20">
+                        <div class="overlay-container overlay-visible">
+                            <img src="~/Content/images/education-graduate.jpg" alt="">
+                            <a href="@Url.Action("Index_Courses_ByLevel", "Home", new { tab = "bachelors" })" class="overlay-link"><i class="fa fa-link"></i></a>
+                            <div class="overlay-bottom">
+                                <div class="text">
+                                    <p class="lead margin-clear mobile-visible">Graduate</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-2">
+                    <div class="image-box shadow text-center mb-20">
+                        <div class="overlay-container overlay-visible">
+                            <img src="~/Content/images/education-masters.jpg" alt="">
+                            <a href="@Url.Action("Index_Courses_ByLevel", "Home", new { tab = "masters" })" class="overlay-link"><i class="fa fa-link"></i></a>
+                            <div class="overlay-bottom">
+                                <div class="text">
+                                    <p class="lead margin-clear mobile-visible">Masters</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-2">
+                    <div class="image-box shadow text-center mb-20">
+                        <div class="overlay-container overlay-visible">
+                            <img src="~/Content/images/education-phd.jpg" alt="">
+                            <a href="@Url.Action("Index_Courses_ByLevel", "Home", new { tab = "phd" })" class="overlay-link"><i class="fa fa-link"></i></a>
+                            <div class="overlay-bottom">
+                                <div class="text">
+                                    <p class="lead margin-clear mobile-visible">PHD</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 col-xl-2">
+                    <div class="image-box shadow text-center mb-20">
+                        <div class="overlay-container overlay-visible">
+                            <img src="~/Content/images/education-others.jpg" alt="">
+                            <a href="@Url.Action("Index_Courses_ByLevel", "Home", new { tab = "others" })" class="overlay-link"><i class="fa fa-link"></i></a>
+                            <div class="overlay-bottom">
+                                <div class="text">
+                                    <p class="lead margin-clear mobile-visible">Others</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- section end -->
+@*@
+    <!-- section start -->
+    <section class="section clearfix">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="mt-4">Popular Courses</h3>
+                    <div id="PopularCoursesContainer" class="clients">
+                        <div class="client">
+                            <a href="#"><img src="~/Content/images/course-1.png" alt=""></a>
+                        </div>
+                        <div class="client">
+                            <a href="#"><img src="~/Content/images/course-2.png" alt=""></a>
+                        </div>
+                        <div class="client">
+                            <a href="#"><img src="~/Content/images/course-3.png" alt=""></a>
+                        </div>
+                        <div class="client">
+                            <a href="#"><img src="~/Content/images/course-4.png" alt=""></a>
+                        </div>
+                        <div class="client">
+                            <a href="#"><img src="~/Content/images/course-5.png" alt=""></a>
+                        </div>
+                        <div class="client">
+                            <a href="#"><img src="~/Content/images/course-6.png" alt=""></a>
+                        </div>
+                        <div class="client">
+                            <a href="#"><img src="~/Content/images/course-7.png" alt=""></a>
+                        </div>
+                        <div class="client">
+                            <a href="#"><img src="~/Content/images/course-8.png" alt=""></a>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- section end -->
+    *@
+
+    <!-- section start -->
+    <!-- ================ -->
+    <section class="section clearfix">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h3 class="mt-4">Latest <span class="text-default">News</span></h3>
+                    <div class="separator-2"></div>
+                    <div class="block">
+                        @{ 
+                            vl_counter_i = 0;
+                            string vl_headLine_s = "";
+                            List<string> vl_newsImages_o = new List<string> { "/Content/images/news-blog-thumb-1.jpg", "/Content/images/news-blog-thumb-2.jpg", "/Content/images/news-blog-thumb-3.jpg", "/Content/images/news-blog-thumb-4.jpg", "/Content/images/news-blog-thumb-5.jpg" };
+                            foreach (NewsModel vl_news_o in vl_newsList_o.OrderByDescending(m => m.News_Published_d).Take(5))
+                            {
+                                vl_headLine_s = vl_news_o.News_HeadLine_s.Length > 200 ? vl_news_o.News_HeadLine_s.Substring(0, 200) + "..." : vl_news_o.News_HeadLine_s;
+
+                                       <div class="media margin-clear">
+                                        <div class="d-flex pr-2">
+                                            <div class="overlay-container">
+                                                <img class="media-object" src="@vl_newsImages_o[vl_counter_i].ToString()" alt="blog-thumb">
+                                                <a href="@Url.Action("Index_News", "Home", new { news = vl_news_o.PK_News_ID_gu })" class="overlay-link small"><i class="fa fa-link"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="media-body">
+                                            <h5 class="media-heading"><a href="@Url.Action("Index_News", "Home", new { news = vl_news_o.PK_News_ID_gu })">@vl_news_o.News_Title_s</a></h5>
+                                            <p class="small"><i class="fa fa-calendar pr-10"></i>@vl_news_o.News_Published_d.ToString("dd'/'MM'/'yyyy")</p>
+                                            <p class="margin-clear small">@vl_headLine_s</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                vl_counter_i = vl_counter_i + 1;
+                            }
+                        }
+                        @*
+                        <div class="media margin-clear">
+                            <div class="d-flex pr-2">
+                                <div class="overlay-container">
+                                    <img class="media-object" src="~/Content/images/medical-blog-thumb-1.jpg" alt="blog-thumb">
+                                    <a href="blog-post.html" class="overlay-link small"><i class="fa fa-link"></i></a>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <h5 class="media-heading"><a href="@Url.Action("Index_News","Home")">Lorem ipsum dolor sit amet</a></h5>
+                                <p class="small"><i class="fa fa-calendar pr-10"></i>Mar 23, 2017</p>
+                                <p class="margin-clear small">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt corrupti, cum exercitationem.</p>
+                                <a href="#">Read More</a>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="media margin-clear">
+                            <div class="d-flex pr-2">
+                                <div class="overlay-container">
+                                    <img class="media-object" src="~/Content/images/medical-blog-thumb-2.jpg" alt="blog-thumb">
+                                    <a href="blog-post.html" class="overlay-link small"><i class="fa fa-link"></i></a>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <h5 class="media-heading"><a href="blog-post.html">Perspiciatis laborum necess</a></h5>
+                                <p class="small"><i class="fa fa-calendar pr-10"></i>Mar 22, 2017</p>
+                                <p class="margin-clear small">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt corrupti, cum exercitationem.</p>
+                                <a href="#">Read More</a>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="media margin-clear">
+                            <div class="d-flex pr-2">
+                                <div class="overlay-container">
+                                    <img class="media-object" src="~/Content/images/medical-blog-thumb-3.jpg" alt="blog-thumb">
+                                    <a href="blog-post.html" class="overlay-link small"><i class="fa fa-link"></i></a>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <h5 class="media-heading"><a href="blog-post.html">Cum eligendi nisi rerum porro</a></h5>
+                                <p class="small"><i class="fa fa-calendar pr-10"></i>Mar 21, 2017</p>
+                                <p class="margin-clear small">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt corrupti, cum exercitationem.</p>
+                                <a href="#">Read More</a>
+                            </div>
+                        </div>
+                        *@
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <h3 class="mt-4">Latest <span class="text-default">Events</span></h3>
+                    <div class="separator-2"></div>
+                    <div class="block">
+                    @{
+                        vl_counter_i = 0;
+                        string vl_eventDescription_s = "";
+                        List<string> vl_eventsImages_o = new List<string> { "/Content/images/event-blog-thumb-1.jpg", "/Content/images/event-blog-thumb-2.jpg", "/Content/images/event-blog-thumb-3.jpg", "/Content/images/event-blog-thumb-4.jpg", "/Content/images/event-blog-thumb-5.jpg" };
+                        foreach (EventModel vl_event_o in vl_eventList_o.OrderByDescending(m => m.Event_Date_d).Take(5))
+                        {
+                            vl_eventDescription_s = vl_event_o.Event_Description_s.Length > 100 ? vl_event_o.Event_Description_s.Substring(0, 100) + "..." : vl_event_o.Event_Description_s;
+
+                            @*
+                                <div class="small"><i class="fa fa-calendar pr-10"></i> @vl_event_o.Event_Date_d.ToString("dd'/'MM'/'yyyy")</div>
+                                <h5 class="mt-3"><a href="@Url.Action("Index_Event","Home", new { eventid = vl_event_o.PK_Event_ID_gu })">@vl_event_o.Event_Title_s</a></h5>
+                                <hr>
+                                *@
+                                <div class="media margin-clear">
+                                    <div class="d-flex pr-2">
+                                        <div class="overlay-container">
+                                            <img class="media-object" src="@vl_eventsImages_o[vl_counter_i].ToString()" alt="blog-thumb">
+                                            <a href="@Url.Action("Index_Event","Home", new { eventid = vl_event_o.PK_Event_ID_gu })" class="overlay-link small"><i class="fa fa-link"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="media-heading"><a href="@Url.Action("Index_Event","Home", new { eventid = vl_event_o.PK_Event_ID_gu })">@vl_event_o.Event_Title_s</a></h5>
+                                        <p class="small">
+                                            <i class="fa fa-calendar pr-10"></i>@vl_event_o.Event_Date_d.ToString("dd'/'MM'/'yyyy") &nbsp;
+                                            <i class="fa fa-user pr-10"></i>@vl_event_o.Event_TargetAudience_s
+                                        </p>
+                                        <p class="margin-clear small"> @vl_eventDescription_s</p>
+                                    </div>
+                                </div>
+                                <hr>
+                            vl_counter_i = vl_counter_i + 1;
+                        }
+                    }
+                    </div>
+                    @*
+                <div class="small"><i class="fa fa-calendar pr-10"></i>Oct 23, 2017 <i class="fa fa-clock-o pl-10 pr-10"></i>10:25 am</div>
+                <h5 class="mt-3"><a href="@Url.Action("Index_Event","Home")">Lorem ipsum dolor sit amet</a></h5>
+                <hr>
+                <div class="small"><i class="fa fa-calendar pr-10"></i>Oct 23, 2017 <i class="fa fa-clock-o pl-10 pr-10"></i>9:55 am</div>
+                <h5 class="mt-3"><a href="blog-post.html">Consectetur adipisicing elit</a></h5>
+                <hr>
+                <div class="small"><i class="fa fa-calendar pr-10"></i>Oct 23, 2017 <i class="fa fa-clock-o pl-10 pr-10"></i>11:05 am</div>
+                <h5 class="mt-3"><a href="blog-post.html">Dignissimos, sapiente enim</a></h5>
+                <hr>
+                <div class="small"><i class="fa fa-calendar pr-10"></i>Oct 23, 2017 <i class="fa fa-clock-o pl-10 pr-10"></i>07:45 pm</div>
+                <h5 class="mt-3"><a href="blog-post.html">Architecto dignissimos</a></h5>
+                <hr>
+                
+                <a href="#" class="btn btn-default"><i class="fa fa-calendar pr-10"></i> See More Events</a>*@
+                </div>
+                @*
+                    <div class="col-lg-3">
+                        <h3 class="mt-4">Top <span class="text-default">Stories</span></h3>
+                        <div class="separator-2"></div>
+                        <div class="slick-carousel content-slider-with-large-controls-autoplay dark-controls light-gray-bg buttons-hide">
+                            <div class="image-box style-2">
+                                <div class="overlay-container overlay-visible">
+                                    <img src="~/Content/images/education-1.jpg" alt="">
+                                    <a href="#" class="overlay-link"><i class="fa fa-link"></i></a>
+                                    <div class="overlay-bottom">
+                                        <div class="text">
+                                            <p class="lead margin-clear text-left mobile-visible">Graduation</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="body padding-horizontal-clear">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipis elit. Aliquam atque ipsam nihil dood truck quinoa.</p>
+                                    <a class="link-dark" href="page-services.html">Read More<i class="pl-1 fa fa-angle-double-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="image-box style-2">
+                                <div class="overlay-container overlay-visible">
+                                    <img src="~/Content/images/education-2.jpg" alt="">
+                                    <a href="#" class="overlay-link"><i class="fa fa-link"></i></a>
+                                    <div class="overlay-bottom">
+                                        <div class="text">
+                                            <p class="lead margin-clear text-left mobile-visible">A success story</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="body padding-horizontal-clear">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipis elit. Aliquam atque ipsam nihil dood truck quinoa.</p>
+                                    <a class="link-dark" href="page-services.html">Read More<i class="pl-1 fa fa-angle-double-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="image-box style-2">
+                                <div class="overlay-container overlay-visible">
+                                    <img src="~/Content/images/education-3.jpg" alt="">
+                                    <a href="#" class="overlay-link"><i class="fa fa-link"></i></a>
+                                    <div class="overlay-bottom">
+                                        <div class="text">
+                                            <p class="lead margin-clear text-left mobile-visible">Lorem Ipsum sit amt</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="body padding-horizontal-clear">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipis elit. Aliquam atque ipsam nihil dood truck quinoa.</p>
+                                    <a class="link-dark" href="page-services.html">Read More<i class="pl-1 fa fa-angle-double-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                *@
+            </div>
+        </div>
+    </section>
+    <!-- section end -->
+
+
+<script>
+    $(function () {
+        $('#PopularCoursesContainer').slick({
+            arrows: false,
+            speed: 10000,
+            autoplay: true,
+            autoplaySpeed: 0,
+            cssEase: 'linear',
+            slidesToShow: 4,
+            slidesToScroll: 4,
+            pauseOnHover: true
+            //variableWidth: true
+
+        });
+    });
+    /*
+    $("*[dir='ltr'] .slick-carousel.carousel-autoplay").slick({
+        arrows: false,
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        responsive: [
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 4
+                }
+            },
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 4
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            },
+            {
+                breakpoint: 575,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            }
+        ]
+    });
+    */
+</script>

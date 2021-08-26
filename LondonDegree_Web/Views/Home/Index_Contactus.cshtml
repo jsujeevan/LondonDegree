@@ -1,0 +1,150 @@
+﻿@model LondonDegree_Web.Models.ContactUsModel
+@using LondonDegree_Web.Models
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Home")">Home</a></li>
+            <li class="breadcrumb-item active">Contact us</li>
+        </ol>
+    </div>
+</div>
+
+<!-- banner start -->
+<!-- ================ -->
+<div id="collapseMap" class="banner collapse">
+    <!-- google map start -->
+    <!-- ================ -->
+    <div id="map-canvas"></div>
+    <!-- google maps end -->
+</div>
+<!-- banner end -->
+<!-- main-container start -->
+<!-- ================ -->
+<section class="main-container">
+    <div class="container">
+        <div class="row">
+            <!-- main start -->
+            <!-- ================ -->
+            <div class="main col-lg-8">
+                <!-- page-title start -->
+                <!-- ================ -->
+                <h1 class="page-title"><i class="fa fa-phone-square">&nbsp;Contact us</i></h1>
+                <div class="separator-2"></div>
+                <!-- page-title end -->
+                <p>Our office is situated opposite to Eastcote tube station ( Metropolitan line & Piccadilly line) in the west London. If you would like to make an appointment to visit us, or if you would like to find out more about how www.londondegree.co.uk could support you, please call us onTel: +44 (0) 2033725591</p>
+                <p>Alternatively, fill out our enquiry form below and we will contact you as soon as possible</p>
+                @*
+                <div class="contact-form">
+                    @if (ViewData.ContainsKey("Message"))
+                    {
+                        <div class="alert alert-success" role="alert">@ViewData["Message"].ToString()</div>
+                    }
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger" role="alert">@Html.ValidationSummary()</div>
+                    }
+
+                    @using (Html.BeginForm("Index_Contactus", "Home", FormMethod.Post, new { id = "addForm" }))
+                    {
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="pull-right"><i class="fa fa-square mandotory_field_label"></i> Mandatory</div>
+							</div>
+						</div>
+
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    <label>Firstname</label>
+                                    <input id="Person_FirstName_s" name="Person_FirstName_s" type="text" value="@Model.Person_FirstName_s" class="form-control mandotory_field">
+                                    <i class="fa fa-user form-control-feedback"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    <label>Lastname</label>
+                                    <input id="Person_LastName_s" name="Person_LastName_s" type="text" value="@Model.Person_LastName_s" class="form-control mandotory_field">
+                                    <i class="fa fa-user form-control-feedback"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    <label>Email</label>
+                                    <input id="Person_Email_s" name="Person_Email_s" type="text" value="@Model.Person_Email_s" class="form-control mandotory_field">
+                                    <i class="fa fa-envelope form-control-feedback"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    <label>Phone(Mobile)</label>
+                                    <input id="Person_TelMobile_s" name="Person_TelMobile_s" type="text" value="@Model.Person_TelMobile_s" class="form-control mandotory_field">
+                                    <i class="fa fa-phone form-control-feedback"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="form-group has-feedback">
+                                    <label>Subject</label>
+                                    <input id="Subject_s" name="Subject_s" type="text" value="@Model.Subject_s" class="form-control mandotory_field">
+                                    <i class="fa fa-pencil form-control-feedback"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="form-group has-feedback">
+                                    <label for="exampleTextarea">Message</label>
+                                    <textarea class="form-control mandotory_field" id="Message_s" name="Message_s" rows="5">@Model.Message_s</textarea>
+                                    <i class="fa fa-pencil form-control-feedback"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-default btn-sm btn-animated">Submit<i class="pl-1 fa fa-save"></i></button>
+                    }
+                </div>
+                *@
+            </div>
+            <!-- main end -->
+            <!-- sidebar start -->
+            <!-- ================ -->
+            <aside class="col-lg-4 col-xl-3 ml-xl-auto">
+                <div class="sidebar">
+                    <div class="block clearfix">
+                        <h3 class="title">Find us</h3>
+                        <div class="separator-2"></div>
+                        <ul class="list">
+                            <li>
+                                <i class="fa fa-home pr-10"></i>LondonDegree.co.uk<br>
+                                <span class="pl-20">Ferrari House</span><br>
+                                <span class="pl-20">258 Field End Road</span><br>
+                                <span class="pl-20">Ruislip</span><br>
+                                <span class="pl-20">Middlesex, HA4 9UU</span>
+                            </li>
+                            <li><i class="fa fa-phone pr-10"></i> +44 (0) 2033725591</li>
+                            <li><i class="fa fa-whatsapp pr-10 pl-1"></i> +44 (0) 7847612110</li>
+                            <li><i class="fa fa-envelope pr-10"></i><a href="mailto:info@londondegree.co.uk">info@londondegree.co.uk</a></li>
+                        </ul>
+                        '@*<a class="btn btn-gray collapsed map-show btn-animated" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap">Show Map <i class="fa fa-plus"></i></a>*@
+                    </div>
+                </div>
+                <div class="sidebar">
+                    <div class="block clearfix">
+                        <h2 class="title">Follow Us</h2>
+                        <div class="separator-2"></div>
+                        <ul class="social-links circle small colored clearfix margin-clear animated-effect-1">
+                            <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+            <!-- sidebar end -->
+        </div>
+    </div>
+</section>
+

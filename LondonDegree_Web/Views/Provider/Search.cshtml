@@ -1,0 +1,169 @@
+﻿@using LondonDegree_Web.Models
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Dashboard")">Home</a></li>
+            <li class="breadcrumb-item active"> Provider (Search)</li>
+        </ol>
+    </div>
+</div>
+
+<section class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-search pr-2"></i>Search</div>
+                        <div class="panel-body">
+                            <form id="searchForm">
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group has-feedback">
+                                            <label>Provider</label>
+                                            <input id="Provider_s" name="Provider_s" type="text" class="form-control">
+                                            <i class="fa fa-bank form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-feedback">
+                                            <label>Address Line 1</label>
+                                            <input id="Provider_AddressLine1_s" name="Provider_AddressLine1_s" type="text" class="form-control">
+                                            <i class="fa fa-home form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-4">
+                                        <div class="form-group has-feedback">
+                                            <label>Town</label>
+                                            <input id="Provider_Town_s" name="Provider_Town_s" type="text" class="form-control">
+                                            <i class="fa fa-home form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group has-feedback">
+                                            <label>City</label>
+                                            <input id="Provider_County_s" name="Provider_County_s" type="text" class="form-control">
+                                            <i class="fa fa-home form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group has-feedback">
+                                            <label>Postcode</label>
+                                            <input id="Provider_Postcode_s" name="Provider_Postcode_s" type="text" class="form-control">
+                                            <i class="fa fa-home form-control-feedback"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="pull-right">
+                                            <button type="submit" class="btn btn-default btn-sm btn-animated">Search<i class="pl-1 fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="clear-both"></div>
+
+                            <div id="Data">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="ajaxloader">
+                        <img src='@Url.Content("~/Content/images/ui-anim_basic_16x16.gif")' />
+                    </div>
+                    <div id="Data">
+                    </div>
+                </div>
+            </div>
+
+        *@
+
+    </div>
+</section>
+
+
+<script>
+    $(function () {
+
+        //var targetDataGrid;
+
+        $("#searchForm").submit(function (e) {
+            e.preventDefault();
+            var dataToBeSent = $("#searchForm").serialize();
+            var actionUrl = '@Url.Action("Search", "Provider")';
+            $('#ajaxloader').show();
+            $.post(actionUrl, dataToBeSent, function (data, status) {
+                $('#ajaxloader').hide();
+                displayData(data)
+            }, "json");
+            $("#Data").show();
+            $('html, body').animate({
+                scrollTop: $("#Data").offset().top - 10
+            }, 'slow');
+        });
+
+        $("input").keypress(function(event) {
+            if (event.which == 13) {
+                event.preventDefault();
+                $("#searchForm").submit();
+            }
+        });
+
+    });
+
+</script>
+
+
+
+
+<script>
+    function displayData(data) {
+            $('#Data').html('<table class="table table-colored table-striped table-bordered" style="width:100%" id="providerSearchResults"></table>');
+
+
+        $('#providerSearchResults').DataTable({
+            "responsive": true,
+            "order": [1, "asc"],
+            "data": data,
+            "columns": [
+                { "data": "PK_Provider_ID_gu", title: "Provider ID", "visible": false },
+                {
+                    "data": "Provider_s", title: "Provider",
+                    "render": function (data, type, full, meta) {
+                        return '<a href=\'@Url.Action("Index", "Provider")?provider=' + full.PK_Provider_ID_gu + '\'>' + data + '</a>'
+                    }
+                },
+                { "data": "Provider_AddressLine1_s", title: "Address Line 1" },
+                {
+                    "data": "Provider_Town_s", title: "Town"
+                },
+                { "data": "Provider_County_s", title: "County" },
+                { "data": "Provider_Postcode_s", title: "Postcode" }
+            ]
+
+        });
+        }
+
+
+    $(document).ready(function () {
+        $("#DisplayWarning").empty();
+        $("#DisplayWarning").hide();
+        $('#ajaxloader').hide();
+        $("#Data").hide();
+        //clear_form_elements("searchForm");
+    });
+
+
+
+</script>

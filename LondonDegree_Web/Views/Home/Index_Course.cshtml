@@ -1,0 +1,140 @@
+﻿@model LondonDegree_Web.Models.CourseModel
+@using LondonDegree_Web.Models
+
+@{ 
+
+}
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Home")">Home</a></li>
+            <li class="breadcrumb-item active">Courses</li>
+            <li class="breadcrumb-item active">@Model.Course_Name_s</li>
+        </ol>
+    </div>
+</div>
+
+<!-- main-container start -->
+<!-- ================ -->
+<section class="main-container">
+    <div class="container">
+        <div class="row">
+            <!-- main start -->
+            <!-- ================ -->
+            <div class="main col-lg-8">
+                <!-- page-title start -->
+                <!-- ================ -->
+                <h1 class="page-title"><i class="fa fa-graduation-cap">&nbsp;@Model.Course_Name_s</i></h1>
+                <!-- page-title end -->
+                <!-- blogpost start -->
+                <!-- ================ -->
+                <article class="blogpost full">
+                    <div class="blogpost-content">
+                            <div id="Introduction">
+                                <h3 class="my-4">Introduction</h3>
+                                @Html.Raw(Model.Course_Introduction_s)
+                            </div>
+                        @if (!string.IsNullOrEmpty(Model.Course_Structure_s))
+                        {
+                            <div id="CourseStructure">
+                                <h3 class="my-4">Course Structure</h3>
+                                @Html.Raw(Model.Course_Structure_s)
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Course_PricesAndDates_s))
+                        {
+                            <div id="PricesAndDates">
+                                <h3 class="my-4">Prices and Dates</h3>
+                                @Html.Raw(Model.Course_PricesAndDates_s)
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Course_HowToApply_s))
+                        {
+                            <div id="HowToApply">
+                                <h3 class="my-4">How to Apply</h3>
+                                @Html.Raw(Model.Course_HowToApply_s)
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Course_OtherDetails_s))
+                        {
+                            <div id="OtherDetails">
+                                <h3 class="my-4">Other Details</h3>
+                                @Html.Raw(Model.Course_OtherDetails_s)
+                            </div>
+                        }
+                    </div>
+
+                    @*
+                        <footer class="clearfix">
+                            <div class="tags pull-left"><i class="fa fa-tags pr-1"></i> <a href="#">tag 1</a>, <a href="#">tag 2</a>, <a href="#">long tag 3</a></div>
+                            <div class="link pull-right">
+                                <ul class="social-links circle small colored clearfix margin-clear text-right animated-effect-1">
+                                    <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li class="googleplus"><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                    <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                </ul>
+                            </div>
+                        </footer>
+                    *@
+                </article>
+                <!-- blogpost end -->
+            </div>
+            <!-- main end -->
+            <!-- sidebar start -->
+            <!-- ================ -->
+            <aside class="col-lg-4 col-xl-3 ml-xl-auto">
+                <div class="sidebar">
+                    <div class="block clearfix">
+                        <div class="separator-2"></div>
+                        <ul class="list">
+                            @if (!Model.Course_Provider_Hidden_z) {
+                                <li><i class="fa fa-bank pr-10"></i>@Model.Provider_s</li>
+                            }
+                            else
+                            {
+                                <li><i class="fa fa-bank pr-10"></i>Call us for details</li>
+                            }
+                            <li><i class="fa fa-phone pr-10"></i>01112223331</li>
+                            <li><i class="fa fa-asterisk pr-10"></i><b>Category:</b> @Model.CourseCategory_s</li>
+                            <li><i class="fa fa-graduation-cap pr-10"></i><b>Level:</b> @Model.CourseLevel_s</li>
+                        </ul>
+                    </div>
+                    <div class="block clearfix">
+                        <div class="separator-2"></div>
+                        <nav>
+                            <ul class="nav flex-column">
+                                <li class="nav-item"><a class="nav-link" href="#Introduction">Introduction</a></li>
+                                @if(!string.IsNullOrEmpty(Model.Course_Structure_s)){
+                                    <li class="nav-item"><a class="nav-link" href="#CourseStructure">Course Structure</a></li>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.Course_PricesAndDates_s))
+                                {
+                                    <li class="nav-item"><a class="nav-link" href="#PricesAndDates">Prices and Dates</a></li>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.Course_HowToApply_s))
+                                {
+                                    <li class="nav-item"><a class="nav-link" href="#HowToApply">How To Apply</a></li>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.Course_OtherDetails_s))
+                                {
+                                     <li class="nav-item"><a class="nav-link" href="#OtherDetails">Other Details</a></li>
+                                }
+                            </ul>
+                        </nav>
+                    </div>
+                    @*
+                    <div class="block clearfix">
+                        <div class="separator-2"></div>
+                        <div class="overlay-container overlay-visible">
+                            <img src="~/Content/images/portfolio-4.jpg" alt="">
+                        </div>
+                    </div>
+                        *@
+                </div>
+            </aside>
+            <!-- sidebar end -->
+        </div>
+    </div>
+</section>
+<!-- main-container end -->

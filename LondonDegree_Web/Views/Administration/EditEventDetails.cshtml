@@ -1,0 +1,118 @@
+﻿@model LondonDegree_Web.Models.EventModel
+@using LondonDegree_Web.Models
+
+@{
+
+    Layout = null;
+
+
+}
+
+<div class="row">
+    <div class="col-md-12" id="validationAreaSuccess" style="display:none;">
+        <p class="alert alert-success"><i class="fa fa-check"></i> Saved succesfully!</p>
+    </div>
+
+    <div class="col-md-12" id="validationAreaError" style="margin-top:10px; display:none;">
+        <p class="alert alert-danger"><i class="fa fa-times"></i> <span id="errorMessage">Error saving record</span></p>
+    </div>
+</div>
+
+@using (Html.BeginForm("EditEventDetails", "Administration", FormMethod.Post, new { id = "EventDetails_Frm_Edit" }))
+{
+    <input id="PK_Event_ID_gu" name="PK_Event_ID_gu" value="@Model.PK_Event_ID_gu" type="hidden" />
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="pull-right"><i class="fa fa-square mandotory_field_label"></i> Mandatory</div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="form-group has-feedback">
+                <label>Title</label>
+                <input id="Event_Title_s" name="Event_Title_s" type="text" value="@Model.Event_Title_s" class="form-control mandotory_field">
+                <i class="fa fa-user form-control-feedback"></i>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group has-feedback">
+                <label>Event Date</label>
+                <input id="Event_Date_d" name="Event_Date_d" type="text" value="@Model.Event_Date_d.ToString("dd'/'MM'/'yyyy")" class="form-control mandotory_field">
+                <i class="fa fa-user form-control-feedback"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="Introduction">Description</label>
+                <textarea class="form-control mandotory_field" id="Event_Description_s" name="Event_Description_s" rows="3">@Model.Event_Description_s</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Introduction">Location</label>
+                <textarea class="form-control mandotory_field" id="Event_Location_s" name="Event_Location_s" rows="3">@Model.Event_Location_s</textarea>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Introduction">Target Audience</label>
+                <textarea class="form-control mandotory_field" id="Event_TargetAudience_s" name="Event_TargetAudience_s" rows="3">@Model.Event_TargetAudience_s</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="pull-right">
+        <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Close</button>
+        <button id="BasicDetails_Btn_Save" type="submit" class="btn btn-sm btn-default">Save</button>
+    </div>
+}
+
+<script>
+
+
+    $(function () {
+        $("#Event_Date_d").datepicker({ changeMonth: true, changeYear: true, dateFormat: "dd/mm/yy" });
+    });
+
+        $("#EventDetails_Frm_Edit").submit(function (e) {
+            var url = "@Url.Action("EditEventDetails", "Administration")";
+            $('#validationAreaSaved').hide();
+            $('#validationAreaError').hide();
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $("#EventDetails_Frm_Edit").serialize(),
+                success: function (data) {
+                    window.location.href = '@Url.Action("Index_Event", "Administration")?eventid=' + data;
+                    $('#EventDetailsEditModal').modal('hide');
+                    $('.modal-backdrop').hide();
+                    $('body').removeClass("modal-open");
+                },
+                error: function (request, status, error) {
+                    if (error == 'See Other') {
+                        $('#errorMessage').html(request.responseText);
+                        $('#validationAreaError').show();
+                    } else {
+                        var json = $.parseJSON(request.responseText);
+                        var param = json.Reference;
+                        var url = '@Url.Action("Error", "Home", new { error = "__param__" })';
+                        window.location.href = url.replace('__param__', param);
+                    }
+                }
+            });
+
+            e.preventDefault();
+         });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#modal-title-@ViewData["modalDialog"].ToString()').html("@ViewData["mainHeading"].ToString()");
+    });
+</script>

@@ -1,0 +1,120 @@
+﻿@model LondonDegree_Web.Models.PersonEnquiryModel
+@using LondonDegree_Web.Models
+
+@{
+
+    Layout = null;
+
+    string vl_selected_s = "";
+    List<PersonEnquiryStatusModel> vl_statusList_o = null;
+    vl_statusList_o = (List<PersonEnquiryStatusModel>)ViewData["StatusList"];
+
+}
+
+<div class="row">
+    <div class="col-md-12" id="validationAreaSuccess" style="display:none;">
+        <p class="alert alert-success"><i class="fa fa-check"></i> Saved succesfully!</p>
+    </div>
+
+    <div class="col-md-12" id="validationAreaError" style="margin-top:10px; display:none;">
+        <p class="alert alert-danger"><i class="fa fa-times"></i> <span id="errorMessage">Error saving record</span></p>
+    </div>
+</div>
+
+@using (Html.BeginForm("EditEnquiryDetails", "Administration", FormMethod.Post, new { id = "EnquiryDetails_Frm_Edit" }))
+{
+    <input id="PK_PersonEnquiry_ID_gu" name="PK_PersonEnquiry_ID_gu" value="@Model.PK_PersonEnquiry_ID_gu" type="hidden" />
+    <input id="FK_Person_ID_gu" name="FK_Person_ID_gu" value="@Model.FK_Person_ID_gu" type="hidden" />
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="pull-right"><i class="fa fa-square mandotory_field_label"></i> Mandatory</div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="form-group has-feedback">
+                <label>Enquiry</label>
+                <input id="PersonEnquiry_s" name="PersonEnquiry_s" type="text" value="@Model.PersonEnquiry_s" class="form-control mandotory_field">
+                <i class="fa fa-user form-control-feedback"></i>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Status</label>
+                <select class="form-control mandotory_field" id="FK_PersonEnquiryStatus_ID_i" name="FK_PersonEnquiryStatus_ID_i">
+                    <option value="0"></option>
+                    @foreach (var in_status_o in vl_statusList_o)
+                    {
+                        vl_selected_s = "";
+                        if (Model.FK_PersonEnquiryStatus_ID_i == in_status_o.PK_PersonEnquiryStatus_ID_i)
+                        {
+                            vl_selected_s = "selected";
+                        }
+                        <option value="@in_status_o.PK_PersonEnquiryStatus_ID_i" @vl_selected_s>@in_status_o.PersonEnquiryStatus_s</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Person</label>
+                <input id="Person_s" name="Person_s" type="text" value="@string.Concat(Model.Person_FirstName_s," ", Model.Person_LastName_s)" readonly class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="Introduction">Message</label>
+                <textarea class="form-control mandotory_field" id="PersonEnquiry_Message_s" name="PersonEnquiry_Message_s" rows="3">@Model.PersonEnquiry_Message_s</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="pull-right">
+        <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Close</button>
+        <button id="BasicDetails_Btn_Save" type="submit" class="btn btn-sm btn-default">Save</button>
+    </div>
+}
+
+<script>
+        $("#EnquiryDetails_Frm_Edit").submit(function (e) {
+            var url = "@Url.Action("EditEnquiryDetails", "Administration")";
+            $('#validationAreaSaved').hide();
+            $('#validationAreaError').hide();
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $("#EnquiryDetails_Frm_Edit").serialize(),
+                success: function (data) {
+                    window.location.href = '@Url.Action("Index_Enquiry", "Administration")?enquiry=' + data;
+                    $('#EnquiryDetailsEditModal').modal('hide');
+                    $('.modal-backdrop').hide();
+                    $('body').removeClass("modal-open");
+                },
+                error: function (request, status, error) {
+                    if (error == 'See Other') {
+                        $('#errorMessage').html(request.responseText);
+                        $('#validationAreaError').show();
+                    } else {
+                        var json = $.parseJSON(request.responseText);
+                        var param = json.Reference;
+                        var url = '@Url.Action("Error", "Home", new { error = "__param__" })';
+                        window.location.href = url.replace('__param__', param);
+                    }
+                }
+            });
+
+            e.preventDefault();
+         });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#modal-title-@ViewData["modalDialog"].ToString()').html("@ViewData["mainHeading"].ToString()");
+    });
+</script>

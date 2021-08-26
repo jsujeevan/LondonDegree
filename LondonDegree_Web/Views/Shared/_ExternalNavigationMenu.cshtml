@@ -1,0 +1,208 @@
+﻿        <!-- header-container start -->
+<div class="header-container">
+    <!-- header-top start -->
+    <!-- classes:  -->
+    <!-- "dark": dark version of header top e.g. class="header-top dark" -->
+    <!-- "colored": colored version of header top e.g. class="header-top colored" -->
+    <!-- ================ -->
+    <div class="header-top colored">
+        <div class="container">
+            <div class="row">
+                <div class="col-3 col-sm-6 col-lg-9">
+                    <!-- header-top-first start -->
+                    <!-- ================ -->
+                    <div class="header-top-first clearfix">
+                        <ul class="social-links circle small clearfix hidden-sm-down">
+                            <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        </ul>
+                        <div class="social-links hidden-md-up circle small">
+                            <div class="btn-group dropdown">
+                                <button id="header-top-drop-1" type="button" class="btn dropdown-toggle dropdown-toggle--no-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share-alt"></i></button>
+                                <ul class="dropdown-menu dropdown-animation" aria-labelledby="header-top-drop-1">
+                                    <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <ul class="list-inline hidden-md-down">
+                            @*
+                                <li class="list-inline-item"><i class="fa fa-map-marker pr-1 pl-2"></i>One Infinity Loop Av, Tk 123456</li>
+                                <li class="list-inline-item"><i class="fa fa-phone pr-1 pl-2"></i>+12 123 123 123</li>
+                                <li class="list-inline-item"><i class="fa fa-envelope-o pr-1 pl-2"></i> theproject@mail.com</li>
+                            *@
+                        </ul>
+                    </div>
+                    <!-- header-top-first end -->
+                </div>
+                <div class="col-9 col-sm-6 col-lg-3">
+                    <!-- header-top-second start -->
+                    <!-- ================ -->
+                    <div id="header-top-second" class="clearfix">
+                        <!-- header top dropdowns start -->
+                        <!-- ================ -->
+                        <div class="header-top-dropdown text-right">
+                            @*
+                            <div class="btn-group">
+                                <a href="@Url.Action("Signup","Home")" class="btn btn-default btn-sm"><i class="fa fa-user pr-2"></i> Sign Up</a>
+                            </div>
+                                *@
+                            <div class="btn-group">
+                                <button id="header-top-drop-2" type="button" class="btn dropdown-toggle btn-default btn-sm dropdown-toggle--no-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-lock pr-2"></i> Login</button>
+                                <ul class="dropdown-menu dropdown-menu-right dropdown-animation" aria-labelledby="header-top-drop-2">
+                                    <li>
+                                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login-form margin-clear", role = "form" }))
+    {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    @*<form class="login-form margin-clear">*@
+                                    <div class="form-group has-feedback">
+                                        <label class="control-label">Username</label>
+                                        <input name="Email" type="text" class="form-control" placeholder="">
+                                        <i class="fa fa-user form-control-feedback"></i>
+                                    </div>
+                                    <div class="form-group has-feedback">
+                                        <label class="control-label">Password</label>
+                                        <input name="Password" type="password" class="form-control" placeholder="">
+                                        <i class="fa fa-lock form-control-feedback"></i>
+                                    </div>
+                                    <div class="pull-right">
+                                        <button type="submit" class="btn btn-gray btn-sm">Log In</button>
+                                    </div>
+                                    @*
+                                        <span class="pl-1 pr-1">or</span>
+                                        <button type="submit" class="btn btn-default btn-sm">Sing Up</button>
+                                    *@
+                                    <ul>
+                                        <li><a href="@Url.Action("ForgotPassword","Account")">Forgot password?</a></li>
+                                    </ul>
+                                    @*
+    <span class="text-center">Login with</span>
+    <ul class="social-links circle small colored clearfix">
+        <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+        <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+        <li class="googleplus"><a href="#"><i class="fa fa-google-plus"></i></a></li>
+    </ul>
+                                    *@
+                                    @*</form>*@
+}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--  header top dropdowns end -->
+                    </div>
+                    <!-- header-top-second end -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header-top end -->
+    <!-- header start -->
+    <!-- classes:  -->
+    <!-- "fixed": enables fixed navigation mode (sticky menu) e.g. class="header fixed clearfix" -->
+    <!-- "fixed-desktop": enables fixed navigation only for desktop devices e.g. class="header fixed fixed-desktop clearfix" -->
+    <!-- "fixed-all": enables fixed navigation only for all devices desktop and mobile e.g. class="header fixed fixed-desktop clearfix" -->
+    <!-- "dark": dark version of header e.g. class="header dark clearfix" -->
+    <!-- "centered": mandatory class for the centered logo layout -->
+    <!-- ================ -->
+    <header class="header fixed fixed-desktop clearfix">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-auto hidden-md-down pl-3">
+                    <!-- header-first start -->
+                    <!-- ================ -->
+                    <div class="header-first clearfix hidden-md-down">
+                        <div id="logo" class="logo mt-2">
+                            <a href="#"><img id="logo_img" src="~/Content/images/Logo_LondonDegree.png" alt="LondonDegree.co.uk"></a>
+                        </div>
+
+                    </div>
+                    <!-- header-first end -->
+                </div>
+                <div class="col-lg-8 ml-lg-auto">
+                    <!-- header-second start -->
+                    <!-- ================ -->
+                    <div class="header-second clearfix">
+
+                        <!-- main-navigation start -->
+                        <!-- classes: -->
+                        <!-- "onclick": Makes the dropdowns open on click, this the default bootstrap behavior e.g. class="main-navigation onclick" -->
+                        <!-- "animated": Enables animations on dropdowns opening e.g. class="main-navigation animated" -->
+                        <!-- ================ -->
+                        <div class="main-navigation main-navigation--mega-menu  animated">
+                            <nav class="navbar navbar-expand-lg navbar-light p-0">
+                                <div class="navbar-brand clearfix hidden-lg-up">
+                                    <!-- logo -->
+                                    <div id="logo-mobile" class="logo">
+                                        <a href="#"><img id="logo-img-mobile" src="~/Content/images/Logo_LondonDegree.png" alt="LondonDegree.co.uk"></a>
+                                    </div>
+                                    <!-- name-and-slogan -->
+                                    <div class="site-slogan">
+                                        
+                                    </div>
+                                </div>
+
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-1" aria-controls="navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                                    <!-- main-menu -->
+                                    <ul class="navbar-nav ml-xl-auto">
+                                        <!-- mega-menu start -->
+                                        <li class="nav-item dropdown active">
+                                            <a href="@Url.Action("Index","Home")" class="nav-link"><i class="fa fa-home">&nbsp;Home</i></a>
+                                        </li>
+                                        @*
+                                            <li class="nav-item dropdown ">
+                                                <a href="" class="nav-link dropdown-toggle" id="service-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-address-card"></i>&nbsp;Admission Services</a>
+                                                <ul class="dropdown-menu" aria-labelledby="service-dropdown">
+                                                    <li><a href="@Url.Action("Index_Services","Home")">Service 1</a></li>
+                                                    <li><a href="@Url.Action("Index_Services","Home")">Service 2</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="nav-item dropdown ">
+                                                <a href="index-shop.html" class="nav-link dropdown-toggle" id="course-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-certificate"></i>&nbsp;Courses</a>
+                                                <ul class="dropdown-menu" aria-labelledby="course-dropdown">
+                                                    <li><a href="@Url.Action("Index_Courses","Home")">International</a></li>
+                                                    <li><a href="@Url.Action("Index_Courses","Home")">UK</a></li>
+                                                    <li><a href="@Url.Action("Index_Courses","Home")">Online</a></li>
+                                                </ul>
+                                            </li>
+                                        *@
+
+                                        <li class="nav-item dropdown ">
+                                            <a href="@Url.Action("Index_Services","Home")" class="nav-link"><i class="fa fa-briefcase">&nbsp;Admission services</i></a>
+                                        </li>
+                                        <li class="nav-item dropdown ">
+                                            @*<a href="@Url.Action("Index_Courses","Home")" class="nav-link"><i class="fa fa-graduation-cap">&nbsp;Courses</i></a>*@
+                                            <a href="" class="nav-link dropdown-toggle" id="course-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-graduation-cap">&nbsp;Courses</i></a>
+                                            <ul class="dropdown-menu" aria-labelledby="course-dropdown">
+                                                @*<li><a href="@Url.Action("Index_Courses_ByCategory","Home")">Courses by category</a></li>*@
+                                                <li><a href="@Url.Action("Index_Courses_ByLevel","Home")">Courses by level</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <!-- mega-menu start -->
+                                        <li class="nav-item dropdown ">
+                                            <a href="@Url.Action("Index_Aboutus","Home")" class="nav-link"><i class="fa fa-address-card">&nbsp;About us</i></a>
+                                        </li>
+                                        <!-- mega-menu end -->
+                                        <li class="nav-item dropdown ">
+                                            <a href="@Url.Action("Index_Contactus","Home")" class="nav-link"><i class="fa fa-phone-square">&nbsp;Contact us</i></a>
+                                        </li>
+                                    </ul>
+                                    <!-- main-menu end -->
+                                </div>
+                            </nav>
+                        </div>
+                        <!-- main-navigation end -->
+                    </div>
+                    <!-- header-second end -->
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header end -->
+</div>
+<!-- header-container end -->

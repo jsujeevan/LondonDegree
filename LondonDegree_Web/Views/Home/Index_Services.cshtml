@@ -1,0 +1,76 @@
+﻿@using LondonDegree_Web.Models
+@{
+    int vl_count_i = 0;
+    List<ServiceModel> vl_serviceList_o = new List<ServiceModel>();
+    vl_serviceList_o = (List<ServiceModel>)ViewData["ServiceList"];
+}
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Home")">Home</a></li>
+            <li class="breadcrumb-item active">Admission services</li>
+        </ol>
+    </div>
+</div>
+
+<!-- main-container start -->
+<!-- ================ -->
+<section class="main-container border-clear light-gray-bg padding-bottom-clear">
+    <div class="container">
+        <div class="row">
+            <!-- main start -->
+            <!-- ================ -->
+            <div class="main col-12">
+                <!-- page-title start -->
+                <!-- ================ -->
+                <h1 class="page-title"><i class="fa fa-briefcase">&nbsp;Admission Services</i></h1>
+                <div class="separator-2"></div>
+
+                @{
+                    int vl_remainder_i = 0;
+                    //List<string> vl_eventsImages_o = new List<string> { "/Content/images/service-1.jpg", "/Content/images/service-2.jpg", "/Content/images/service-3.jpg", "/Content/images/service-1.jpg", "/Content/images/service-2.jpg", "/Content/images/service-3.jpg" };
+                    foreach (ServiceModel vl_service_o in vl_serviceList_o.OrderBy(m => m.Service_Order_i).Take(6))
+                    {
+
+                        if (vl_count_i != 0)
+                        {
+                            vl_remainder_i = vl_count_i % 2;
+                        }
+
+                        if (vl_remainder_i == 0)
+                        {
+                            @Html.Raw("<div class=\"row\">")
+                        }
+                        <div class="col-md-6">
+                            <div class="image-box style-2 mb-20">
+                                <div class="overlay-container overlay-visible">
+                                    <img src="@vl_service_o.Service_Image_s" alt="">
+                                    <a href="@Url.Action("Index_Service","Home", new { service = vl_service_o.PK_Service_ID_gu })" class="overlay-link"><i class="fa fa-link"></i></a>
+                                    <div class="overlay-bottom hidden-sm-down">
+                                        <div class="text">
+                                            <p class="lead margin-clear text-left">@vl_service_o.Service_Title_s</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="body padding-horizontal-clear">
+                                    <p>@Html.Raw(vl_service_o.Service_Introduction_s)</p>
+                                    <a class="btn radius-50 btn-default btn-sm btn-animated" href="@Url.Action("Index_Service","Home", new { service = vl_service_o.PK_Service_ID_gu })">Read More<i class="pl-1 fa fa-angle-double-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        if (vl_remainder_i == 1 || (vl_serviceList_o.Count - 1 == vl_count_i))
+                        {
+                            @Html.Raw("</div>")
+                        }
+
+                        vl_count_i = vl_count_i + 1;
+                    }
+                }
+
+            </div>
+            <!-- main end -->
+        </div>
+    </div>
+</section>
+<!-- main-container end -->

@@ -1,0 +1,43 @@
+﻿@model  LondonDegree_Web.Models.ErrorModel
+@using System.Configuration
+
+@{
+    object vl_currentUser_o = HttpContext.Current.Session["ss_UserId_gu"];
+    if (vl_currentUser_o != null)
+    {
+        Layout = "~/Views/Shared/_InternalLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_ExternalLayout.cshtml";
+    }
+
+    string vl_errorReference_s = "";
+    ViewBag.Title = "Error";
+
+    if (Model != null)
+    {
+        vl_errorReference_s = Model.Reference.ToString();
+    }
+
+}
+
+
+<!-- main-container start -->
+<!-- ================ -->
+<section class="main-container light-gray-bg text-center margin-clear">
+    <div class="container">
+        <div class="row justify-content-lg-center">
+            <!-- main start -->
+            <!-- ================ -->
+            <div class="main col-lg-6 pv-40">
+                <h1 class="page-title extra-large"><span class="text-default">500</span></h1>
+                <h2 class="mt-4">Internal Server Error</h2>
+                <p class="lead">An error occurred while processing your request.</p>
+                <p class="lead">Reference - @vl_errorReference_s</p>
+            </div>
+            <!-- main end -->
+        </div>
+    </div>
+</section>
+<!-- main-container end -->

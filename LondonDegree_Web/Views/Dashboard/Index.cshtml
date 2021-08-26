@@ -1,0 +1,200 @@
+﻿@using LondonDegree_Web.Models
+
+@{ 
+    PersonModel vl_personModel_o = null;
+    List<PersonEnquiryModel> vl_personEnquiryList_o = null;
+    List<PersonCourseModel> vl_personCourseList_o = null;
+
+    vl_personModel_o = (PersonModel)ViewData["PersonModel"];
+    vl_personEnquiryList_o = (List<PersonEnquiryModel>)ViewData["EnquiryList"];
+    vl_personCourseList_o = (List<PersonCourseModel>)ViewData["CourseList"];
+
+    int vl_open_i = vl_personEnquiryList_o.Count(m => m.FK_PersonEnquiryStatus_ID_i == 1);
+    int vl_pending_i = vl_personEnquiryList_o.Count(m => m.FK_PersonEnquiryStatus_ID_i == 2);
+    int vl_waitingCustomer_i = vl_personEnquiryList_o.Count(m => m.FK_PersonEnquiryStatus_ID_i == 3);
+    int vl_closed_i = vl_personEnquiryList_o.Count(m => m.FK_PersonEnquiryStatus_ID_i == 4);
+
+    DateTime vl_current_d = DateTime.Now;
+    bool vl_addYear_z = DateTime.Now.Year > vl_current_d.AddMonths(-6).Year ? true : false;
+
+    var vl_currentStart_d = new DateTime(vl_current_d.Year, vl_current_d.Month, 1);
+    var vl_currentEnd_d = vl_currentStart_d.AddMonths(1).AddDays(-1);
+    int vl_currentCount_i = vl_personCourseList_o.Count(m => m.DateOfEnrolment_d >= vl_currentStart_d & m.DateOfEnrolment_d <= vl_currentEnd_d);
+    string vl_currentMonth_s = vl_addYear_z ? vl_current_d.ToString("MMM") + "-" + vl_current_d.Year : vl_current_d.ToString("MMM");
+
+    var vl_previous1Start_d = vl_currentStart_d.AddMonths(-1);
+    var vl_previous1End_d = vl_previous1Start_d.AddMonths(1).AddDays(-1);
+    int vl_previous1Count_i = vl_personCourseList_o.Count(m => m.DateOfEnrolment_d >= vl_previous1Start_d & m.DateOfEnrolment_d <= vl_previous1End_d);
+    string vl_previous1Month_s = vl_addYear_z ? vl_previous1Start_d.ToString("MMM") + "-" + vl_previous1Start_d.Year : vl_previous1Start_d.ToString("MMM");
+
+    var vl_previous2Start_d = vl_currentStart_d.AddMonths(-2);
+    var vl_previous2End_d = vl_previous2Start_d.AddMonths(1).AddDays(-1);
+    int vl_previous2Count_i = vl_personCourseList_o.Count(m => m.DateOfEnrolment_d >= vl_previous2Start_d & m.DateOfEnrolment_d <= vl_previous2End_d);
+    string vl_previous2Month_s = vl_addYear_z ? vl_previous2Start_d.ToString("MMM") + "-" + vl_previous2Start_d.Year : vl_previous2Start_d.ToString("MMM");
+
+    var vl_previous3Start_d = vl_currentStart_d.AddMonths(-3);
+    var vl_previous3End_d = vl_previous3Start_d.AddMonths(1).AddDays(-1);
+    int vl_previous3Count_i = vl_personCourseList_o.Count(m => m.DateOfEnrolment_d >= vl_previous3Start_d & m.DateOfEnrolment_d <= vl_previous3End_d);
+    string vl_previous3Month_s = vl_addYear_z ? vl_previous3Start_d.ToString("MMM") + "-" + vl_previous3Start_d.Year : vl_previous3Start_d.ToString("MMM");
+
+    var vl_previous4Start_d = vl_currentStart_d.AddMonths(-4);
+    var vl_previous4End_d = vl_previous4Start_d.AddMonths(1).AddDays(-1);
+    int vl_previous4Count_i = vl_personCourseList_o.Count(m => m.DateOfEnrolment_d >= vl_previous4Start_d & m.DateOfEnrolment_d <= vl_previous4End_d);
+    string vl_previous4Month_s = vl_addYear_z ? vl_previous4Start_d.ToString("MMM") + "-" + vl_previous4Start_d.Year : vl_previous4Start_d.ToString("MMM");
+
+    var vl_previous5Start_d = vl_currentStart_d.AddMonths(-5);
+    var vl_previous5End_d = vl_previous5Start_d.AddMonths(1).AddDays(-1);
+    int vl_previous5Count_i = vl_personCourseList_o.Count(m => m.DateOfEnrolment_d >= vl_previous5Start_d & m.DateOfEnrolment_d <= vl_previous5End_d);
+    string vl_previous5Month_s = vl_addYear_z ? vl_previous5Start_d.ToString("MMM") + "-" + vl_previous5Start_d.Year : vl_previous5Start_d.ToString("MMM");
+
+    var vl_previous6Start_d = vl_currentStart_d.AddMonths(-6);
+    var vl_previous6End_d = vl_previous6Start_d.AddMonths(1).AddDays(-1);
+    int vl_previous6Count_i = vl_personCourseList_o.Count(m => m.DateOfEnrolment_d >= vl_previous6Start_d & m.DateOfEnrolment_d <= vl_previous6End_d);
+    string vl_previous6Month_s = vl_addYear_z ? vl_previous6Start_d.ToString("MMM") + "-" + vl_previous6Start_d.Year : vl_previous6Start_d.ToString("MMM");
+}
+
+<div class="breadcrumb-container">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home pr-2"></i><a class="link-dark" href="@Url.Action("Index","Dashboard")">Home</a></li>
+            <li class="breadcrumb-item active"> @vl_personModel_o.Person_FirstName_s @vl_personModel_o.Person_LastName_s</li>
+        </ol>
+    </div>
+</div>
+
+<section class="main-container">
+    <div class="container">
+        @*<h3>Dashboard > @vl_personModel_o.Person_FirstName_s @vl_personModel_o.Person_LastName_s</h3>*@
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><i class="fa fa-dashboard pr-2"></i>Dashboard</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h3 class="title">Enquiry</h3>
+                                    <canvas class="graph doughnut" id="EnquiryResolution-graph"></canvas>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h3 class="title">Enrolement</h3>
+                                    <canvas class="graph bar" id="StudentEnrolement-graph"></canvas>
+                                </div>
+                            </div>
+
+                               
+                            </div>
+                    </div>
+                </div>
+            </div>
+            @*
+            <div class="col-lg-6">
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Student Enrolement</div>
+                        <div class="panel-body">
+                            <canvas class="graph bar" id="StudentEnrolement-graph"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                *@
+        </div>
+    </div>
+</section>
+
+<script>
+
+    $(function () {
+        // Data for doughnut chart
+        var doughnutData = {
+            labels: [
+                "Open",
+                "Pending",
+                "Waiting on Customer",
+                "Closed",
+                
+            ],
+            datasets: [
+                {
+                    data: [@vl_open_i, @vl_pending_i, @vl_waitingCustomer_i, @vl_closed_i],
+                    backgroundColor: [
+                        "#FF6384",
+                        "#ff9933",
+                        "#FFCE56",
+                        "#36A2EB",
+                    ],
+                    hoverBackgroundColor: [
+                        "#FF6384",
+                        "#ff9933",
+                        "#FFCE56",
+                        "#36A2EB",
+                    ]
+                }]
+        };
+
+        // Doughnut Chart Initialization
+        var ctx = document.getElementById("EnquiryResolution-graph").getContext("2d");
+        var DoughnutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: doughnutData,
+            responsive: true
+        });
+
+        var barChartData = {
+            labels: ["@vl_previous6Month_s", "@vl_previous5Month_s", "@vl_previous4Month_s", "@vl_previous3Month_s", "@vl_previous2Month_s", "@vl_previous1Month_s", "@vl_currentMonth_s"],
+            datasets: [
+                {
+                    label: "Student Enrolement",
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1,
+                    data: [@vl_previous6Count_i, @vl_previous5Count_i, @vl_previous4Count_i, @vl_previous3Count_i, @vl_previous2Count_i, @vl_previous1Count_i, @vl_currentCount_i],
+                }
+            ]
+        };
+
+        options = {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        userCallback: function (label, index, labels) {
+                            // when the floored value is the same as the value we have a whole number
+                            if (Math.floor(label) === label) {
+                                return label;
+                            }
+
+                        },
+                    }
+                }],
+            },
+        }
+
+        // Bar Charts Initialization
+        var ctx = document.getElementById("StudentEnrolement-graph").getContext("2d");
+        var BarChart = new Chart(ctx, {
+            type: 'bar',
+            data: barChartData,
+            options: options,
+            responsive: true
+        });
+
+    });
+
+
+</script>

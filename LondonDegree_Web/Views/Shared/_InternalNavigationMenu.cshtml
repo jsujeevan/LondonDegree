@@ -1,0 +1,360 @@
+﻿@using LondonDegree_Web.Models
+@using LondonDegree_Web.BO
+@{ 
+    Guid vl_session_gu = Guid.Empty;
+    PersonModel vl_personModel_o = null;
+    List<ObjectModel> vl_userObjectList_o = null;
+    LinkedList<ObjectModel> vl_navigationMenu_o = null;
+
+    Object_BO vl_object_o = new Object_BO();
+    Support_BO vl_support_o = new Support_BO();
+    vl_session_gu = vl_support_o.getCurrentSession();
+    vl_personModel_o = vl_support_o.getCurrentUserObject();
+
+    vl_userObjectList_o = vl_object_o.SearchObjectMenuItemsByRole(vl_personModel_o.FK_PersonRole_ID_i);
+    vl_navigationMenu_o = vl_object_o.GetNavigationMenu(vl_userObjectList_o);
+}
+
+<!-- header-container start -->
+<div class="header-container">
+    <!-- header-top start -->
+    <!-- classes:  -->
+    <!-- "dark": dark version of header top e.g. class="header-top dark" -->
+    <!-- "colored": colored version of header top e.g. class="header-top colored" -->
+    <!-- ================ -->
+    <div class="header-top colored">
+        <div class="container">
+            <div class="row">
+                @*
+        <div class="col-3 col-sm-6 col-lg-9">
+            <!-- header-top-first start -->
+            <!-- ================ -->
+            <div class="header-top-first clearfix">
+                <ul class="social-links circle small clearfix hidden-sm-down">
+                    <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                </ul>
+                <div class="social-links hidden-md-up circle small">
+                    <div class="btn-group dropdown">
+                        <button id="header-top-drop-1" type="button" class="btn dropdown-toggle dropdown-toggle--no-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share-alt"></i></button>
+                        <ul class="dropdown-menu dropdown-animation" aria-labelledby="header-top-drop-1">
+                            <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <ul class="list-inline hidden-md-down">
+
+                </ul>
+            </div>
+            <!-- header-top-first end -->
+        </div>
+        <div class="col-9 col-sm-6 col-lg-3">
+            <!-- header-top-second start -->
+            <!-- ================ -->
+            <div id="header-top-second" class="clearfix">
+                <!-- header top dropdowns start -->
+                <!-- ================ -->
+                <div class="header-top-dropdown text-right">
+                    <div class="btn-group">
+                        <a href="@Url.Action("Signup","Home")" class="btn btn-default btn-sm"><i class="fa fa-user pr-2"></i> Sign Up</a>
+                    </div>
+                    <div class="btn-group">
+                        <button id="header-top-drop-2" type="button" class="btn dropdown-toggle btn-default btn-sm dropdown-toggle--no-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-lock pr-2"></i> Login</button>
+                        <ul class="dropdown-menu dropdown-menu-right dropdown-animation" aria-labelledby="header-top-drop-2">
+                            <li>
+                                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login-form margin-clear", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                    <div class="form-group has-feedback">
+                                        <label class="control-label">Username</label>
+                                        <input name="Email" type="text" class="form-control" placeholder="">
+                                        <i class="fa fa-user form-control-feedback"></i>
+                                    </div>
+                                    <div class="form-group has-feedback">
+                                        <label class="control-label">Password</label>
+                                        <input name="Password" type="password" class="form-control" placeholder="">
+                                        <i class="fa fa-lock form-control-feedback"></i>
+                                    </div>
+                                    <button type="submit" class="btn btn-gray btn-sm">Log In</button>
+                                    <span class="pl-1 pr-1">or</span>
+                                    <button type="submit" class="btn btn-default btn-sm">Sing Up</button>
+                                    <ul>
+                                        <li><a href="#">Forgot your password?</a></li>
+                                    </ul>
+
+                                }
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--  header top dropdowns end -->
+            </div>
+            <!-- header-top-second end -->
+        </div>
+
+
+        <div class="pull-right">
+            <span>Logged in as XYZ@test.com</span>
+        </div>
+                *@
+                <div class="col-12 col-md-5">
+                    <!-- header-top-first start -->
+                    <!-- ================ -->
+                    <ul class="list-inline text-muted hidden-sm-down">
+                        <li class="list-inline-item">
+                            @*<strong class="pl-1">Call Us:</strong> <a href="#">+12 123 123 123</a>*@
+                        </li>
+                    </ul>
+                    <!-- header-top-first end -->
+                </div>
+                <div class="col-12 col-md-7">
+                    <!-- header-top-second start -->
+                    <!-- ================ -->
+                    <div id="header-top-second" class="clearfix text-right">
+                        <ul class="list-inline">
+                            @*<li class="list-inline-item hidden-md-up"><strong class="pl-1">Call Us:</strong> <a href="#">+12 123 123 123</a></li>
+        <li class="list-inline-item">You are logged in as @vl_personModel_o.Person_Email_s <a class="link-dark" href="#"><i class="fa fa-power-off pr-1"></i></a></li>*@
+                            <li>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-gray btn-sm">Logged in as @vl_personModel_o.Person_Email_s</button>
+                                    <button type="button" class="btn btn-gray btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true"  aria-expanded="false">
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        @*<a class="dropdown-item" href="#"><i class="fa fa-cog pr-20"></i> Settings</a>*@
+                                        <a class="dropdown-item border-bottom-clear" href="@Url.Action("MyProfileIndex","Dashboard")"><i class="fa fa-user pr-20"></i> My Profile</a>
+                                        @*<a href="#" class="dropdown-item border-bottom-clear"><i class="fa fa-envelope pr-20"></i> Messages</a>*@
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="@Url.Action("LogOff","Account", new { person = vl_personModel_o.PK_Person_ID_gu, session = vl_session_gu })"><i class="fa fa-sign-out pr-20"></i> Sign Out</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- header-top-second end -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- header-top end -->
+    <!-- header start -->
+    <!-- classes:  -->
+    <!-- "fixed": enables fixed navigation mode (sticky menu) e.g. class="header fixed clearfix" -->
+    <!-- "fixed-desktop": enables fixed navigation only for desktop devices e.g. class="header fixed fixed-desktop clearfix" -->
+    <!-- "fixed-all": enables fixed navigation only for all devices desktop and mobile e.g. class="header fixed fixed-desktop clearfix" -->
+    <!-- "dark": dark version of header e.g. class="header dark clearfix" -->
+    <!-- "centered": mandatory class for the centered logo layout -->
+    <!-- ================ -->
+    <header class="header fixed fixed-desktop clearfix">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-auto hidden-md-down pl-3">
+                    <!-- header-first start -->
+                    <!-- ================ -->
+                    <div class="header-first clearfix hidden-md-down">
+                        <div id="logo" class="logo mt-2">
+                            <a href="#"><img id="logo_img" src="~/Content/images/Logo_LondonDegree.png" alt="LondonDegree.co.uk"></a>
+                        </div>
+
+                    </div>
+                    <!-- header-first end -->
+                </div>
+                <div class="col-lg-8 ml-lg-auto">
+                    <!-- header-second start -->
+                    <!-- ================ -->
+                    <div class="header-second clearfix">
+
+                        <!-- main-navigation start -->
+                        <!-- classes: -->
+                        <!-- "onclick": Makes the dropdowns open on click, this the default bootstrap behavior e.g. class="main-navigation onclick" -->
+                        <!-- "animated": Enables animations on dropdowns opening e.g. class="main-navigation animated" -->
+                        <!-- ================ -->
+                        <div class="main-navigation main-navigation--mega-menu  animated">
+                            <nav class="navbar navbar-expand-lg navbar-light p-0">
+                                <div class="navbar-brand clearfix hidden-lg-up">
+                                    <!-- logo -->
+                                    <div id="logo-mobile" class="logo">
+                                        <a href="#"><img id="logo-img-mobile" src="~/Content/images/Logo_LondonDegree.png" alt="LondonDegree.co.uk"></a>
+                                    </div>
+                                    <!-- name-and-slogan -->
+                                    <div class="site-slogan">
+                                        
+                                    </div>
+                                </div>
+
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-1" aria-controls="navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                                    <!-- main-menu -->
+                                    <ul class="navbar-nav ml-xl-auto">
+
+        @{
+            int vl_counter_i = 0;
+            string vl_active_s = "";
+            bool vl_directChildren_z = false;
+            bool vl_Children_z = false;
+            string vl_menuToLeft_s = "";
+        }
+                                                                                
+        @foreach (ObjectModel in_menuItem_o in vl_navigationMenu_o)
+        {
+            vl_active_s = "";
+            vl_menuToLeft_s = "";
+            vl_directChildren_z = false;
+            if (vl_counter_i==0)
+            {
+                vl_active_s = "active";
+            }
+
+            if (vl_navigationMenu_o.Count() >= 5 && vl_counter_i == (vl_navigationMenu_o.Count()-1))
+            {
+                vl_menuToLeft_s = "to-left";
+            }
+
+            <li class="nav-item dropdown @vl_active_s">
+                @if (in_menuItem_o.Children.Count > 0)
+                {
+                    vl_directChildren_z = true;
+                }
+                 @if (vl_directChildren_z)
+                 {
+                    <a href="" class="nav-link dropdown-toggle" id="@in_menuItem_o.Object_s-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="@in_menuItem_o.Object_Thumbnail_s">&nbsp;@in_menuItem_o.Object_Label_s</i></a>
+                 }
+                 else
+                 {
+                    <a href="@Url.Action(in_menuItem_o.Object_Action_s, in_menuItem_o.Object_Controller_s)" class="nav-link"><i class="@in_menuItem_o.Object_Thumbnail_s">&nbsp;@in_menuItem_o.Object_Label_s</i></a>
+                 }
+
+                @if (vl_directChildren_z)
+                {
+                    <ul class="dropdown-menu" aria-labelledby="@in_menuItem_o.Object_s-dropdown">
+                        @foreach (ObjectModel in_directChild_o in in_menuItem_o.Children)
+                        {
+                            vl_Children_z = false;
+                                if (in_directChild_o.Children.Count > 0)
+                                {
+                                    vl_Children_z = true;
+                                }
+
+                            <li class="dropdown">
+
+                                @if (vl_Children_z)
+                                {
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">@in_directChild_o.Object_Label_s</a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action(in_directChild_o.Object_Action_s, in_directChild_o.Object_Controller_s)">&nbsp;@in_directChild_o.Object_Label_s</a>
+                                }
+
+                                @if (vl_Children_z)
+                                {
+                                    <ul class="dropdown-menu @vl_menuToLeft_s" aria-labelledby="@in_directChild_o.Object_s-dropdown">
+                                        @foreach (ObjectModel in_Child_o in in_directChild_o.Children)
+                                        {
+                                            <li>
+                                                <a href="@Url.Action(in_Child_o.Object_Action_s,in_Child_o.Object_Controller_s)">@in_Child_o.Object_Label_s</a>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                }
+                            </li>
+                        }
+
+                    </ul>
+                }
+
+            </li>
+            vl_counter_i = vl_counter_i + 1;
+        }
+                                                                                @*
+                                        
+                                        <!-- mega-menu start -->
+                                        <li class="nav-item dropdown active">
+                                            <a href="@Url.Action("Index","Dashboard")" class="nav-link"><i class="fa fa-home">&nbsp;Dashboard</i></a>
+                                        </li>
+
+                                        <li class="nav-item dropdown ">
+                                            <a href="" class="nav-link dropdown-toggle" id="people-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user">&nbsp;People</i></a>
+                                            <ul class="dropdown-menu" aria-labelledby="people-dropdown">
+                                                <li><a href="@Url.Action("Search","Person")">Search</a></li>
+                                                <li><a href="@Url.Action("AddNew","Person")">Add New</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-item dropdown ">
+                                            <a href="" class="nav-link dropdown-toggle" id="provider-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bank">&nbsp;Providers</i></a>
+                                            <ul class="dropdown-menu" aria-labelledby="provider-dropdown">
+                                                <li><a href="@Url.Action("Search","Provider")">Search</a></li>
+                                                <li><a href="@Url.Action("AddNew","Provider")">Add New</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-item dropdown ">
+                                            <a href="index-shop.html" class="nav-link dropdown-toggle" id="course-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-graduation-cap">&nbsp;Courses</i></a>
+                                            <ul class="dropdown-menu" aria-labelledby="course-dropdown">
+                                                <li><a href="@Url.Action("Search","Course")">Search</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-item dropdown ">
+                                            <a href="index-shop.html" class="nav-link dropdown-toggle" id="course-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog">&nbsp;Administration</i></a>
+                                            <ul class="dropdown-menu" aria-labelledby="course-dropdown">
+                                                <li class="dropdown ">
+                                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">News</a>
+                                                    <ul class="dropdown-menu to-left">
+                                                        <li><a href="@Url.Action("SearchNews","Administration")">Search</a></li>
+                                                        <li><a href="@Url.Action("AddNewNews","Administration")">Add New</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="dropdown ">
+                                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Events</a>
+                                                    <ul class="dropdown-menu to-left">
+                                                        <li><a href="@Url.Action("SearchEvents","Administration")">Search</a></li>
+                                                        <li><a href="@Url.Action("AddNewEvents","Administration")">Add New</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="dropdown ">
+                                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Enquiries</a>
+                                                    <ul class="dropdown-menu to-left">
+                                                        <li><a href="@Url.Action("SearchEnquiries","Administration")">Search</a></li>
+                                                        <li><a href="@Url.Action("AddNewEnquiries","Administration")">Add New</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li><a href="@Url.Action("Index_ContentManagement","Administration")">Content Management</a></li>
+                                            </ul>
+                                        </li>
+                                            
+
+                                        @*
+        <li class="nav-item dropdown ">
+            <a href="index-shop.html" class="nav-link dropdown-toggle" id="aboutme-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-certificate">&nbsp;About Me</i></a>
+            <ul class="dropdown-menu" aria-labelledby="aboutme-dropdown">
+                <li><a href="#">My Profile</a></li>
+                <li><a href="#">My Courses</a></li>
+                <li><a href="#">My Enquiries</a></li>
+            </ul>
+        </li>
+                                        *@
+                                    </ul>
+                                    <!-- main-menu end -->
+                                </div>
+                            </nav>
+                        </div>
+                        <!-- main-navigation end -->
+                    </div>
+                    <!-- header-second end -->
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header end -->
+</div>
+<!-- header-container end -->
+
