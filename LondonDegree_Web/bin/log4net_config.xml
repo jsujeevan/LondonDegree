@@ -3,7 +3,7 @@
   <appender name="DatabaseFileAppender" type="log4net.Appender.AdoNetAppender">
     <bufferSize value="0" />
     <connectionType value="System.Data.SqlClient.SqlConnection, System.Data, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-    <connectionString value="Data Source=nl1-wsq1.a2hosting.com;Initial Catalog=sujeejey_ld;Persist Security Info=False;User ID=sujeejey_a2;Password=SuMaAs1302%;" />
+    <connectionString value="" />
     <commandText value="INSERT INTO dbo.ErrorLog([Date],[Thread],[Level],[Logger],[Message],[Exception]) VALUES (@log_date, @thread, @log_level, @logger, @message, @exception)" />
     <parameter>
       <parameterName value="@log_date" />
